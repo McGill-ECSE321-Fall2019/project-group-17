@@ -1,0 +1,9 @@
+# Instructions to tell Travis-CI how to build our project
+
+language:java
+script:
+- gradle build
+
+
+
+
