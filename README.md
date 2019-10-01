@@ -12,14 +12,14 @@ Get to know the team:
 
 
 * <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/charles.png?token=AE26HBRADFAKIED3PJ2DS2C5SX4SK" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Charles Bourbeau**
- * U2 Software Engineer, McGill University
- * Passionate about machine learning, lifting weights, 70s music, and pre-workout.
- * From Quebec city
+  * U2 Software Engineer, McGill University
+  * Passionate about machine learning, lifting weights, 70s music, and pre-workout.
+  * From Quebec city.
 
 
 * <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/kyle.png?token=AE26HBWJRKMFN5PCXXU4X6K5SX4VQ" style="border-radius:50%;border:2px white solid;margin:2px;" width="55" height="55"> **Kyle Myers**
   * U2 Software Engineer, McGill University
-  * Missed the first team meeting.
+  * Dedicated sender.
   * Does not know where Dispatch Coffee is.
 
 
@@ -32,20 +32,20 @@ Get to know the team:
 * <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/felix.jpeg?token=AE26HBSA2SVFSMDSQXWKVWK5SX4UA" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Felix Simard**
   * U2 Software Engineer, McGill University
   * Passionate about developing websites, fishing, calculating the grade needed in his final to get an A, 2019s music, and sipping Charles' pre-workout.
-  * Has an electric bike
+  * Has an electric bike.
 
 
 * <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/tyler.png?token=AE26HBRV6ZR5M5VDHEWNM4S5SX4YG" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Tyler Watson**
   * U2 Software Engineer, McGill University
   * Passionate about learning new technologies, debating with Charles, Bon Iver, trying to lift weights, trying to speak french, and also jamming with Anthony.
-  * Not from Quebec City
+  * Not from Quebec City.
 
 
 ---
 
 # Deliverable 1
 
-Due Oct. 6th 2019
+Due Sunday, Oct. 6th 2019. 
 
 
 ### Project Report
@@ -59,11 +59,11 @@ To view the team's project report for deliverable 1, please click the link below
 
 | Member        | Role  | Contribution (hrs)  |
 | ------------- |-------------| -----|
-| Charles Bourbeau     |  | 15 |
-| Kyle Myers      |       |   15 |
-| Anthony Porporino |       |    15 |
-| Felix Simard |       |    15 |
-| Tyler Watson |       |    15 |
+| Charles Bourbeau     | Refining Domain Model, UML Lab. | 10 |
+| Kyle Myers      |   Managing the issues on Github, documentation.    |   10 |
+| Anthony Porporino |  Documentation of project wiki, activity flow diagrams.   |    10 |
+| Felix Simard |   Architecture. Setting up backend Java SpringBoot, HerokuApp, linking Travis-CI and Gradle.   |    10 |
+| Tyler Watson |    Use case diagrams. Domain Modeling. Flow Diagrams.   |    10 |
 
 
 ---
