@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-# project-group-17
-Deliverable 1
-Due Date: Oct. 6th 2019
-=======
 # **ECSE 321 - Online Tutoring System**
 
 # Project Description
@@ -16,31 +11,31 @@ Carried out over the FALL2019 semester at McGill University for ECSE321's *Intro
 Get to know the team:
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/charles.png?token=AE26HBRADFAKIED3PJ2DS2C5SX4SK" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Charles Bourbeau**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/charles.png?token=AE26HBWRS36557EMELNIN4K5UCLQG" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Charles Bourbeau**
   * U2 Software Engineer, McGill University
   * Passionate about machine learning, lifting weights, 70s music, and pre-workout.
   * From Quebec city.
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/kyle.png?token=AE26HBWJRKMFN5PCXXU4X6K5SX4VQ" style="border-radius:50%;border:2px white solid;margin:2px;" width="55" height="55"> **Kyle Myers**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/kyle.png?token=AE26HBQ2JUCT4SY67VCQRGC5UCLTU" style="border-radius:50%;border:2px white solid;margin:2px;" width="55" height="55"> **Kyle Myers**
   * U2 Software Engineer, McGill University
   * Dedicated sender.
   * Does not know where Dispatch Coffee is.
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/anthony.png?token=AE26HBQTVX6QDVBNBAJ454C5SX4BK" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Anthony Porporino**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/anthony.png?token=AE26HBTTIS7AL2LBO7LEFSK5UCLWC" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Anthony Porporino**
   * U2 Software Engineer, McGill University
   * Passionate about finding plugins, coding games, jamming, doing kickflips, and making tomato sauce.
   * Not from Quebec city.
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/felix.jpeg?token=AE26HBSA2SVFSMDSQXWKVWK5SX4UA" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Felix Simard**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/felix.jpeg?token=AE26HBRKTNFLUQ7XN2CPDSK5UCLR4" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Felix Simard**
   * U2 Software Engineer, McGill University
   * Passionate about developing websites, fishing, calculating the grade needed in his final to get an A, 2019s music, and sipping Charles' pre-workout.
   * Has an electric bike.
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/tyler.png?token=AE26HBRV6ZR5M5VDHEWNM4S5SX4YG" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Tyler Watson**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/tyler.png?token=AE26HBU6DIKO5524CAYXIL25UCLU2" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Tyler Watson**
   * U2 Software Engineer, McGill University
   * Passionate about learning new technologies, debating with Charles, Bon Iver, trying to lift weights, trying to speak french, and also jamming with Anthony.
   * Not from Quebec City.
@@ -50,7 +45,7 @@ Get to know the team:
 
 # Deliverable 1
 
-Due Sunday, Oct. 6th 2019. 
+Due Sunday, Oct. 6th 2019.
 
 
 ### Project Report
