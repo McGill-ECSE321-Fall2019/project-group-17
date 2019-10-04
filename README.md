@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+# project-group-17
+Deliverable 1
+Due Date: Oct. 6th 2019
+=======
 # **ECSE 321 - Online Tutoring System**
 
 # Project Description
@@ -142,3 +147,4 @@ Due Nov. 29th 2019
   * https://github.com/orgs/McGill-ECSE321-Fall2019/teams/all-students
 
 ---
+>>>>>>> f95ff3142e9175f586a3c925fd5d6bb2f28dbc7a
