@@ -27,7 +27,7 @@ Get to know the team:
 
 * <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/kyle.png?token=AE26HBQ2JUCT4SY67VCQRGC5UCLTU" style="border-radius:50%;border:2px white solid;margin:2px;" width="55" height="55"> **Kyle Myers**
   * U2 Software Engineer, McGill University
-  * Dedicated sender.
+  * Dedicated sender. Love to code.
   * Does not know where Dispatch Coffee is.
 
 
