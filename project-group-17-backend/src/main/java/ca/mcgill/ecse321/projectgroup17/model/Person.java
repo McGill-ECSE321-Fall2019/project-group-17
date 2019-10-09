@@ -14,21 +14,21 @@ import java.sql.Date;
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="PersonType", discriminatorType=DiscriminatorType.STRING, length=255)
 public class Person{
-	private String fname;
+	private String firstName;
 
-	public void setFname(String value) {
-		this.fname = value;
+	public void setFirstName(String value) {
+		this.firstName = value;
 	}
-	public String getFname() {
-		return this.fname;
+	public String getFirstName() {
+		return this.firstName;
 	}
-	private String lname;
+	private String lastName;
 
-	public void setLname(String value) {
-		this.lname = value;
+	public void setLastName(String value) {
+		this.lastName = value;
 	}
-	public String getLname() {
-		return this.lname;
+	public String getLastName() {
+		return this.lastName;
 	}
 	private String username;
 
@@ -68,13 +68,13 @@ public class Person{
 		this.givenReviews = givenReviewss;
 	}
 
-	private int personID;
+	private long personID;
 
-	public void setPersonID(int value) {
+	public void setPersonID(long value) {
 		this.personID = value;
 	}
 	@Id
-	public int getPersonID() {
+	public long getPersonID() {
 		return this.personID;
 	}
 	private String email;
