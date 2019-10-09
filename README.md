@@ -59,11 +59,11 @@ To view the team's project report for deliverable 1, please click the link below
 
 | Member        | Role  | Contribution (hrs)  |
 | ------------- |-------------| -----|
-| Charles Bourbeau     | Refining Domain Model, UML Lab. | 10 |
-| Kyle Myers      |   Managing the issues on Github, documentation.    |   10 |
-| Anthony Porporino |  Documentation of project wiki, activity flow diagrams.   |    10 |
-| Felix Simard |   Architecture. Setting up backend Java SpringBoot, HerokuApp, linking Travis-CI and Gradle.   |    10 |
-| Tyler Watson |    Use case diagrams. Domain Modeling. Flow Diagrams.   |    10 |
+| Charles Bourbeau     | Refining Domain Model, UML Lab. | 18 |
+| Kyle Myers      |   Managing the issues on Github, documentation.    |   18 |
+| Anthony Porporino |  Documentation of project wiki, activity flow diagrams.   |    18 |
+| Felix Simard |   Architecture. Setting up backend Java SpringBoot, HerokuApp, linking Travis-CI and Gradle.   |    18 |
+| Tyler Watson |    Use case diagrams. Domain Modeling. Flow Diagrams.   |    18 |
 
 
 ---
