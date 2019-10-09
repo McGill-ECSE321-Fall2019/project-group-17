@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-# project-group-17
-Deliverable 1
-Due Date: Oct. 6th 2019
-=======
-=======
->>>>>>> 7c010cf8776383749286edaea6cb827f0e348c62
 # **ECSE 321 - Online Tutoring System**
 
 # Project Description
