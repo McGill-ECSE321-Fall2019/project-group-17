@@ -3,6 +3,8 @@ package ca.mcgill.ecse321.projectgroup17.model;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Id;
+import java.sql.Date;
+import java.sql.Time;
 
 @Entity
 public class Review{
@@ -63,5 +65,21 @@ public void setReviewID(int value) {
 @Id
 public int getReviewID() {
     return this.reviewID;
+}
+private Date created_date;
+
+public void setCreated_date(Date value) {
+    this.created_date = value;
+}
+public Date getCreated_date() {
+    return this.created_date;
+}
+private Time created_time;
+
+public void setCreated_time(Time value) {
+    this.created_time = value;
+}
+public Time getCreated_time() {
+    return this.created_time;
 }
 }

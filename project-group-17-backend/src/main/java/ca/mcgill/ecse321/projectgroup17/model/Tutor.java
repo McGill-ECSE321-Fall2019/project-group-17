@@ -8,14 +8,6 @@ import javax.persistence.ManyToMany;
 
 @Entity
 public class Tutor extends Person{
-   private int hourlyRate;
-
-public void setHourlyRate(int value) {
-    this.hourlyRate = value;
-}
-public int getHourlyRate() {
-    return this.hourlyRate;
-}
    private Set<Course> course;
    
    @OneToMany(mappedBy="tutor" )
@@ -47,6 +39,17 @@ public int getHourlyRate() {
    
    public void setAppointment(Set<Appointment> appointments) {
       this.appointment = appointments;
+   }
+   
+   private Set<HourlyRate> hourlyRate;
+   
+   @OneToMany(mappedBy="tutor" )
+   public Set<HourlyRate> getHourlyRate() {
+      return this.hourlyRate;
+   }
+   
+   public void setHourlyRate(Set<HourlyRate> hourlyRates) {
+      this.hourlyRate = hourlyRates;
    }
    
    }

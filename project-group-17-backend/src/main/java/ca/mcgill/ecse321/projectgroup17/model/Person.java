@@ -7,6 +7,7 @@ import javax.persistence.DiscriminatorColumn;
 import java.util.Set;
 import javax.persistence.OneToMany;
 import javax.persistence.Id;
+import java.sql.Date;
 
 @Entity
 @Inheritance
@@ -74,5 +75,21 @@ public void setPersonID(int value) {
 @Id
 public int getPersonID() {
     return this.personID;
+}
+private String email;
+
+public void setEmail(String value) {
+    this.email = value;
+}
+public String getEmail() {
+    return this.email;
+}
+private Date created_date;
+
+public void setCreated_date(Date value) {
+    this.created_date = value;
+}
+public Date getCreated_date() {
+    return this.created_date;
 }
 }

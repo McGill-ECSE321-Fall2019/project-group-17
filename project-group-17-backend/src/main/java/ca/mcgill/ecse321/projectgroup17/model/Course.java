@@ -3,6 +3,8 @@ package ca.mcgill.ecse321.projectgroup17.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.util.Set;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Course{
@@ -23,12 +25,12 @@ public void setName(String value) {
 public String getName() {
     return this.name;
 }
-private String level;
+private Level level;
 
-public void setLevel(String value) {
+public void setLevel(Level value) {
     this.level = value;
 }
-public String getLevel() {
+public Level getLevel() {
     return this.level;
 }
    private Tutor tutor;
@@ -40,6 +42,17 @@ public String getLevel() {
    
    public void setTutor(Tutor tutor) {
       this.tutor = tutor;
+   }
+   
+   private Set<HourlyRate> hourlyRate;
+   
+   @OneToMany(mappedBy="course" )
+   public Set<HourlyRate> getHourlyRate() {
+      return this.hourlyRate;
+   }
+   
+   public void setHourlyRate(Set<HourlyRate> hourlyRates) {
+      this.hourlyRate = hourlyRates;
    }
    
    }

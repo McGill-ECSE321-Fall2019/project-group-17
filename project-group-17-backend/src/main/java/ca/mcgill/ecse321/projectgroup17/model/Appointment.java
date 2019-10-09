@@ -80,4 +80,20 @@ public void setAppointmentID(int value) {
 public int getAppointmentID() {
     return this.appointmentID;
 }
+private Date created_date;
+
+public void setCreated_date(Date value) {
+    this.created_date = value;
+}
+public Date getCreated_date() {
+    return this.created_date;
+}
+private AppointmentStatus status;
+
+public void setStatus(AppointmentStatus value) {
+    this.status = value;
+}
+public AppointmentStatus getStatus() {
+    return this.status;
+}
 }
