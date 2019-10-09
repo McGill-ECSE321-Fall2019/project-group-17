@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class HourlyRate{
+public class SpecificCourse{
    private Tutor tutor;
    
    @ManyToOne(optional=false)
