@@ -38,15 +38,12 @@ public class Tutor extends Person{
    
    private Set<SpecificCourse> specificCourses;
    
-<<<<<<< HEAD
    @OneToMany(mappedBy="tutor")
    public Set<SpecificCourse> getSpecificCourses() {
       return this.specificCourses;
    }
-   
-   public void setSpecificCourses(Set<SpecificCourse> specificCourses) {
-      this.specificCourses = specificCourses;
-=======
+  
+
    @OneToMany(mappedBy="tutor" )
    public Set<SpecificCourse> getSpecificCourse() {
       return this.specificCourses;
@@ -54,7 +51,6 @@ public class Tutor extends Person{
    
    public void setSpecificCourses(Set<SpecificCourse> specificCourse) {
       this.specificCourses = specificCourse;
->>>>>>> 28563c99bd477427df1a197dd949b34cd11a1ff8
    }
    
    }
