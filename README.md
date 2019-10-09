@@ -140,10 +140,3 @@ Due Nov. 29th 2019
   * https://github.com/McGill-ECSE321-Fall2019/project-group-17
 * Organization page:
   * https://github.com/orgs/McGill-ECSE321-Fall2019/teams/all-students
-
----
-<<<<<<< HEAD
->>>>>>> 7cfa4bad3d75e4e11e1028fc7dc8d9136f740407
-=======
->>>>>>> f95ff3142e9175f586a3c925fd5d6bb2f28dbc7a
->>>>>>> 7c010cf8776383749286edaea6cb827f0e348c62
