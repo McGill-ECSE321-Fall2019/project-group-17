@@ -26,25 +26,9 @@ import ca.mcgill.ecse321.projectgroup17.model.Tutor;
 @Service
 public class ProjectGroup17Service {
 
-	@Autowired
-	EventRepository eventRepository;
-	@Autowired
-	PersonRepository personRepository;
-	@Autowired
-	RegistrationRepository registrationRepository;
-
-	@Transactional
-	public Person createPerson(String name) {
-		Person person = new Person();
-		person.setName(name);
-		personRepository.save(person);
-		return person;
-	}
-
-	@Transactional
-	public Person getPerson(String name) {
-		Person person = personRepository.findPersonByName(name);
-		return person;
+	@Transactional 
+	public Availability createAvailability(Date date) {
+		return new Availability();
 	}
 
 
