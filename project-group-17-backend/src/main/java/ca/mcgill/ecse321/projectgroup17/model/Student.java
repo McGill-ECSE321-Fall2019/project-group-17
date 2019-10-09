@@ -3,12 +3,14 @@ package ca.mcgill.ecse321.projectgroup17.model;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+
 import java.util.Set;
 import javax.persistence.ManyToMany;
 
 @Entity
 @Inheritance
-@DiscriminatorColumn(name="Student")
+@DiscriminatorValue("Student")
 public class Student extends Person{
    private Set<Appointment> appointment;
    

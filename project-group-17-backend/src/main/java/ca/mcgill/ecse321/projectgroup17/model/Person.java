@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.projectgroup17.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorColumn;
 import java.util.Set;
@@ -10,7 +11,7 @@ import javax.persistence.Id;
 import java.sql.Date;
 
 @Entity
-@Inheritance
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="PersonType", discriminatorType=DiscriminatorType.STRING, length=255)
 public class Person{
    private String fname;
