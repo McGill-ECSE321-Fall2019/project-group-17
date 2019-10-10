@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.projectgroup17.dao.*;
 import ca.mcgill.ecse321.projectgroup17.model.*;
-import ca.mcgill.ecse321.projectgroup17.model.Course.Level;
 
 
 @Service

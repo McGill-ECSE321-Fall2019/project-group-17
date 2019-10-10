@@ -1,5 +1,5 @@
 package ca.mcgill.ecse321.projectgroup17.dao;
 
-public class StudentRepository {
+public interface StudentRepository {
 
 }
