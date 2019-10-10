@@ -8,6 +8,10 @@ import javax.persistence.OneToMany;
 @Entity
 public class Course{
    private String courseID;
+   
+   private enum Level {
+	   HIGHSCHOOL, CEGEP, UNIVERISTY;
+   }
 
 public void setCourseID(String value) {
     this.courseID = value;
@@ -24,13 +28,14 @@ public void setName(String value) {
 public String getName() {
     return this.name;
 }
-private String level;
+private Level level;
 
 public void setLevel(String value) {
-    this.level = value;
+	Level level = Level.valueOf(value);
+    this.level = level;
 }
 public String getLevel() {
-    return this.level;
+    return this.level.toString();
 }
 private Set<SpecificCourse> specificCourse;
 
