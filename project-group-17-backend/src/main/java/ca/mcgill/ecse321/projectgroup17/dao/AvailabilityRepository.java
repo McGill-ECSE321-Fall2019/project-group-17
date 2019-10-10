@@ -1,15 +1,19 @@
 package ca.mcgill.ecse321.projectgroup17.dao;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import org.springframework.data.repository.CrudRepository;
 
-import ca.mcgill.ecse321.projectgroup17.model.Availability;
-import ca.mcgill.ecse321.projectgroup17.model.Person;;
 
-public interface AvailabilityRepository extends CrudRepository<Availability, Date> {
+import ca.mcgill.ecse321.projectgroup17.model.*;
 
-	Availability findAvailabilityByDate(Date date);
+public interface AvailabilityRepository extends CrudRepository<Availability, Long> {
+
+	ArrayList<Availability> findByDate(Date date);
 	
+	ArrayList<Availability> findByTutor(String tutorUsername);
+	
+	ArrayList<Availability> findAll();
 	
 }

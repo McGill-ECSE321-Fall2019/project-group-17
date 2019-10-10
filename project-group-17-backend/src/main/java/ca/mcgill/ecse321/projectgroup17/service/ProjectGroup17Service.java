@@ -22,20 +22,10 @@ public class ProjectGroup17Service {
 	
 	@Autowired
 	PersonRepository personRepository;
-
 	
-	@Transactional 
-	public Availability createAvailabilityForTutor(Tutor tutor, Date date, Time startTime, Time endTime) {
-		Availability a = new Availability();
-		Calendar c = Calendar.getInstance();
-		
-		a.setDate(date);
-		//a.setAvailabilityID(value); ???
-		a.setStartTime(startTime);
-		a.setEndTime(endTime);
+	@Autowired
+	AvailabilityRepository availabilityRepository;
 
-		return a;
-	}
 
 	@Transactional
 	public Course createCourse(String courseID, String name, String level, String subject) {
@@ -164,4 +154,63 @@ public class ProjectGroup17Service {
 	public List<Person> getAllPersons() {
 		return personRepository.findAll();
 	}
+	
+	//Availability functions
+	
+	@Transactional
+	public Availability createAvailability(Tutor tutor, Date date, Time startTime, Time endTime) {
+		
+		String error = "";
+		
+		Availability availability;
+
+		if (tutor == null) {
+			error += "Must specify a tutor! ";
+		}
+		if (date == null) {
+			error += "Date cannot be empty! ";
+		}
+		if (startTime == null) {
+			error += "Start time cannot be empty! ";
+		}
+		if (endTime == null) {
+			error += "End time cannot be empty! ";
+		}
+		if ((endTime != null) && (startTime != null) && (startTime.compareTo(endTime) > 0)) {
+			error += "End time cannot be before startTime! ";
+		}
+		
+		error = error.trim();
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
+	    else {
+	    	availability = new Availability();
+	    }
+	    
+	    availability.setTutor(tutor);
+		availability.setDate(date);
+		availability.setStartTime(startTime);
+		availability.setEndTime(endTime);
+		
+		availabilityRepository.save(availability);
+		
+		return availability;
+	}
+	
+	@Transactional
+	public List<Availability> getAvailabilityByDate(Date date) {
+		List<Availability> availabilities = availabilityRepository.findByDate(date);
+		return availabilities;
+	}
+	@Transactional
+	public List<Availability> getAvailabilityByTutorUsername(String tutorUsername) {
+		List<Availability> availabilities = availabilityRepository.findByTutor(tutorUsername);
+		return availabilities;
+	}
+
+	public List<Availability> getAllAvailabilities() {
+		return availabilityRepository.findAll();
+	}
+	
 }
