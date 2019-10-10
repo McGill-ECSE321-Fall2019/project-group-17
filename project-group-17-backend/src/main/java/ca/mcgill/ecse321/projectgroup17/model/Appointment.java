@@ -19,13 +19,13 @@ public void setDate(Date value) {
 public Date getDate() {
     return this.date;
 }
-private Time time;
+private Time endTime;
 
-public void setTime(Time value) {
-    this.time = value;
+public void setEndTime(Time value) {
+    this.endTime = value;
 }
-public Time getTime() {
-    return this.time;
+public Time getEndTime() {
+    return this.endTime;
 }
 private Room room;
 
@@ -71,29 +71,37 @@ public void setStudent(Set<Student> students) {
    this.student = students;
 }
 
-private int appointmentID;
+private long appointmentID;
 
-public void setAppointmentID(int value) {
+public void setAppointmentID(long value) {
     this.appointmentID = value;
 }
 @Id
-public int getAppointmentID() {
+public long getAppointmentID() {
     return this.appointmentID;
 }
-private Date created_date;
+private Date createdDate;
 
-public void setCreated_date(Date value) {
-    this.created_date = value;
+public void setCreatedDate(Date value) {
+    this.createdDate = value;
 }
-public Date getCreated_date() {
-    return this.created_date;
+public Date getCreatedDate() {
+    return this.createdDate;
 }
-private AppointmentStatus status;
+private String status;
 
-public void setStatus(AppointmentStatus value) {
+public void setStatus(String value) {
     this.status = value;
 }
-public AppointmentStatus getStatus() {
+public String getStatus() {
     return this.status;
+}
+private Time startTime;
+
+public void setStartTime(Time value) {
+    this.startTime = value;
+}
+public Time getStartTime() {
+    return this.startTime;
 }
 }

@@ -10,4 +10,6 @@ import ca.mcgill.ecse321.projectgroup17.model.Person;;
 public interface AvailabilityRepository extends CrudRepository<Availability, Date> {
 
 	Availability findAvailabilityByDate(Date date);
+	
+	
 }

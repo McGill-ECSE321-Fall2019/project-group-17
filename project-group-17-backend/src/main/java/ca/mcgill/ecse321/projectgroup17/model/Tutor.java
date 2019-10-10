@@ -1,19 +1,13 @@
 package ca.mcgill.ecse321.projectgroup17.model;
 
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-
 import java.util.Set;
-import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
+import javax.persistence.OneToMany;
 import javax.persistence.ManyToMany;
 
 @Entity
-@Inheritance
-@DiscriminatorValue("Tutor")
 public class Tutor extends Person{
-   
    private Set<Availability> availability;
    
    @OneToMany(mappedBy="tutor" , cascade={CascadeType.ALL})
@@ -36,21 +30,15 @@ public class Tutor extends Person{
       this.appointment = appointments;
    }
    
-   private Set<SpecificCourse> specificCourses;
+   private Set<SpecificCourse> specificCourse;
    
-   @OneToMany(mappedBy="tutor")
-   public Set<SpecificCourse> getSpecificCourses() {
-      return this.specificCourses;
-   }
-  
-
    @OneToMany(mappedBy="tutor" )
    public Set<SpecificCourse> getSpecificCourse() {
-      return this.specificCourses;
+      return this.specificCourse;
    }
    
-   public void setSpecificCourses(Set<SpecificCourse> specificCourse) {
-      this.specificCourses = specificCourse;
+   public void setSpecificCourse(Set<SpecificCourse> specificCourses) {
+      this.specificCourse = specificCourses;
    }
    
    }

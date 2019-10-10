@@ -8,13 +8,13 @@ import java.sql.Time;
 
 @Entity
 public class Review{
-   private String text;
+   private String reviewText;
 
-public void setText(String value) {
-    this.text = value;
+public void setReviewText(String value) {
+    this.reviewText = value;
 }
-public String getText() {
-    return this.text;
+public String getReviewText() {
+    return this.reviewText;
 }
 private int rating;
 
@@ -57,29 +57,29 @@ public void setAppointment(Appointment appointment) {
    this.appointment = appointment;
 }
 
-private int reviewID;
+private long reviewID;
 
-public void setReviewID(int value) {
+public void setReviewID(long value) {
     this.reviewID = value;
 }
 @Id
-public int getReviewID() {
+public long getReviewID() {
     return this.reviewID;
 }
-private Date created_date;
+private Date createdDate;
 
-public void setCreated_date(Date value) {
-    this.created_date = value;
+public void setCreatedDate(Date value) {
+    this.createdDate = value;
 }
-public Date getCreated_date() {
-    return this.created_date;
+public Date getCreatedDate() {
+    return this.createdDate;
 }
-private Time created_time;
+private Time createdTime;
 
-public void setCreated_time(Time value) {
-    this.created_time = value;
+public void setCreatedTime(Time value) {
+    this.createdTime = value;
 }
-public Time getCreated_time() {
-    return this.created_time;
+public Time getCreatedTime() {
+    return this.createdTime;
 }
 }

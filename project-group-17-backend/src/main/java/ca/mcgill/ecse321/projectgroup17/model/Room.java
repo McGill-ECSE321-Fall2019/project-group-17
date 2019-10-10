@@ -26,13 +26,13 @@ public void setAppointment1(Set<Appointment> appointment1s) {
    this.appointment1 = appointment1s;
 }
 
-private int roomID;
+private long roomID;
 
-public void setRoomID(int value) {
+public void setRoomID(long value) {
     this.roomID = value;
 }
 @Id
-public int getRoomID() {
+public long getRoomID() {
     return this.roomID;
 }
 }

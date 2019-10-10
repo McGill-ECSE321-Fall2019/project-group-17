@@ -5,6 +5,14 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class SpecificCourse{
+   private double hourlyRate;
+
+public void setHourlyRate(double value) {
+    this.hourlyRate = value;
+}
+public double getHourlyRate() {
+    return this.hourlyRate;
+}
    private Tutor tutor;
    
    @ManyToOne(optional=false)
@@ -27,12 +35,4 @@ public class SpecificCourse{
       this.course = course;
    }
    
-   private double rate;
-
-public void setRate(double value) {
-    this.rate = value;
-}
-public double getRate() {
-    return this.rate;
-}
-}
+   }
