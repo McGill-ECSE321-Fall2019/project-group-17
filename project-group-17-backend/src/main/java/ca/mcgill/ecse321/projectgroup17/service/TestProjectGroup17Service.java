@@ -25,13 +25,9 @@ import ca.mcgill.ecse321.projectgroup17.model.Availability;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TestInputModifyAvailabilityService {
+public class TestProjectGroup17Service {
 	
-	@Autowired
-	private InputModifyAvailabilityService service;
-	
-	@Autowired
-	private AvailabilityRepository availabilityRepository;
+
 	
 	public void clearDatabase() {
 		// Fisrt, we clear registrations to avoid exceptions due to inconsistencies

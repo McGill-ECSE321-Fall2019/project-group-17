@@ -13,6 +13,7 @@ import java.sql.Date;
 @Inheritance
 @DiscriminatorColumn(name="PersonType", discriminatorType=DiscriminatorType.STRING, length=255)
 public class Person{
+<<<<<<< HEAD
    private String firstName;
 
 public void setFirstName(String value) {
@@ -100,4 +101,85 @@ public void setAge(long value) {
 public long getAge() {
     return this.age;
 }
+=======
+	private String firstName;
+
+	public void setFirstName(String value) {
+		this.firstName = value;
+	}
+	public String getFirstName() {
+		return this.firstName;
+	}
+	private String lastName;
+
+	public void setLastName(String value) {
+		this.lastName = value;
+	}
+	public String getLastName() {
+		return this.lastName;
+	}
+	private String username;
+
+	public void setUsername(String value) {
+		this.username = value;
+	}
+	public String getUsername() {
+		return this.username;
+	}
+	private String password;
+
+	public void setPassword(String value) {
+		this.password = value;
+	}
+	public String getPassword() {
+		return this.password;
+	}
+	private Set<Review> receivedReviews;
+
+	@OneToMany(mappedBy="reviewee" )
+	public Set<Review> getReceivedReviews() {
+		return this.receivedReviews;
+	}
+
+	public void setReceivedReviews(Set<Review> receivedReviewss) {
+		this.receivedReviews = receivedReviewss;
+	}
+
+	private Set<Review> givenReviews;
+
+	@OneToMany(mappedBy="reviewer" )
+	public Set<Review> getGivenReviews() {
+		return this.givenReviews;
+	}
+
+	public void setGivenReviews(Set<Review> givenReviewss) {
+		this.givenReviews = givenReviewss;
+	}
+
+	private long personID;
+
+	public void setPersonID(long value) {
+		this.personID = value;
+	}
+	@Id
+	public long getPersonID() {
+		return this.personID;
+	}
+	private String email;
+
+	public void setEmail(String value) {
+		this.email = value;
+	}
+	public String getEmail() {
+		return this.email;
+	}
+	private Date created_date;
+
+	public void setCreated_date(Date value) {
+		this.created_date = value;
+	}
+	public Date getCreated_date() {
+		return this.created_date;
+	}
+>>>>>>> 00ccb53c4d7f214e67130f41a4aec720ad92a317
 }
