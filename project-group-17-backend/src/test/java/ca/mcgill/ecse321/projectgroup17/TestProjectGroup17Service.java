@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.projectgroup17.service;
+package ca.mcgill.ecse321.projectgroup17;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import ca.mcgill.ecse321.projectgroup17.dao.*;
 import ca.mcgill.ecse321.projectgroup17.model.*;
+import ca.mcgill.ecse321.projectgroup17.service.ProjectGroup17Service;
 
 
 @RunWith(SpringRunner.class)

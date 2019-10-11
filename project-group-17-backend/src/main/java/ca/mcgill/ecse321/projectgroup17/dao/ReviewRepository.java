@@ -11,6 +11,10 @@ import ca.mcgill.ecse321.projectgroup17.model.Review;
 
 public interface ReviewRepository extends CrudRepository<Review, Long>{
 	
+	List<Review> findAll();
+	
+	boolean existsByReviewID(long reviewID);
+	
 	Review findByReviewID(long reviewID);
 	
 	List<Review> findByReviewee(Person reviewee);

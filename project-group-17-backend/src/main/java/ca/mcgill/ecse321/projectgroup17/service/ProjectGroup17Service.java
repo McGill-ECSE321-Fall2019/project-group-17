@@ -22,6 +22,9 @@ public class ProjectGroup17Service {
 	
 	@Autowired
 	PersonRepository personRepository;
+	
+	@Autowired
+	ReviewRepository reviewRepository;
 
 	
 	@Transactional 
@@ -164,4 +167,121 @@ public class ProjectGroup17Service {
 	public List<Person> getAllPersons() {
 		return personRepository.findAll();
 	}
+	
+	// -----------------------------------------------------------
+	//CHARLES BOURBEAU
+	//REVIEW REPOSITORY METHODS 
+	// -----------------------------------------------------------
+	
+	@Transactional
+	public List<Review> getAllReviews(){
+		return reviewRepository.findAll();
+	}
+	
+	@Transactional
+	public Review getReviewByReviewID(long reviewID) {
+		Review review = reviewRepository.findByReviewID(reviewID);
+		return review;
+	}
+	
+	@Transactional
+	public List<Review> getReviewsByReviewee(Person reviewee){
+		List<Review> reviews = reviewRepository.findByReviewee(reviewee);
+		return reviews;
+	}
+	
+	@Transactional
+	public List<Review> getReviewsByByReviewer(Person reviewer){
+		List<Review> reviews = reviewRepository.findByReviewer(reviewer);
+		return reviews;
+	}
+	
+	@Transactional
+	public List<Review> getReviewsByAppointment(Appointment appointment){
+		List<Review> reviews = reviewRepository.findByAppointment(appointment);
+		return reviews;
+	}
+	
+	@Transactional
+	public Review createReview(String reviewText, Integer rating, Time createdTime, Date createdDate, 
+			Person reviewee, Person reviewer, Appointment appointment) {
+		
+		String error = "";
+		if (reviewText == null || reviewText.trim().length() == 0 ) {
+			error = error + "A review must containt text. ";
+		}
+		if (rating == null || rating < 0 || rating > 5) {
+			error = error + "A rating must be a number between 0 and 5. ";
+		}
+		if(createdTime == null) {
+			error = error + "The review must have a time of creation. ";
+		}
+		if(createdDate == null) {
+			error = error + "The review must have a date of creation. ";
+		}
+		if(reviewee == null) {
+			error = error + "The review must have a reviewee. ";
+		}
+		if(reviewer == null) {
+			error = error + "The review must have a reviewer. ";
+		}
+		if(appointment == null) {
+			error = error + "The review must have an appointment. ";
+		}
+
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		
+		Review review = new Review();
+		
+		review.setReviewText(reviewText);
+		review.setRating(rating);
+		review.setCreatedTime(createdTime);
+		review.setCreatedDate(createdDate);
+		review.setReviewee(reviewee);
+		review.setReviewer(reviewer);
+		review.setAppointment(appointment);
+		
+		
+		reviewRepository.save(review);
+		return review;
+	}
+	
+	@Transactional
+	public void deleteReview(Long reviewID) {
+		String error= "";
+		
+		boolean reviewExists = reviewRepository.existsByReviewID(reviewID);
+		
+		if(!reviewExists) {
+			error = error + "This review does not exist. ";
+		}
+		
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		
+		// the review exists
+		
+		reviewRepository.deleteById(reviewID);		
+	}
+	
+	@Transactional 
+	public void deleteAllReviews(){
+		
+		List<Review> reviews = reviewRepository.findAll();
+		
+		if(reviews.size() == 0) {
+			return;
+		}
+		
+		for(Review review : reviews) {
+			long reviewID = review.getReviewID();
+			deleteReview(reviewID);
+		}
+	}
+	
 }

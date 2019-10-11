@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.projectgroup17.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.ManyToOne;
 import javax.persistence.Id;
 import java.sql.Date;
@@ -59,10 +60,11 @@ public void setAppointment(Appointment appointment) {
 
 private long reviewID;
 
-public void setReviewID(long value) {
-    this.reviewID = value;
-}
-@Id
+// should be auto-generated, and immutable
+//public void setReviewID(long value) {
+//    this.reviewID = value;
+//}
+@Id @GeneratedValue
 public long getReviewID() {
     return this.reviewID;
 }
