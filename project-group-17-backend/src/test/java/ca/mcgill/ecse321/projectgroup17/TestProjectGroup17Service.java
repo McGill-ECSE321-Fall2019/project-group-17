@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.projectgroup17.service;
+package ca.mcgill.ecse321.projectgroup17;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 
+import org.aspectj.lang.annotation.Before;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import ca.mcgill.ecse321.projectgroup17.dao.*;
 import ca.mcgill.ecse321.projectgroup17.model.*;
+import ca.mcgill.ecse321.projectgroup17.service.ProjectGroup17Service;
 
 
 @RunWith(SpringRunner.class)
@@ -30,9 +32,14 @@ public class TestProjectGroup17Service {
 
 	@Autowired
 	private PersonRepository personRepository;
-
+	@Autowired
+	private CourseRepository courseRepository;
+	@Autowired
+	private SpecificCourseRepository specificCourseRepository;
 	@Autowired
 	private AvailabilityRepository availabilityRepository;
+	
+	
 
 	@Test
 	public void testCreateTutor() {
@@ -361,8 +368,6 @@ public class TestProjectGroup17Service {
 			fail();
 		}
 
-
-
 		Person person = service.getPersonByEmail(email);
 		Person person2 = service.getPersonByEmail(email2);
 		Person person3 = service.getPersonByEmail(email3);
@@ -372,14 +377,280 @@ public class TestProjectGroup17Service {
 		assertEquals(email3, person3.getEmail());
 	}
 
-
-
+	@Before
 	public void clearDatabase() {
-		// Fisrt, we clear registrations to avoid exceptions due to inconsistencies
+		// First, we clear registrations to avoid exceptions due to inconsistencies
 		availabilityRepository.deleteAll();
-
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();
 		personRepository.deleteAll();
 	}
+	
+	//Availability Tests
+	@Test
+	public void testCreateAvailability() {
+		assertEquals(0, service.getAllPersons().size());
+		
+		
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+		
+		java.sql.Date date = java.sql.Date.valueOf( "2019-10-31" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "18:05:00" );
+		java.sql.Time endTime = java.sql.Time.valueOf( "19:05:00" );
+		
+		try {
+			service.createAvailability(tutor,date,startTime,endTime);
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			fail();
+		}
+	}
+	
+	@Test
+	public void testCreateAvailabilityNull() {
+		assertEquals(0, service.getAllAvailabilities().size());
+		
+		Date date = null;
+		Time startTime = null;
+		Time endTime = null;
+		Tutor tutor = null;
+		String error = null;
+		
+		try {
+			service.createAvailability(tutor,date,startTime,endTime);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage().toString();
+		}
+		assertEquals(error, "Must specify a tutor! Date cannot be empty! Start time cannot be empty! End time cannot be empty! ");
+		
+		//make sure an availability was not created
+		assertEquals(0, service.getAllAvailabilities().size());
+	}
+	
+	@Test
+	public void testCreateAvailabilityTime() {
+		assertEquals(0, service.getAllAvailabilities().size());
+		
+		String error = null;
+		//Make a tutor
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
 
+		//Create 1st availability
+		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "19:05:00" );
+		java.sql.Time endTime = java.sql.Time.valueOf( "18:05:00" );
+		try {
+			service.createAvailability(tutor,date,startTime,endTime);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage().toString();
+		}
+		assertEquals(error, "End time cannot be before startTime! ");
+		
+		//make sure an availability was not created
+		assertEquals(0, service.getAllAvailabilities().size());
+	}
+	
+	@Test
+	public void testGetAvailabilityByDate() {
+		
+		//Make a tutor
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+
+		//Create 1st availability
+		java.sql.Date date = java.sql.Date.valueOf( "2019-10-01" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "18:05:00" );
+		java.sql.Time endTime = java.sql.Time.valueOf( "19:05:00" );
+
+		service.createAvailability(tutor,date,startTime,endTime);
+
+		//Create 2nd availability
+		java.sql.Date date2 = java.sql.Date.valueOf( "2019-10-02" );
+		java.sql.Time startTime2 = java.sql.Time.valueOf( "17:05:00" );
+		java.sql.Time endTime2 = java.sql.Time.valueOf( "18:05:00" );
+
+		service.createAvailability(tutor,date2,startTime2,endTime2);
+
+		try {
+			service.getAvailabilityByDate(date);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+	
+	}
+	
+	@Test
+	public void testGetAvailabilityByTutorUsername() {
+		
+		//Make a tutor
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+		
+		//Create 1st availability
+		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "18:05:00" );
+		java.sql.Time endTime = java.sql.Time.valueOf( "19:05:00" );
+		
+		service.createAvailability(tutor,date,startTime,endTime);
+		
+		//Create 2nd availability
+		java.sql.Date date2 = java.sql.Date.valueOf( "2019-10-04" );
+		java.sql.Time startTime2 = java.sql.Time.valueOf( "17:05:00" );
+		java.sql.Time endTime2 = java.sql.Time.valueOf( "18:05:00" );
+		
+		service.createAvailability(tutor,date2,startTime2,endTime2);
+		
+		try {
+			service.getAvailabilityByTutorUsername(username);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		
+	}	
+	
+	
+	//SpecificCourse Tests
+	@Test
+	public void testCreateSpecificCourse() {
+		//Make a tutor
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+
+		//Make course
+		String name = "DiscreteStructures";
+		String level = "University";
+		String subject = "Math";
+		Double hourlyRate = 13.0;
+		Course course = service.createCourse(name, level, subject);
+		
+		try {
+			service.createSpecificCourse(tutor, course, hourlyRate);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+	}
+	@Test
+	public void testCreateSpecificCourseNull() {
+		assertEquals(0, service.getAllSpecificCourses().size());
+		
+		Tutor tutor = null;
+		Double hourlyRate = null;
+		Course course = null;
+		String error = null;
+		
+		try {
+			service.createSpecificCourse(tutor, course, hourlyRate);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals(error, "Tutor cannot be null! Course cannot be null! HourlyRate must be above minimum wage! ");
+		
+		assertEquals(0, service.getAllAvailabilities().size());
+	}
+	@Test
+	public void testGetSpecificCourseByCourse() {
+		//Make a tutor
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+
+		//Make course
+		String name = "DiscreteStructures";
+		String level = "University";
+		String subject = "Math";
+		Double hourlyRate = 13.0;
+		Course course = service.createCourse(name, level, subject);
+
+		service.createSpecificCourse(tutor, course, hourlyRate);
+		try {
+			service.getSpecificCourseByCourse(name);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+	}
+
+	@Test
+	public void testGetSpecificCourseByTutorUsername() {
+		//Make a tutor
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+
+		//Make course
+		String name = "DiscreteStructures";
+		String level = "University";
+		String subject = "Math";
+		Double hourlyRate = 13.0;
+		Course course = service.createCourse(name, level, subject);
+
+		service.createSpecificCourse(tutor, course, hourlyRate);
+		try {
+			service.getSpecificCourseByTutor(username);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+	}
+	@Test
+	public void testGetSpecificCourseByID() {
+		//Make a tutor
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+
+		//Make course
+		String name = "DiscreteStructures";
+		String level = "University";
+		String subject = "Math";
+		Double hourlyRate = 13.0;
+		Course course = service.createCourse(name, level, subject);
+
+		SpecificCourse specificCourse = service.createSpecificCourse(tutor, course, hourlyRate);
+		try {
+			service.getSpecificCourseByID(specificCourse.getID());
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+	}
+	
 }
 

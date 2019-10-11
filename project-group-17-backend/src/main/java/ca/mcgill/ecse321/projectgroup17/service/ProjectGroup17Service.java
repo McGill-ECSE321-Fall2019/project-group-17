@@ -23,25 +23,70 @@ public class ProjectGroup17Service {
 	@Autowired
 	PersonRepository personRepository;
 
+	@Autowired
+	ReviewRepository reviewRepository;
+
+	@Autowired
+	SpecificCourseRepository specificCourseRepository;
 	
-	@Transactional 
-	public Availability createAvailabilityForTutor(Tutor tutor, Date date, Time startTime, Time endTime) {
-		Availability a = new Availability();
-		Calendar c = Calendar.getInstance();
-		
-		a.setDate(date);
-		//a.setAvailabilityID(value); ???
-		a.setStartTime(startTime);
-		a.setEndTime(endTime);
+	@Autowired
+	AvailabilityRepository availabilityRepository;
 
-		return a;
-	}
-
+	
+	//Tony Stark
 	@Transactional
-	public Course createCourse(String courseID, String name, String level, String subject) {
+	public SpecificCourse createSpecificCourse(Tutor tutor, Course course, Double hourlyRate) {
+		
+		SpecificCourse specificCourse;
+		String error = null;
+		
+		if (tutor == null) {
+			error += "Tutor cannot be null! ";
+		}
+		if (course == null) {
+			error += "Course cannot be null! ";
+		}
+		if ((hourlyRate == null) | (hourlyRate < 12)) {
+			error += "HourlyRate must be above minimum wage! ";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		
+		specificCourse = new SpecificCourse();
+		specificCourse.setHourlyRate(hourlyRate);
+		specificCourse.setCourse(course);
+		specificCourse.setTutor(tutor);
+		return specificCourse;
+	}
+	
+	@Transactional
+	public SpecificCourse getSpecificCourseByID(Long courseID) {
+		SpecificCourse specificCourse = specificCourseRepository.findByID(courseID);
+		return specificCourse;
+	}
+	@Transactional
+	public List<SpecificCourse> getSpecificCourseByTutor(String tutorUsername) {
+		List<SpecificCourse> specificCourses = specificCourseRepository.findByTutor(tutorUsername);
+		return specificCourses;
+	}
+	@Transactional
+	public List<SpecificCourse> getSpecificCourseByCourse(String courseName) {
+		List<SpecificCourse> specificCourses = specificCourseRepository.findByCourse(courseName);
+		return specificCourses;
+	}
+	@Transactional
+	public List<SpecificCourse> getAllSpecificCourses() {
+		List<SpecificCourse> specificCourses = specificCourseRepository.findAll();
+		return specificCourses;
+	}
+	
+	@Transactional
+	public Course createCourse(String name, String level, String subject) {
 		
 		Course course = new Course();
-		course.setCourseID(courseID);
+		//course.setCourseID(courseID);
 		course .setLevel(level);
 		course.setName(name);
 		courseRepository.save(course);
@@ -164,4 +209,181 @@ public class ProjectGroup17Service {
 	public List<Person> getAllPersons() {
 		return personRepository.findAll();
 	}
+	
+
+	// -----------------------------------------------------------
+	//CHARLES BOURBEAU
+	//REVIEW REPOSITORY METHODS 
+	// -----------------------------------------------------------
+	
+	@Transactional
+	public List<Review> getAllReviews(){
+		return reviewRepository.findAll();
+	}
+	
+	@Transactional
+	public Review getReviewByReviewID(long reviewID) {
+		Review review = reviewRepository.findByReviewID(reviewID);
+		return review;
+	}
+	
+	@Transactional
+	public List<Review> getReviewsByReviewee(Person reviewee){
+		List<Review> reviews = reviewRepository.findByReviewee(reviewee);
+		return reviews;
+	}
+	
+	@Transactional
+	public List<Review> getReviewsByByReviewer(Person reviewer){
+		List<Review> reviews = reviewRepository.findByReviewer(reviewer);
+		return reviews;
+	}
+	
+	@Transactional
+	public List<Review> getReviewsByAppointment(Appointment appointment){
+		List<Review> reviews = reviewRepository.findByAppointment(appointment);
+		return reviews;
+	}
+	
+	@Transactional
+	public Review createReview(String reviewText, Integer rating, Time createdTime, Date createdDate, 
+			Person reviewee, Person reviewer, Appointment appointment) {
+		
+		String error = "";
+		if (reviewText == null || reviewText.trim().length() == 0 ) {
+			error = error + "A review must containt text. ";
+		}
+		if (rating == null || rating < 0 || rating > 5) {
+			error = error + "A rating must be a number between 0 and 5. ";
+		}
+		if(createdTime == null) {
+			error = error + "The review must have a time of creation. ";
+		}
+		if(createdDate == null) {
+			error = error + "The review must have a date of creation. ";
+		}
+		if(reviewee == null) {
+			error = error + "The review must have a reviewee. ";
+		}
+		if(reviewer == null) {
+			error = error + "The review must have a reviewer. ";
+		}
+		if(appointment == null) {
+			error = error + "The review must have an appointment. ";
+		}
+
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		
+		Review review = new Review();
+		
+		review.setReviewText(reviewText);
+		review.setRating(rating);
+		review.setCreatedTime(createdTime);
+		review.setCreatedDate(createdDate);
+		review.setReviewee(reviewee);
+		review.setReviewer(reviewer);
+		review.setAppointment(appointment);
+		
+		
+		reviewRepository.save(review);
+		return review;
+	}
+	
+	@Transactional
+	public void deleteReview(Long reviewID) {
+		String error= "";
+		
+		boolean reviewExists = reviewRepository.existsByReviewID(reviewID);
+		
+		if(!reviewExists) {
+			error = error + "This review does not exist. ";
+		}
+		
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		
+		// the review exists
+		
+		reviewRepository.deleteById(reviewID);		
+	}
+	
+	@Transactional 
+	public void deleteAllReviews(){
+		
+		List<Review> reviews = reviewRepository.findAll();
+		
+		if(reviews.size() == 0) {
+			return;
+		}
+		
+		for(Review review : reviews) {
+			long reviewID = review.getReviewID();
+			deleteReview(reviewID);
+		}
+	}
+
+	//Availability functions
+	
+	@Transactional
+	public Availability createAvailability(Tutor tutor, Date date, Time startTime, Time endTime) {
+		
+		String error = "";
+		
+		Availability availability;
+
+		if (tutor == null) {
+			error += "Must specify a tutor! ";
+		}
+		if (date == null) {
+			error += "Date cannot be empty! ";
+		}
+		if (startTime == null) {
+			error += "Start time cannot be empty! ";
+		}
+		if (endTime == null) {
+			error += "End time cannot be empty! ";
+		}
+		if ((endTime != null) && (startTime != null) && (startTime.compareTo(endTime) > 0)) {
+			error += "End time cannot be before startTime! ";
+		}
+		
+		error = error.trim();
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
+	    else {
+	    	availability = new Availability();
+	    }
+	    
+	    availability.setTutor(tutor);
+		availability.setDate(date);
+		availability.setStartTime(startTime);
+		availability.setEndTime(endTime);
+		
+		availabilityRepository.save(availability);
+		
+		return availability;
+	}
+	
+	@Transactional
+	public List<Availability> getAvailabilityByDate(Date date) {
+		List<Availability> availabilities = availabilityRepository.findByDate(date);
+		return availabilities;
+	}
+	@Transactional
+	public List<Availability> getAvailabilityByTutorUsername(String tutorUsername) {
+		List<Availability> availabilities = availabilityRepository.findByTutor(tutorUsername);
+		return availabilities;
+	}
+
+	public List<Availability> getAllAvailabilities() {
+		return availabilityRepository.findAll();
+
+	}
+	
 }
