@@ -7,19 +7,8 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class Course{
-	private String courseID;
 
-	private enum Level {
-		HIGHSCHOOL, CEGEP, UNIVERISTY;
-	}
-
-	public void setCourseID(String value) {
-		this.courseID = value;
-	}
 	@Id
-	public String getCourseID() {
-		return this.courseID;
-	}
 	private String name;
 
 	public void setName(String value) {
