@@ -85,15 +85,15 @@ public void setCreated_date(Date value) {
 public Date getCreated_date() {
     return this.created_date;
 }
-private String sex;
+private String sexe;
 
-public void setSex(String value) {
-    this.sex = value;
+public void setSexe(String value) {
+    this.sexe = value;
 }
-public String getSex() {
-    return this.sex;
+public String getSexe() {
+    return this.sexe;
 }
-private long age;
+private long age; 
 
 public void setAge(long value) {
     this.age = value;

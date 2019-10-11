@@ -39,8 +39,20 @@ public class TestProjectGroup17Service {
 	@Autowired
 	private AvailabilityRepository availabilityRepository;
 	
+<<<<<<< Updated upstream:project-group-17-backend/src/test/java/ca/mcgill/ecse321/projectgroup17/TestProjectGroup17Service.java
+=======
+	@Autowired
+	private AppointmentRepository appointmentRepository;
+	
+>>>>>>> Stashed changes:project-group-17-backend/src/main/java/ca/mcgill/ecse321/projectgroup17/service/TestProjectGroup17Service.java
 	
 
+	public void clearDatabase() {
+		appointmentRepository.deleteAll();
+		availabilityRepository.deleteAll();
+		personRepository.deleteAll();
+	}
+	
 	@Test
 	public void testCreateTutor() {
 
@@ -53,10 +65,8 @@ public class TestProjectGroup17Service {
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-
-
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -86,7 +96,7 @@ public class TestProjectGroup17Service {
 
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -113,10 +123,64 @@ public class TestProjectGroup17Service {
 		String username = null;
 		String password = null;
 		String email = null;
-		String error = null;
+		
+		String error = "";
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		// check error
+		assertEquals("Person type must be either 'Student' or 'Tutor'! First name cannot be empty! Last name cannot be empty! Username cannot be empty! Password cannot be empty! Email cannot be empty! ", error);
+
+		// check no change in memory
+		assertEquals(0, service.getAllPersons().size());
+
+	}
+	
+	@Test
+	public void testCreatePersonEmpty() {
+		assertEquals(0, service.getAllPersons().size());
+
+		String personType = "";
+		String firstName = "";
+		String lastName = "";
+		String username = "";
+		String password = "";
+		String email = "";
+		
+		String error = "";
+
+		try {
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		// check error
+		assertEquals("Person type must be either 'Student' or 'Tutor'! First name cannot be empty! Last name cannot be empty! Username cannot be empty! Password cannot be empty! Email cannot be empty! ", error);
+
+		// check no change in memory
+		assertEquals(0, service.getAllPersons().size());
+
+	}
+	
+	@Test
+	public void testCreatePersonSpaces() {
+		assertEquals(0, service.getAllPersons().size());
+
+		String personType = " ";
+		String firstName = " ";
+		String lastName = " ";
+		String username = " ";
+		String password = " ";
+		String email = " ";
+		String error = "";
+
+		try {
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -156,9 +220,9 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
-			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2);
-			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2, null, 0L);
+			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -216,9 +280,9 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
-			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2);
-			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2, null, 0L);
+			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -261,9 +325,9 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
-			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2);
-			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3);
+			service.createPerson(personType, firstName, lastName, username, password, email, null,0L);
+			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2, null, 0L);
+			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -306,9 +370,9 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
-			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2);
-			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2, null, 0L);
+			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -360,9 +424,9 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
-			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2);
-			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2, null, 0L);
+			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -376,7 +440,69 @@ public class TestProjectGroup17Service {
 		assertEquals(email2, person2.getEmail());
 		assertEquals(email3, person3.getEmail());
 	}
+	
+	public void testGetPersonByUsernameDoesNotExist() {
+		
+		
+		
+	}
+	
+	public void testCreateAppointment() {
+		
+		assertEquals(0, service.getAllAppointments().size());
+		
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		
+		Tutor tutor = new Tutor();
+		tutor.setFirstName(firstName);
+		tutor.setLastName(lastName);
+		tutor.setUsername(username);
+		tutor.setPassword(password);
+		tutor.setEmail(email);
+		
+		Date date = new Date(Calendar.getInstance().getTime().getTime());
+		Time endTime = new Time(9, 0, 0);
+		Time startTime = new Time(10, 0, 0);
+		Room room = new Room();
+		room.setRoomID(1L);
+		String status = "Requested";
+		
+		try {
+			service.createAppointment(date, endTime, startTime, room, tutor, status);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		
+		List<Appointment> allAppointments = service.getAllAppointments();
+		
+		assertEquals(1, allAppointments.size());
+		assertEquals(date, allAppointments.get(0).getDate());
+		assertEquals(endTime, allAppointments.get(0).getEndTime());
+		assertEquals(startTime, allAppointments.get(0).getStartTime());
+		assertEquals(room.getRoomID(), allAppointments.get(0).getRoom().getRoomID());
+		assertEquals(status, allAppointments.get(0).getStatus());
+		
+	}
+	
+	@Test
+	public void testCreteAppointmentNull() {
+		assertEquals(0, service.getAllAppointments().size());
+		
+		Tutor tutor = null;
+		Date date = null;
+		Time endTime = null;
+		Time startTime = null;
+		Room room = null;
+		String status = null;
+		
+		String error = "";
 
+<<<<<<< Updated upstream:project-group-17-backend/src/test/java/ca/mcgill/ecse321/projectgroup17/TestProjectGroup17Service.java
 	@Before
 	public void clearDatabase() {
 		// First, we clear registrations to avoid exceptions due to inconsistencies
@@ -391,6 +517,25 @@ public class TestProjectGroup17Service {
 	public void testCreateAvailability() {
 		assertEquals(0, service.getAllPersons().size());
 		
+=======
+		try {
+			service.createAppointment(date, endTime, startTime, room, tutor, status);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		// check error
+		assertEquals("Appointment date cannot be empty! Appointment start time cannot be empty! Appointment end time cannot be empty! Appointment tutor cannot be empty! Appointment status cannot be empty and must be either 'Requested' or 'Accepted' or 'Refused' or 'Paid' or 'Cancelled'! ", error);
+
+		// check no change in memory
+		assertEquals(0, service.getAllAppointments().size());
+
+	}
+	
+	@Test
+	public void testCreateAppointmentEndTimeBeforeStartTime() {
+		assertEquals(0, service.getAllAppointments().size());
+>>>>>>> Stashed changes:project-group-17-backend/src/main/java/ca/mcgill/ecse321/projectgroup17/service/TestProjectGroup17Service.java
 		
 		String personType = "Tutor";
 		String firstName = "John";
@@ -398,6 +543,7 @@ public class TestProjectGroup17Service {
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
+<<<<<<< Updated upstream:project-group-17-backend/src/test/java/ca/mcgill/ecse321/projectgroup17/TestProjectGroup17Service.java
 		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
 		
 		java.sql.Date date = java.sql.Date.valueOf( "2019-10-31" );
@@ -592,6 +738,85 @@ public class TestProjectGroup17Service {
 		String subject = "Math";
 		Double hourlyRate = 13.0;
 		Course course = service.createCourse(name, level, subject);
+=======
+		
+		Tutor tutor = new Tutor();
+		tutor.setFirstName(firstName);
+		tutor.setLastName(lastName);
+		tutor.setUsername(username);
+		tutor.setPassword(password);
+		tutor.setEmail(email);
+		
+		Date date = new Date(Calendar.getInstance().getTime().getTime());
+		Time endTime = new Time(10, 0, 0);
+		Time startTime = new Time(9, 0, 0);
+		Room room = new Room();
+		room.setRoomID(1L);
+		String status = "Requested";
+		
+		String error = "";
+
+		try {
+			service.createAppointment(date, endTime, startTime, room, tutor, status);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		// check error
+		assertEquals("Appointment end time cannot be before appointment start time! ", error);
+
+		// check no change in memory
+		assertEquals(0, service.getAllAppointments().size());
+		
+	}
+	
+//	public void testAddStudentToAppointment() {
+//		
+//		String personType = "Tutor";
+//		String firstName = "John";
+//		String lastName = "Smith";
+//		String username = "johnsmith123";
+//		String password = "pass123";
+//		String email = "john.smith@mail.ca";
+//		
+//		Tutor tutor = new Tutor();
+//		tutor.setFirstName(firstName);
+//		tutor.setLastName(lastName);
+//		tutor.setUsername(username);
+//		tutor.setPassword(password);
+//		tutor.setEmail(email);
+//		
+//		String personType2 = "Student";
+//		String firstName2 = "Tim";
+//		String lastName2 = "Tom";
+//		String username2 = "timtom123";
+//		String password2 = "pass123";
+//		String email2 = "tim.tom@mail.ca";
+//		
+//		Student student = new Student();
+//		student.setFirstName(firstName2);
+//		student.setLastName(lastName2);
+//		student.setUsername(username2);
+//		student.setPassword(password2);
+//		student.setEmail(email2);
+//		
+//		Date date = new Date(Calendar.getInstance().getTime().getTime());
+//		Time endTime = new Time(10, 0, 0);
+//		Time startTime = new Time(9, 0, 0);
+//		Room room = new Room();
+//		room.setRoomID(1L);
+//		String status = "Requested";
+//		
+//		String error = "";
+//
+//		try {
+//			service.createAppointment(date, endTime, startTime, room, tutor, status);
+//		} catch (IllegalArgumentException e) {
+//			error = e.getMessage();
+//		}
+//		
+//	}
+>>>>>>> Stashed changes:project-group-17-backend/src/main/java/ca/mcgill/ecse321/projectgroup17/service/TestProjectGroup17Service.java
 
 		service.createSpecificCourse(tutor, course, hourlyRate);
 		try {

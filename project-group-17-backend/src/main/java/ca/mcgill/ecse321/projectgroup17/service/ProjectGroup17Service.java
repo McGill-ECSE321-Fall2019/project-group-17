@@ -28,6 +28,8 @@ public class ProjectGroup17Service {
 
 	@Autowired
 	SpecificCourseRepository specificCourseRepository;
+	AppointmentRepository appointmentRepository;
+	
 	
 	@Autowired
 	AvailabilityRepository availabilityRepository;
@@ -116,7 +118,7 @@ public class ProjectGroup17Service {
 	
 	
 	@Transactional
-	public Person createPerson(String personType, String firstName, String lastName, String username, String password, String email) {
+	public Person createPerson(String personType, String firstName, String lastName, String username, String password, String email, String sexe, long age) {
 
 		Person person;
 
@@ -164,6 +166,8 @@ public class ProjectGroup17Service {
 		person.setPassword(password);
 		person.setEmail(email);
 		person.setCreated_date(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+		person.setSexe(sexe);
+		person.setAge(age);
 
 		personRepository.save(person);
 		return person;
@@ -209,7 +213,7 @@ public class ProjectGroup17Service {
 	public List<Person> getAllPersons() {
 		return personRepository.findAll();
 	}
-	
+
 
 	// -----------------------------------------------------------
 	//CHARLES BOURBEAU
@@ -380,10 +384,60 @@ public class ProjectGroup17Service {
 		List<Availability> availabilities = availabilityRepository.findByTutor(tutorUsername);
 		return availabilities;
 	}
-
+	
+	@Transactional
 	public List<Availability> getAllAvailabilities() {
-		return availabilityRepository.findAll();
+		return null;
+		
+	}
+	
+	@Transactional 
+	public Appointment createAppointment(Date date, Time endTime, Time startTime, Room room, Tutor tutor, String status) {
+		// Input validation
+	    String error = "";
+	    if (date == null) {
+	        error = error + "Appointment date cannot be empty! ";
+	    }
+	    if (startTime == null) {
+	        error = error + "Appointment start time cannot be empty! ";
+	    }
+	    if (endTime == null) {
+	        error = error + "Appointment end time cannot be empty! ";
+	    }
+	    if (endTime != null && startTime != null && endTime.before(startTime)) {
+	        error = error + "Appointment end time cannot be before appointment start time! ";
+	    }
+	    if (tutor != null) {
+	    	error = error + "Appointment tutor cannot be empty! ";
+	    }
+	    if (tutor != null || ! (status.equals("Requested") && status.equals("Accepted") && status.equals("Refused") && status.equals("Paid") && status.equals("Cancelled"))) {
+	    	error = error + "Appointment status cannot be empty and must be either 'Requested' or 'Accepted' or 'Refused' or 'Paid' or 'Cancelled'! ";
+	    }
+	    
+	    error = error.trim();
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
+	    
+	    
 
+	    Appointment appt = new Appointment();
+	    appt.setDate(date);
+	    appt.setStartTime(startTime);
+	    appt.setEndTime(endTime);
+	    appt.setRoom(room);
+	    appt.setTutor(tutor);
+	    appt.setCreatedDate(new Date(Calendar.getInstance().getTime().getTime()));
+	    appt.setStatus(status);
+	    appointmentRepository.save(appt);
+	    return appt;
+		
+		
+	}
+	
+	@Transactional
+	public List<Appointment> getAllAppointments() {
+		return appointmentRepository.findAll();
 	}
 	
 }

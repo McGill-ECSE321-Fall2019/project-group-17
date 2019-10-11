@@ -61,9 +61,9 @@ public void setAppointment(Appointment appointment) {
 private long reviewID;
 
 // should be auto-generated, and immutable
-//public void setReviewID(long value) {
-//    this.reviewID = value;
-//}
+public void setReviewID(long value) {
+    this.reviewID = value;
+}
 @Id @GeneratedValue
 public long getReviewID() {
     return this.reviewID;

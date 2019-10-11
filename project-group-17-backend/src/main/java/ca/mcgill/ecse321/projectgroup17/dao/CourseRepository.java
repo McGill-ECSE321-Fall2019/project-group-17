@@ -7,9 +7,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.projectgroup17.model.Course;
 
-public interface CourseRepository extends CrudRepository<Course, Date> {
+public interface CourseRepository extends CrudRepository<Course, String> {
 	
-	Course findCourseByID(String courseID);
+	Course findCourseByCourseID(String courseID);
 
 	List<Course> findCoursesBySubject(String subject);
 	

@@ -8,7 +8,7 @@ import ca.mcgill.ecse321.projectgroup17.model.SpecificCourse;
 
 public interface SpecificCourseRepository extends CrudRepository<SpecificCourse, Long>{
 	
-	SpecificCourse findByID(Long ID);
+	SpecificCourse findBySpecificCourseID(Long specificCourseID);
 
 	ArrayList<SpecificCourse> findByTutor(String tutorUsername);
 	

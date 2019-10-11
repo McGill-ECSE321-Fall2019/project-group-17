@@ -14,6 +14,5 @@ public interface AvailabilityRepository extends CrudRepository<Availability, Lon
 	
 	ArrayList<Availability> findByTutor(String tutorUsername);
 	
-	ArrayList<Availability> findAll();
 	
 }

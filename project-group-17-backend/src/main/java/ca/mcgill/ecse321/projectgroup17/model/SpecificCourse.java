@@ -36,14 +36,15 @@ public class SpecificCourse{
 		this.course = course;
 	}
 	
-	private long ID;
-
-	public void setID(long value) {
-	    this.ID = value;
-	}
+	private long specificCourseID;
+	
 	@Id
-	public long getID() {
-	    return this.ID;
+	public long getSpecificCourseID() {
+	    return this.specificCourseID;
+	}
+	
+	public void setSpecificCourseID(long value) {
+	    this.specificCourseID = value;
 	}
 
 }
