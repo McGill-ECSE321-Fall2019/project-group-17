@@ -32,7 +32,10 @@ public class TestProjectGroup17Service {
 
 	@Autowired
 	private PersonRepository personRepository;
-
+	@Autowired
+	private CourseRepository courseRepository;
+	@Autowired
+	private SpecificCourseRepository specificCourseRepository;
 	@Autowired
 	private AvailabilityRepository availabilityRepository;
 	
@@ -378,10 +381,12 @@ public class TestProjectGroup17Service {
 	public void clearDatabase() {
 		// First, we clear registrations to avoid exceptions due to inconsistencies
 		availabilityRepository.deleteAll();
-		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();
 		personRepository.deleteAll();
 	}
 	
+	//Availability Tests
 	@Test
 	public void testCreateAvailability() {
 		assertEquals(0, service.getAllPersons().size());
@@ -524,6 +529,128 @@ public class TestProjectGroup17Service {
 		}
 		
 	}	
+	
+	
+	//SpecificCourse Tests
+	@Test
+	public void testCreateSpecificCourse() {
+		//Make a tutor
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+
+		//Make course
+		String name = "DiscreteStructures";
+		String level = "University";
+		String subject = "Math";
+		Double hourlyRate = 13.0;
+		Course course = service.createCourse(name, level, subject);
+		
+		try {
+			service.createSpecificCourse(tutor, course, hourlyRate);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+	}
+	@Test
+	public void testCreateSpecificCourseNull() {
+		assertEquals(0, service.getAllSpecificCourses().size());
+		
+		Tutor tutor = null;
+		Double hourlyRate = null;
+		Course course = null;
+		String error = null;
+		
+		try {
+			service.createSpecificCourse(tutor, course, hourlyRate);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals(error, "Tutor cannot be null! Course cannot be null! HourlyRate must be above minimum wage! ");
+		
+		assertEquals(0, service.getAllAvailabilities().size());
+	}
+	@Test
+	public void testGetSpecificCourseByCourse() {
+		//Make a tutor
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+
+		//Make course
+		String name = "DiscreteStructures";
+		String level = "University";
+		String subject = "Math";
+		Double hourlyRate = 13.0;
+		Course course = service.createCourse(name, level, subject);
+
+		service.createSpecificCourse(tutor, course, hourlyRate);
+		try {
+			service.getSpecificCourseByCourse(name);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+	}
+
+	@Test
+	public void testGetSpecificCourseByTutorUsername() {
+		//Make a tutor
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+
+		//Make course
+		String name = "DiscreteStructures";
+		String level = "University";
+		String subject = "Math";
+		Double hourlyRate = 13.0;
+		Course course = service.createCourse(name, level, subject);
+
+		service.createSpecificCourse(tutor, course, hourlyRate);
+		try {
+			service.getSpecificCourseByTutor(username);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+	}
+	@Test
+	public void testGetSpecificCourseByID() {
+		//Make a tutor
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+
+		//Make course
+		String name = "DiscreteStructures";
+		String level = "University";
+		String subject = "Math";
+		Double hourlyRate = 13.0;
+		Course course = service.createCourse(name, level, subject);
+
+		SpecificCourse specificCourse = service.createSpecificCourse(tutor, course, hourlyRate);
+		try {
+			service.getSpecificCourseByID(specificCourse.getID());
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+	}
 	
 }
 

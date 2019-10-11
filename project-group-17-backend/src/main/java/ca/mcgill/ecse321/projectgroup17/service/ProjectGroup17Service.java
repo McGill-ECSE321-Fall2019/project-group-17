@@ -22,23 +22,71 @@ public class ProjectGroup17Service {
 	
 	@Autowired
 	PersonRepository personRepository;
-<<<<<<< HEAD
-	
+
 	@Autowired
 	ReviewRepository reviewRepository;
 
-=======
->>>>>>> 682fb894939366c655dd5a77f04f17e15efaa36c
+	@Autowired
+	SpecificCourseRepository specificCourseRepository;
 	
 	@Autowired
 	AvailabilityRepository availabilityRepository;
 
-
+	
+	//Tony Stark
 	@Transactional
-	public Course createCourse(String courseID, String name, String level, String subject) {
+	public SpecificCourse createSpecificCourse(Tutor tutor, Course course, Double hourlyRate) {
+		
+		SpecificCourse specificCourse;
+		String error = null;
+		
+		if (tutor == null) {
+			error += "Tutor cannot be null! ";
+		}
+		if (course == null) {
+			error += "Course cannot be null! ";
+		}
+		if ((hourlyRate == null) | (hourlyRate < 12)) {
+			error += "HourlyRate must be above minimum wage! ";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		
+		specificCourse = new SpecificCourse();
+		specificCourse.setHourlyRate(hourlyRate);
+		specificCourse.setCourse(course);
+		specificCourse.setTutor(tutor);
+		return specificCourse;
+	}
+	
+	@Transactional
+	public SpecificCourse getSpecificCourseByID(Long courseID) {
+		SpecificCourse specificCourse = specificCourseRepository.findByID(courseID);
+		return specificCourse;
+	}
+	@Transactional
+	public List<SpecificCourse> getSpecificCourseByTutor(String tutorUsername) {
+		List<SpecificCourse> specificCourses = specificCourseRepository.findByTutor(tutorUsername);
+		return specificCourses;
+	}
+	@Transactional
+	public List<SpecificCourse> getSpecificCourseByCourse(String courseName) {
+		List<SpecificCourse> specificCourses = specificCourseRepository.findByCourse(courseName);
+		return specificCourses;
+	}
+	@Transactional
+	public List<SpecificCourse> getAllSpecificCourses() {
+		List<SpecificCourse> specificCourses = specificCourseRepository.findAll();
+		return specificCourses;
+	}
+	
+	@Transactional
+	public Course createCourse(String name, String level, String subject) {
 		
 		Course course = new Course();
-		course.setCourseID(courseID);
+		//course.setCourseID(courseID);
 		course .setLevel(level);
 		course.setName(name);
 		courseRepository.save(course);
@@ -162,7 +210,7 @@ public class ProjectGroup17Service {
 		return personRepository.findAll();
 	}
 	
-<<<<<<< HEAD
+
 	// -----------------------------------------------------------
 	//CHARLES BOURBEAU
 	//REVIEW REPOSITORY METHODS 
@@ -277,7 +325,8 @@ public class ProjectGroup17Service {
 			long reviewID = review.getReviewID();
 			deleteReview(reviewID);
 		}
-=======
+	}
+
 	//Availability functions
 	
 	@Transactional
@@ -334,7 +383,7 @@ public class ProjectGroup17Service {
 
 	public List<Availability> getAllAvailabilities() {
 		return availabilityRepository.findAll();
->>>>>>> 682fb894939366c655dd5a77f04f17e15efaa36c
+
 	}
 	
 }
