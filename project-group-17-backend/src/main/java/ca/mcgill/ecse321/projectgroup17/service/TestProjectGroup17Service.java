@@ -34,6 +34,189 @@ public class TestProjectGroup17Service {
 	@Autowired
 	private AvailabilityRepository availabilityRepository;
 
+	/*-----------------------------------------*/
+	 
+	@Test
+	public void testCreateCourse() {
+		assertEquals(0, service.getAllCourses().size());
+		
+		String courseID = "ECSE321";
+		String subject = "Science";
+		String level = "University";
+		String name = "Intro to the Software Engineering Profession";
+		
+		try {
+			service.createCourse(courseID, name, level, subject);
+		} catch(IllegalArgumentException e) {
+			fail();
+		}
+		
+		List<Course> allCourses = service.getAllCourses();
+		
+		assertEquals(1, allCourses.size());
+		assertEquals(courseID, allCourses.get(0).getCourseID());
+		assertEquals(subject, allCourses.get(0).getSubject());
+		assertEquals(level, allCourses.get(0).getLevel());
+		assertEquals(name, allCourses.get(0).getName());
+
+	}
+	
+	@Test
+	public void testCreateCourseNullOrEmpty() {
+		assertEquals(0, service.getAllCourses().size());
+		
+		String courseID = null;
+		String subject = null;
+		String level = null;
+		String name = null;
+		
+		String error = "";
+		
+		try {
+			service.createCourse(courseID, name, level, subject);
+		} catch(IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		// check error
+		assertEquals(0, error.length());
+
+		// check no change in memory
+		assertEquals(0, service.getAllCourses().size());
+
+	}
+	
+	@Test
+	public void testGetCourseByID() {
+
+		assertEquals(0, service.getAllCourses().size());
+
+		String courseID = "ECSE321";
+		String subject = "Science";
+		String level = "University";
+		String name = "Intro to the Software Engineering Profession";
+
+		String courseID2 = "ECSE321";
+		String subject2 = "Mathematic";
+		String level2 = "University";
+		String name2 = "Probability";
+
+		String courseID3 = "ECSE202";
+		String subject3 = "Programming";
+		String level3 = "University";
+		String name3 = "Intro to Software Development";
+
+		try {
+			service.createCourse(courseID, name, level, subject);
+			service.createCourse(courseID2, name2, level2, subject2);
+			service.createCourse(courseID3, name3, level3, subject3);
+
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			fail();
+		}
+
+
+		Course course = service.getCourseByID(subject);
+		Course course2 = service.getCourseByID(subject2);
+		Course course3 = service.getCourseByID(subject3);
+
+		assertEquals(courseID, course.getCourseID());
+		assertEquals(subject, course.getSubject());
+		assertEquals(level, course.getLevel());
+		assertEquals(name, course.getName());
+
+		assertEquals(courseID2, course2.getCourseID());
+		assertEquals(subject2, course2.getSubject());
+		assertEquals(level2, course2.getLevel());
+		assertEquals(name2, course2.getName());
+
+		assertEquals(courseID3, course3.getCourseID());
+		assertEquals(subject3, course3.getSubject());
+		assertEquals(level3, course3.getLevel());
+		assertEquals(name3, course3.getName());
+	}
+	
+	@Test
+	public void testDeleteCourseByID() {
+		
+		assertEquals(0, service.getAllCourses().size());
+		
+		String courseID = "ECSE321";
+		String subject = "Science";
+		String level = "University";
+		String name = "Intro to the Software Engineering Profession";
+		
+		service.createCourse(courseID, name, level, subject);
+		
+		try {
+			service.deleteCourseByID(courseID);
+		} catch(IllegalArgumentException e) {
+			fail();
+		}
+		
+		assertEquals(0, service.getAllCourses().size());
+		
+	}
+	
+	
+	@Test
+	public void testGetCourseBySubject() {
+
+		assertEquals(0, service.getAllCourses().size());
+
+		String courseID = "ECSE321";
+		String subject = "Science";
+		String level = "University";
+		String name = "Intro to the Software Engineering Profession";
+
+		String courseID2 = "ECSE321";
+		String subject2 = "Mathematic";
+		String level2 = "University";
+		String name2 = "Probability";
+
+		String courseID3 = "ECSE202";
+		String subject3 = "Programming";
+		String level3 = "University";
+		String name3 = "Intro to Software Development";
+
+		try {
+			service.createCourse(courseID, name, level, subject);
+			service.createCourse(courseID2, name2, level2, subject2);
+			service.createCourse(courseID3, name3, level3, subject3);
+
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			fail();
+		}
+
+
+		List<Course> course = service.getCourseBySubject(subject);
+		List<Course> course2 = service.getCourseBySubject(subject2);
+		List<Course> course3 = service.getCourseBySubject(subject3);
+
+		assertEquals(courseID, course.get(0).getCourseID());
+		assertEquals(subject, course.get(0).getSubject());
+		assertEquals(level, course.get(0).getLevel());
+		assertEquals(name, course.get(0).getName());
+
+		assertEquals(courseID2, course2.get(0).getCourseID());
+		assertEquals(subject2, course2.get(0).getSubject());
+		assertEquals(level2, course2.get(0).getLevel());
+		assertEquals(name2, course2.get(0).getName());
+
+		assertEquals(courseID3, course3.get(0).getCourseID());
+		assertEquals(subject3, course3.get(0).getSubject());
+		assertEquals(level3, course3.get(0).getLevel());
+		assertEquals(name3, course3.get(0).getName());
+	}
+	
+	
+	/*-----------------------------------------*/
+
+	
+	
+	
 	@Test
 	public void testCreateTutor() {
 

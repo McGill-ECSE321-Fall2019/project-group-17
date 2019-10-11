@@ -10,7 +10,10 @@ import ca.mcgill.ecse321.projectgroup17.model.Course;
 public interface CourseRepository extends CrudRepository<Course, Date> {
 	
 	Course findCourseByID(String courseID);
-
-	List<Course> findCoursesBySubject(String subject);
 	
+	List<Course> findCourseBySubject(String subject);
+	
+	void deleteByID(String courseID);
+	
+	boolean existsById(String courseID);
 }

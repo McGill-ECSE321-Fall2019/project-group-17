@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.jboss.logging.Logger.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,33 +18,43 @@ import ca.mcgill.ecse321.projectgroup17.model.*;
 @Service
 public class ProjectGroup17Service {
 
-	@Autowired
-	CourseRepository courseRepository;
-	
+
 	@Autowired
 	PersonRepository personRepository;
-
 	
-	@Transactional 
-	public Availability createAvailabilityForTutor(Tutor tutor, Date date, Time startTime, Time endTime) {
-		Availability a = new Availability();
-		Calendar c = Calendar.getInstance();
-		
-		a.setDate(date);
-		//a.setAvailabilityID(value); ???
-		a.setStartTime(startTime);
-		a.setEndTime(endTime);
-
-		return a;
-	}
+	
+	/*--------------------------------------*/
+	
+	@Autowired
+	CourseRepository courseRepository;
 
 	@Transactional
 	public Course createCourse(String courseID, String name, String level, String subject) {
-		
+		String error = "";
+		if(courseID == null || courseID.equals("") || courseID.trim().length() == 0) {
+			error += "Course ID must be specified (ie: ECSE321)!";
+		}
+		if(name == null || name.equals("")) {
+			error += "Course name must be specified!";
+		}
+		if(level == null || level.equals("")) {
+			error += "Course level must be specified!";
+		}
+		if(Level.valueOf(level) == null) {
+			error += "Invalid course level specified (Highschool, Cegep, University)!";
+		}
+		if(subject == null || subject.equals("")) {
+			error += "The course name must be specified!";
+		}
+		error = error.trim();
+	    if(error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
 		Course course = new Course();
 		course.setCourseID(courseID);
 		course .setLevel(level);
 		course.setName(name);
+		course.setSubject(subject);
 		courseRepository.save(course);
 		return course;
 
@@ -51,13 +62,45 @@ public class ProjectGroup17Service {
 	
 	@Transactional
 	public Course getCourseByID(String courseID) {
+		if(courseID == null || courseID.equals("") || courseID.trim().length() == 0) {
+			throw new IllegalArgumentException("Course ID must be specified (ie: ECSE321)!");
+		}
 		Course course = courseRepository.findCourseByID(courseID);
+		return course;
+	}
+	
+	@Transactional
+	public List<Course> getCourseBySubject(String subject) {
+		if(subject == null || subject.equals("") || subject.trim().length() == 0) {
+			throw new IllegalArgumentException("Course ID must be specified (ie: ECSE321)!");
+		}
+		List<Course> course = courseRepository.findCourseBySubject(subject);
 		return course;
 	}
 
 	@Transactional
 	public List<Course> getAllCourses() {
 		return toList(courseRepository.findAll());
+	}
+	
+	@Transactional
+	public void deleteCourseByID(String courseID) {
+		if(courseID == null || courseID.equals("") || courseID.trim().length() == 0) {
+			throw new IllegalArgumentException("Course ID must be specified (ie: ECSE321)!");
+		}
+		if(courseExistsByID(courseID)) {
+			courseRepository.deleteByID(courseID);;
+		}
+		
+	}
+	
+	@Transactional
+	public boolean courseExistsByID(String courseID) {
+		if(courseID == null || courseID.equals("") || courseID.trim().length() == 0) {
+			throw new IllegalArgumentException("Course ID must be specified (ie: ECSE321)!");
+		}
+		boolean exists = courseRepository.existsById(courseID);
+		return exists;
 	}
 
 	private <T> List<T> toList(Iterable<T> iterable){
@@ -68,6 +111,9 @@ public class ProjectGroup17Service {
 		return resultList;
 		
 	}
+	
+	
+	/*--------------------------------------*/
 	
 	
 	@Transactional
