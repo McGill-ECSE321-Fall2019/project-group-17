@@ -14,17 +14,6 @@ public class SpecificCourse{
 	public double getHourlyRate() {
 		return this.hourlyRate;
 	}
-
-	private long specificCourseID;
-	
-	public void setSpecificCourseID(long specificCourseID) {
-		this.specificCourseID = specificCourseID;
-	}
-	
-	@Id
-	public long getSpecificCourseID() {
-		return this.specificCourseID;
-	}
 	
 	private Tutor tutor;
 
@@ -47,5 +36,17 @@ public class SpecificCourse{
 	public void setCourse(Course course) {
 		this.course = course;
 	}
+	
+	private long specificCourseID;
+
+	public void setSpecificCourseID(long specificCourseID) {
+	    this.specificCourseID = specificCourseID;
+	}
+	
+	@Id
+	public long getSpecificCourseID() {
+	    return this.specificCourseID;
+	}
+
 
 }
