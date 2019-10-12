@@ -46,7 +46,7 @@ public class TestProjectGroup17Service {
 	/*------------------------------------------*/
 
 
-	@Before // or @After ?? --> does not seem to clear DB before each tests...
+	//@Before // or @After ?? --> does not seem to clear DB before each tests...
 	public void clearDatabase() {
 		// First, we clear registrations to avoid exceptions due to inconsistencies
 		availabilityRepository.deleteAll();
@@ -55,6 +55,7 @@ public class TestProjectGroup17Service {
 		courseRepository.deleteAll();
 		roomRepository.deleteAll();
 		personRepository.deleteAll();
+		
 		
 		
 	}
@@ -802,7 +803,7 @@ public class TestProjectGroup17Service {
 	}
 
 	@Test
-	public void testCreateAvailabilityTime() {
+	public void testCreateAvailabilityEndTimeBeforeStartTime() {
 		assertEquals(0, service.getAllAvailabilities().size());
 
 		String error = null;
@@ -956,18 +957,47 @@ public class TestProjectGroup17Service {
 
 	@Test
 	public void testGetSpecificCourseByCourseID() {
+		//Make a tutor
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		String sex = "male";
+		long age = 20;
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
+		//Make a tutor
+		String personType2 = "Tutor";
+		String firstName2 = "John";
+		String lastName2 = "Smith";
+		String username2 = "johnsmith123";
+		String password2 = "pass123";
+		String email2 = "john.smith@mail.ca";
+		String sex2 = "male";
+		long age2 = 20;
+		Tutor tutor2 = (Tutor) service.createPerson(personType2, firstName2, lastName2, username2, password2, email2, sex2, age2);
 
-		// getSpecificCourseByCourseID();
-
+		//Make course
+		String courseID = "MATH240";
+		String name = "DiscreteStructures";
+		String level = "University";
+		String subject = "Math";
+		Double hourlyRate = 13.0;
+		Double hourlyRate2 = 14.0;
+		Course course = service.createCourse(courseID, name, level, subject);
+		
+		service.createSpecificCourse(tutor, course, hourlyRate);
+		
+		service.createSpecificCourse(tutor2, course, hourlyRate2);
+		
+		try {
+			service.getSpecificCourseByCourse(courseID);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		
 	}
-
-	@Test
-	public void testGetSpecificCourseBy() {
-
-
-
-	}
-
 
 	@Test
 	public void testGetSpecificCourseByTutorUsername() {
@@ -997,6 +1027,7 @@ public class TestProjectGroup17Service {
 			fail();
 		}
 	}
+	
 	@Test
 	public void testGetSpecificCourseByID() {
 		//Make a tutor
