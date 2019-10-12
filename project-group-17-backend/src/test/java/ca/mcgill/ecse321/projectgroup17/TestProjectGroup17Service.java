@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 
-import org.aspectj.lang.annotation.Before;
+import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,15 +46,17 @@ public class TestProjectGroup17Service {
 	/*------------------------------------------*/
 
 
-	@Before(value = "") // or @After ?? --> does not seem to clear DB before each tests...
+	@Before // or @After ?? --> does not seem to clear DB before each tests...
 	public void clearDatabase() {
 		// First, we clear registrations to avoid exceptions due to inconsistencies
 		availabilityRepository.deleteAll();
 		appointmentRepository.deleteAll();
 		specificCourseRepository.deleteAll();
 		courseRepository.deleteAll();
-		personRepository.deleteAll();
 		roomRepository.deleteAll();
+		personRepository.deleteAll();
+		
+		
 	}
 
 	/*-----------------------------------------*/
@@ -243,7 +245,7 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
@@ -272,7 +274,7 @@ public class TestProjectGroup17Service {
 	public void testCreateStudent() {
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "student";
+		String personType = "Student";
 		String firstName = "Tim";
 		String lastName = "Tom";
 		String username = "timtom123";
@@ -290,7 +292,7 @@ public class TestProjectGroup17Service {
 		List<Person> allPersons = service.getAllPersons();
 
 		assertEquals(1, allPersons.size());
-		assertEquals(personType, allPersons.get(0).getClass().toString());
+		assertEquals(personType, allPersons.get(0).getClass().getSimpleName());
 		assertEquals(firstName, allPersons.get(0).getFirstName());
 		assertEquals(lastName, allPersons.get(0).getLastName());
 		assertEquals(username, allPersons.get(0).getUsername());
@@ -383,21 +385,21 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-		String personType2 = "student";
+		String personType2 = "Student";
 		String firstName2 = "Tim";
 		String lastName2 = "Tom";
 		String username2 = "timtom123";
 		String password2 = "pass123";
 		String email2 = "tim.tom@mail.ca";
 
-		String personType3 = "tutor";
+		String personType3 = "Tutor";
 		String firstName3 = "Alex";
 		String lastName3 = "Jones";
 		String username3 = "alexjones123";
@@ -443,21 +445,21 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-		String personType2 = "student";
+		String personType2 = "Student";
 		String firstName2 = "Tim";
 		String lastName2 = "Tom";
 		String username2 = "timtom123";
 		String password2 = "pass123";
 		String email2 = "tim.tom@mail.ca";
 
-		String personType3 = "tutor";
+		String personType3 = "Tutor";
 		String firstName3 = "Alex";
 		String lastName3 = "Jones";
 		String username3 = "alexjones123";
@@ -488,21 +490,21 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-		String personType2 = "student";
+		String personType2 = "Student";
 		String firstName2 = "Tim";
 		String lastName2 = "Tom";
 		String username2 = "timtom123";
 		String password2 = "pass123";
 		String email2 = "tim.tom@mail.ca";
 
-		String personType3 = "tutor";
+		String personType3 = "Tutor";
 		String firstName3 = "Alex";
 		String lastName3 = "Jones";
 		String username3 = "alexjones123";
@@ -533,21 +535,21 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-		String personType2 = "student";
+		String personType2 = "Student";
 		String firstName2 = "Tim";
 		String lastName2 = "Tom";
 		String username2 = "timtom123";
 		String password2 = "pass123";
 		String email2 = "tim.tom@mail.ca";
 
-		String personType3 = "tutor";
+		String personType3 = "Tutor";
 		String firstName3 = "Alex";
 		String lastName3 = "Jones";
 		String username3 = "alexjones123";
@@ -587,21 +589,21 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-		String personType2 = "student";
+		String personType2 = "Student";
 		String firstName2 = "Tim";
 		String lastName2 = "Tom";
 		String username2 = "timtom123";
 		String password2 = "pass123";
 		String email2 = "tim.tom@mail.ca";
 
-		String personType3 = "tutor";
+		String personType3 = "Tutor";
 		String firstName3 = "Alex";
 		String lastName3 = "Jones";
 		String username3 = "alexjones123";
@@ -630,7 +632,7 @@ public class TestProjectGroup17Service {
 		
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
@@ -656,7 +658,7 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllAppointments().size());
 
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
@@ -722,7 +724,7 @@ public class TestProjectGroup17Service {
 	public void testCreateAppointmentEndTimeBeforeStartTime() {
 		assertEquals(0, service.getAllAppointments().size());
 
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
@@ -779,7 +781,7 @@ public class TestProjectGroup17Service {
 		java.sql.Time startTime = java.sql.Time.valueOf( "19:05:00" );
 		java.sql.Time endTime = java.sql.Time.valueOf( "18:05:00" );
 		//Make a tutor
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
@@ -805,7 +807,7 @@ public class TestProjectGroup17Service {
 
 		String error = null;
 		//Make a tutor
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
@@ -834,7 +836,7 @@ public class TestProjectGroup17Service {
 	public void testGetAvailabilityByDate() {
 
 		//Make a tutor
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
@@ -870,7 +872,7 @@ public class TestProjectGroup17Service {
 	public void testGetAvailabilityByTutorUsername() {
 
 		//Make a tutor
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
@@ -908,7 +910,7 @@ public class TestProjectGroup17Service {
 	@Test
 	public void testCreateSpecificCourse() {
 		//Make a tutor
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
@@ -970,7 +972,7 @@ public class TestProjectGroup17Service {
 	@Test
 	public void testGetSpecificCourseByTutorUsername() {
 		//Make a tutor
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
@@ -998,7 +1000,7 @@ public class TestProjectGroup17Service {
 	@Test
 	public void testGetSpecificCourseByID() {
 		//Make a tutor
-		String personType = "tutor";
+		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";

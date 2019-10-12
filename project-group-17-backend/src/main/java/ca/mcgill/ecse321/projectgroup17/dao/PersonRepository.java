@@ -22,5 +22,5 @@ public interface PersonRepository extends CrudRepository<Person, String>{
 
 	List<Person> findByPersonType(String personType);
 
-
+	void deleteAll();
 }
