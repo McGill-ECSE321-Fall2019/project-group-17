@@ -27,14 +27,21 @@ public class ProjectGroup17Service {
 
 	@Autowired
 	SpecificCourseRepository specificCourseRepository;
+	
+	@Autowired
+	AppointmentRepository appointmentRepository;
+
 
 	@Autowired
 	AvailabilityRepository availabilityRepository;
-
-	/*--------------ANTHONY----------------*/
-
+	
+	@Autowired
+	RoomRepository roomRepository;
+	
 	@Autowired
 	CourseRepository courseRepository;
+
+	/*--------------ANTHONY----------------*/
 
 	//Tony Stark
 	@Transactional
@@ -66,7 +73,7 @@ public class ProjectGroup17Service {
 
 	@Transactional
 	public SpecificCourse getSpecificCourseByID(Long courseID) {
-		SpecificCourse specificCourse = specificCourseRepository.findByID(courseID);
+		SpecificCourse specificCourse = specificCourseRepository.findBySpecificCourseID(courseID);
 		return specificCourse;
 	}
 	@Transactional
@@ -81,7 +88,7 @@ public class ProjectGroup17Service {
 	}
 	@Transactional
 	public List<SpecificCourse> getAllSpecificCourses() {
-		List<SpecificCourse> specificCourses = specificCourseRepository.findAll();
+		List<SpecificCourse> specificCourses = toList(specificCourseRepository.findAll());
 		return specificCourses;
 	}
 
@@ -179,7 +186,7 @@ public class ProjectGroup17Service {
 
 
 	@Transactional
-	public Person createPerson(String personType, String firstName, String lastName, String username, String password, String email) {
+	public Person createPerson(String personType, String firstName, String lastName, String username, String password, String email, String sexe, long age) {
 
 		Person person;
 
@@ -227,6 +234,8 @@ public class ProjectGroup17Service {
 		person.setPassword(password);
 		person.setEmail(email);
 		person.setCreated_date(new java.sql.Date(Calendar.getInstance().getTime().getTime()));
+		person.setSexe(sexe);
+		person.setAge(age);
 
 		personRepository.save(person);
 		return person;
@@ -270,7 +279,7 @@ public class ProjectGroup17Service {
 
 	@Transactional
 	public List<Person> getAllPersons() {
-		return personRepository.findAll();
+		return toList(personRepository.findAll());
 	}
 
 
@@ -444,9 +453,100 @@ public class ProjectGroup17Service {
 		return availabilities;
 	}
 
+	@Transactional
 	public List<Availability> getAllAvailabilities() {
-		return availabilityRepository.findAll();
+		return null;
 
 	}
+
+	@Transactional 
+	public Appointment createAppointment(Date date, Time endTime, Time startTime, Room room, Tutor tutor, String status) {
+		// Input validation
+		String error = "";
+		if (date == null) {
+			error = error + "Appointment date cannot be empty! ";
+		}
+		if (startTime == null) {
+			error = error + "Appointment start time cannot be empty! ";
+		}
+		if (endTime == null) {
+			error = error + "Appointment end time cannot be empty! ";
+		}
+		if (endTime != null && startTime != null && endTime.before(startTime)) {
+			error = error + "Appointment end time cannot be before appointment start time! ";
+		}
+		if (tutor != null) {
+			error = error + "Appointment tutor cannot be empty! ";
+		}
+		if (tutor != null || ! (status.equals("Requested") && status.equals("Accepted") && status.equals("Refused") && status.equals("Paid") && status.equals("Cancelled"))) {
+			error = error + "Appointment status cannot be empty and must be either 'Requested' or 'Accepted' or 'Refused' or 'Paid' or 'Cancelled'! ";
+		}
+
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+
+		Appointment appt = new Appointment();
+		appt.setDate(date);
+		appt.setStartTime(startTime);
+		appt.setEndTime(endTime);
+		appt.setRoom(room);
+		appt.setTutor(tutor);
+		appt.setCreatedDate(new Date(Calendar.getInstance().getTime().getTime()));
+		appt.setStatus(status);
+		appointmentRepository.save(appt);
+		return appt;
+
+	}
+
+	@Transactional
+	public List<Appointment> getAllAppointments() {
+		return toList(appointmentRepository.findAll());
+	}
+	
+	/*----------------------------*/
+	
+	@Transactional
+	public Room createRoom(long roomID, boolean big) {
+		
+		String error = "";
+		
+		if(roomID == 0) {
+			error += "RoomID cannot be 0!";
+		}
+		
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		
+		Room room = new Room();
+		room.setBig(big);
+		room.setRoomID(roomID);
+		
+		return room;
+	}
+	
+	 
+	@Transactional
+	public List<Room> getAllRooms() {
+		return toList(roomRepository.findAll());
+	}
+	
+	@Transactional
+	public Room getRoomByRoomID(long roomID) {
+		Room room = roomRepository.findByRoomID(roomID);
+		return room;
+	}
+	
+	@Transactional
+	public List<Room> getRoomByRoomBig(boolean isBig) {
+		List<Room> rooms = roomRepository.findByBig(isBig);
+		return rooms;
+	}
+	
+	
+	/*----------------------------*/
 
 }

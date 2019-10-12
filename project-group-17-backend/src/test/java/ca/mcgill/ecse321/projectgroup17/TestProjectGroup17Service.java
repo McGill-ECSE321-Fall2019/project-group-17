@@ -38,17 +38,24 @@ public class TestProjectGroup17Service {
 	private SpecificCourseRepository specificCourseRepository;
 	@Autowired
 	private AvailabilityRepository availabilityRepository;
-	
-	@Before(value = "")
+	@Autowired
+	private RoomRepository roomRepository;
+	@Autowired
+	private AppointmentRepository appointmentRepository;
+
+	/*------------------------------------------*/
+
+
+	@Before(value = "") // or @After ?? --> does not seem to clear DB before each tests...
 	public void clearDatabase() {
 		// First, we clear registrations to avoid exceptions due to inconsistencies
 		availabilityRepository.deleteAll();
+		appointmentRepository.deleteAll();
 		specificCourseRepository.deleteAll();
 		courseRepository.deleteAll();
 		personRepository.deleteAll();
+		roomRepository.deleteAll();
 	}
-
-
 
 	/*-----------------------------------------*/
 
@@ -103,7 +110,7 @@ public class TestProjectGroup17Service {
 	}
 
 	@Test
-	public void testGetCourseByID() {
+	public void testGetCourseByCourseID() {
 
 		assertEquals(0, service.getAllCourses().size());
 
@@ -154,7 +161,7 @@ public class TestProjectGroup17Service {
 	}
 
 	@Test
-	public void testDeleteCourseByID() {
+	public void testDeleteCourseByCourseID() {
 
 		assertEquals(0, service.getAllCourses().size());
 
@@ -231,24 +238,20 @@ public class TestProjectGroup17Service {
 	/*-----------------------------------------*/
 
 
-
-
 	@Test
 	public void testCreateTutor() {
 
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-
-
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -269,7 +272,7 @@ public class TestProjectGroup17Service {
 	public void testCreateStudent() {
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "Student";
+		String personType = "student";
 		String firstName = "Tim";
 		String lastName = "Tom";
 		String username = "timtom123";
@@ -278,7 +281,7 @@ public class TestProjectGroup17Service {
 
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -305,10 +308,64 @@ public class TestProjectGroup17Service {
 		String username = null;
 		String password = null;
 		String email = null;
-		String error = null;
+
+		String error = "";
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		// check error
+		assertEquals("Person type must be either 'Student' or 'Tutor'! First name cannot be empty! Last name cannot be empty! Username cannot be empty! Password cannot be empty! Email cannot be empty! ", error);
+
+		// check no change in memory
+		assertEquals(0, service.getAllPersons().size());
+
+	}
+
+	@Test
+	public void testCreatePersonEmpty() {
+		assertEquals(0, service.getAllPersons().size());
+
+		String personType = "";
+		String firstName = "";
+		String lastName = "";
+		String username = "";
+		String password = "";
+		String email = "";
+
+		String error = "";
+
+		try {
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		// check error
+		assertEquals("Person type must be either 'Student' or 'Tutor'! First name cannot be empty! Last name cannot be empty! Username cannot be empty! Password cannot be empty! Email cannot be empty! ", error);
+
+		// check no change in memory
+		assertEquals(0, service.getAllPersons().size());
+
+	}
+
+	@Test
+	public void testCreatePersonSpaces() {
+		assertEquals(0, service.getAllPersons().size());
+
+		String personType = " ";
+		String firstName = " ";
+		String lastName = " ";
+		String username = " ";
+		String password = " ";
+		String email = " ";
+		String error = "";
+
+		try {
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
@@ -326,21 +383,21 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-		String personType2 = "Student";
+		String personType2 = "student";
 		String firstName2 = "Tim";
 		String lastName2 = "Tom";
 		String username2 = "timtom123";
 		String password2 = "pass123";
 		String email2 = "tim.tom@mail.ca";
 
-		String personType3 = "Tutor";
+		String personType3 = "tutor";
 		String firstName3 = "Alex";
 		String lastName3 = "Jones";
 		String username3 = "alexjones123";
@@ -348,9 +405,9 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
-			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2);
-			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2, null, 0L);
+			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -386,21 +443,21 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-		String personType2 = "Student";
+		String personType2 = "student";
 		String firstName2 = "Tim";
 		String lastName2 = "Tom";
 		String username2 = "timtom123";
 		String password2 = "pass123";
 		String email2 = "tim.tom@mail.ca";
 
-		String personType3 = "Tutor";
+		String personType3 = "tutor";
 		String firstName3 = "Alex";
 		String lastName3 = "Jones";
 		String username3 = "alexjones123";
@@ -408,9 +465,9 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
-			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2);
-			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2, null, 0L);
+			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -431,21 +488,21 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-		String personType2 = "Student";
+		String personType2 = "student";
 		String firstName2 = "Tim";
 		String lastName2 = "Tom";
 		String username2 = "timtom123";
 		String password2 = "pass123";
 		String email2 = "tim.tom@mail.ca";
 
-		String personType3 = "Tutor";
+		String personType3 = "tutor";
 		String firstName3 = "Alex";
 		String lastName3 = "Jones";
 		String username3 = "alexjones123";
@@ -453,9 +510,9 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
-			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2);
-			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3);
+			service.createPerson(personType, firstName, lastName, username, password, email, null,0L);
+			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2, null, 0L);
+			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -476,21 +533,21 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-		String personType2 = "Student";
+		String personType2 = "student";
 		String firstName2 = "Tim";
 		String lastName2 = "Tom";
 		String username2 = "timtom123";
 		String password2 = "pass123";
 		String email2 = "tim.tom@mail.ca";
 
-		String personType3 = "Tutor";
+		String personType3 = "tutor";
 		String firstName3 = "Alex";
 		String lastName3 = "Jones";
 		String username3 = "alexjones123";
@@ -498,9 +555,9 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
-			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2);
-			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2, null, 0L);
+			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -530,21 +587,21 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllPersons().size());
 
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-		String personType2 = "Student";
+		String personType2 = "student";
 		String firstName2 = "Tim";
 		String lastName2 = "Tom";
 		String username2 = "timtom123";
 		String password2 = "pass123";
 		String email2 = "tim.tom@mail.ca";
 
-		String personType3 = "Tutor";
+		String personType3 = "tutor";
 		String firstName3 = "Alex";
 		String lastName3 = "Jones";
 		String username3 = "alexjones123";
@@ -552,9 +609,9 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		try {
-			service.createPerson(personType, firstName, lastName, username, password, email);
-			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2);
-			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3);
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+			service.createPerson(personType2, firstName2, lastName2, username2, password2, email2, null, 0L);
+			service.createPerson(personType3, firstName3, lastName3, username3, password3, email3, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -569,31 +626,129 @@ public class TestProjectGroup17Service {
 		assertEquals(email3, person3.getEmail());
 	}
 
-	//Availability Tests
-	@Test
-	public void testCreateAvailability() {
+	public void testGetPersonByUsernameDoesNotExist() {
+		
 		assertEquals(0, service.getAllPersons().size());
 
-
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
-		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+		
+		try {
+			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			fail();
+		}
+			
+		Person person = service.getPersonByUsername("wrongusername");
+			
+		// make sure the returned person object is actually null since it should not have founf any users witht that username
+		assertEquals(null, person);
+
+
+	}
+
+	public void testCreateAppointment() {
+
+		assertEquals(0, service.getAllAppointments().size());
+
+		String personType = "tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		Tutor tutor = new Tutor();
+		tutor.setFirstName(firstName);
+		tutor.setLastName(lastName);
+		tutor.setUsername(username);
+		tutor.setPassword(password);
+		tutor.setEmail(email);
+
+		Date date = new Date(Calendar.getInstance().getTime().getTime());
+		Time endTime = new Time(9, 0, 0);
+		Time startTime = new Time(10, 0, 0);
+		Room room = new Room();
+		room.setRoomID(1L);
+		String status = "Requested";
+
+		try {
+			service.createAppointment(date, endTime, startTime, room, tutor, status);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+
+		List<Appointment> allAppointments = service.getAllAppointments();
+
+		assertEquals(1, allAppointments.size());
+		assertEquals(date, allAppointments.get(0).getDate());
+		assertEquals(endTime, allAppointments.get(0).getEndTime());
+		assertEquals(startTime, allAppointments.get(0).getStartTime());
+		assertEquals(room.getRoomID(), allAppointments.get(0).getRoom().getRoomID());
+		assertEquals(status, allAppointments.get(0).getStatus());
+
+	}
+
+	@Test
+	public void testCreateAppointmentNull() {
+		assertEquals(0, service.getAllAppointments().size());
+
+		Tutor tutor = null;
+		Date date = null;
+		Time endTime = null;
+		Time startTime = null;
+		Room room = null;
+		String status = null;
+
+		try {
+			service.createAppointment(date, startTime, endTime, room, tutor, status);
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			fail();
+		}	
+
+		// make sure no appointment were created
+		assertEquals(0, service.getAllAppointments().size());
+
+
+	}
+
+	@Test
+	public void testCreateAppointmentEndTimeBeforeStartTime() {
+		assertEquals(0, service.getAllAppointments().size());
+
+		String personType = "tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		String sex = "male";
+		long age = 20;
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
+		long roomID = (long) 1234;
+		boolean big = false;
+		Room room = service.createRoom(roomID, big);
+		String status = "Requested";
 
 		java.sql.Date date = java.sql.Date.valueOf( "2019-10-31" );
 		java.sql.Time startTime = java.sql.Time.valueOf( "18:05:00" );
 		java.sql.Time endTime = java.sql.Time.valueOf( "19:05:00" );
 
 		try {
-			service.createAvailability(tutor,date,startTime,endTime);
+			service.createAppointment(date, startTime, endTime, room, tutor, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
 		}
 	}
+
+	/*------------------------------------------*/
 
 	@Test
 	public void testCreateAvailabilityNull() {
@@ -606,7 +761,7 @@ public class TestProjectGroup17Service {
 		String error = null;
 
 		try {
-			service.createAvailability(tutor,date,startTime,endTime);
+			service.createAvailability(tutor, date, startTime, endTime);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage().toString();
 		}
@@ -614,6 +769,34 @@ public class TestProjectGroup17Service {
 
 		//make sure an availability was not created
 		assertEquals(0, service.getAllAvailabilities().size());
+	}	
+
+	@Test
+	public void testCreateAvailability() {
+		assertEquals(0, service.getAllAvailabilities().size());
+
+		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "19:05:00" );
+		java.sql.Time endTime = java.sql.Time.valueOf( "18:05:00" );
+		//Make a tutor
+		String personType = "tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		String sex = "male";
+		long age = 20;
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
+
+		try {
+			service.createAvailability(tutor, date, startTime, endTime);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+
+		//make sure an availability was created
+		assertEquals(1, service.getAllAvailabilities().size());
 	}
 
 	@Test
@@ -622,13 +805,15 @@ public class TestProjectGroup17Service {
 
 		String error = null;
 		//Make a tutor
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
-		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+		String sex = "male";
+		long age = 20;
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
 
 		//Create 1st availability
 		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
@@ -649,13 +834,15 @@ public class TestProjectGroup17Service {
 	public void testGetAvailabilityByDate() {
 
 		//Make a tutor
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
-		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+		String sex = "male";
+		long age = 20;
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
 
 		//Create 1st availability
 		java.sql.Date date = java.sql.Date.valueOf( "2019-10-01" );
@@ -683,13 +870,15 @@ public class TestProjectGroup17Service {
 	public void testGetAvailabilityByTutorUsername() {
 
 		//Make a tutor
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
-		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+		String sex = "male";
+		long age = 20;
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
 
 		//Create 1st availability
 		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
@@ -713,18 +902,21 @@ public class TestProjectGroup17Service {
 
 	}	
 
+	/*------------------------------------------*/
 
 	//SpecificCourse Tests
 	@Test
 	public void testCreateSpecificCourse() {
 		//Make a tutor
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
-		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+		String sex = "male";
+		long age = 20;
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
 
 		//Make course
 		String courseID = "MATH240";
@@ -759,43 +951,34 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllAvailabilities().size());
 	}
+
 	@Test
-	public void testGetSpecificCourseByCourse() {
-		//Make a tutor
-		String personType = "Tutor";
-		String firstName = "John";
-		String lastName = "Smith";
-		String username = "johnsmith123";
-		String password = "pass123";
-		String email = "john.smith@mail.ca";
-		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+	public void testGetSpecificCourseByCourseID() {
 
-		//Make course
-		String courseID = "MATH240";
-		String name = "DiscreteStructures";
-		String level = "University";
-		String subject = "Math";
-		Double hourlyRate = 13.0;
-		Course course = service.createCourse(courseID, name, level, subject);
+		// getSpecificCourseByCourseID();
 
-		service.createSpecificCourse(tutor, course, hourlyRate);
-		try {
-			service.getSpecificCourseByCourse(name);
-		} catch (IllegalArgumentException e) {
-			fail();
-		}
 	}
+
+	@Test
+	public void testGetSpecificCourseBy() {
+
+
+
+	}
+
 
 	@Test
 	public void testGetSpecificCourseByTutorUsername() {
 		//Make a tutor
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
-		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+		String sex = "male";
+		long age = 20;
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
 
 		//Make course
 		String courseID = "MATH240";
@@ -815,13 +998,15 @@ public class TestProjectGroup17Service {
 	@Test
 	public void testGetSpecificCourseByID() {
 		//Make a tutor
-		String personType = "Tutor";
+		String personType = "tutor";
 		String firstName = "John";
 		String lastName = "Smith";
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
-		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email);
+		String sex = "male";
+		long age = 20;
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
 
 		//Make course
 		String courseID = "MATH240";
@@ -838,6 +1023,18 @@ public class TestProjectGroup17Service {
 			fail();
 		}
 	}
+
+
+	/*------------------------------------------*/
+
+
+
+
+
+
+
+
+	/*------------------------------------------*/
 
 }
 

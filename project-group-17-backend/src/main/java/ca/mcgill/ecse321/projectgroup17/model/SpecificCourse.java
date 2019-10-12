@@ -39,13 +39,14 @@ public class SpecificCourse{
 	
 	private long specificCourseID;
 
-	public void setSpecificCourseID(long specificCourseID) {
-	    this.specificCourseID = specificCourseID;
-	}
-	
 	@Id
 	public long getSpecificCourseID() {
 	    return this.specificCourseID;
+
+	}
+	
+	public void setSpecificCourseID(long value) {
+	    this.specificCourseID = value;
 	}
 
 

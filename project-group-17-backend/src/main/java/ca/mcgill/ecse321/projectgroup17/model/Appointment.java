@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.projectgroup17.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+
 import java.sql.Date;
 import java.sql.Time;
 import javax.persistence.ManyToOne;
@@ -11,7 +13,11 @@ import javax.persistence.Id;
 
 @Entity
 public class Appointment{
-   private Date date;
+	private enum AppointmentStatus {
+		   REQUESTED, ACCEPTED, REFUSED, PAID, CANCELLED;
+	   }
+	
+    private Date date;
 
 public void setDate(Date value) {
     this.date = value;
@@ -49,15 +55,15 @@ public void setReview(Set<Review> reviews) {
    this.review = reviews;
 }
 
-private Set<Tutor> tutor;
+private Tutor tutor;
 
-@ManyToMany
-public Set<Tutor> getTutor() {
+@ManyToOne
+public Tutor getTutor() {
    return this.tutor;
 }
 
-public void setTutor(Set<Tutor> tutors) {
-   this.tutor = tutors;
+public void setTutor(Tutor tutor) {
+   this.tutor = tutor;
 }
 
 private Set<Student> student;
@@ -76,7 +82,7 @@ private long appointmentID;
 public void setAppointmentID(long value) {
     this.appointmentID = value;
 }
-@Id
+@Id @GeneratedValue
 public long getAppointmentID() {
     return this.appointmentID;
 }
@@ -88,13 +94,14 @@ public void setCreatedDate(Date value) {
 public Date getCreatedDate() {
     return this.createdDate;
 }
-private String status;
+private AppointmentStatus status;
 
 public void setStatus(String value) {
-    this.status = value;
+	AppointmentStatus status = AppointmentStatus.valueOf(value);
+    this.status = status;
 }
 public String getStatus() {
-    return this.status;
+    return this.status.toString();
 }
 private Time startTime;
 

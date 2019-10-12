@@ -6,36 +6,40 @@ Carried out over the FALL2019 semester at McGill University for ECSE321's *Intro
 
 ---
 
+## View assigned: **TUTOR**
+
+---
+
 # Contributors
 
 Get to know the team:
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/charles.png?token=AE26HBWRS36557EMELNIN4K5UCLQG" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Charles Bourbeau**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/charles.png?token=AE26HBXCE4AH5WGRMSIBWN25VJ3SM" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Charles Bourbeau**
   * U2 Software Engineer, McGill University
   * Passionate about machine learning, lifting weights, 70s music, and pre-workout.
   * From Quebec city.
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/kyle.png?token=AE26HBQ2JUCT4SY67VCQRGC5UCLTU" style="border-radius:50%;border:2px white solid;margin:2px;" width="55" height="55"> **Kyle Myers**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/kyle.png?token=AE26HBVGIHZTVHKO2PCJGUC5VJ3PO" style="border-radius:50%;border:2px white solid;margin:2px;" width="55" height="55"> **Kyle Myers**
   * U2 Software Engineer, McGill University
   * Dedicated sender. Love to code.
   * Does not know where Dispatch Coffee is.
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/anthony.png?token=AE26HBTTIS7AL2LBO7LEFSK5UCLWC" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Anthony Porporino**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/anthony.png?token=AE26HBT4PYL2LQT6GDDPME25VJ3NQ" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Anthony Porporino**
   * U2 Software Engineer, McGill University
   * Passionate about finding plugins, coding games, jamming, doing kickflips, and making tomato sauce.
   * Not from Quebec city.
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/felix.jpeg?token=AE26HBRKTNFLUQ7XN2CPDSK5UCLR4" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Felix Simard**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/felix.jpeg?token=AE26HBUA24UDSURQ2YQ74BC5VJ3RO" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Felix Simard**
   * U2 Software Engineer, McGill University
   * Passionate about developing websites, fishing, calculating the grade needed in his final to get an A, 2019s music, and sipping Charles' pre-workout.
   * Has an electric bike.
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/tyler.png?token=AE26HBU6DIKO5524CAYXIL25UCLU2" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Tyler Watson**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/tyler.png?token=AE26HBX3V3GFFXUL2JDGPYC5VJ3QS" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Tyler Watson**
   * U2 Software Engineer, McGill University
   * Passionate about learning new technologies, debating with Charles, Bon Iver, trying to lift weights, trying to speak french, and also jamming with Anthony.
   * Not from Quebec City.
@@ -45,7 +49,7 @@ Get to know the team:
 
 # Deliverable 1
 
-Due Sunday, Oct. 6th 2019.
+Due Sunday, Oct. 13th 2019.
 
 
 ### Project Report
@@ -59,11 +63,11 @@ To view the team's project report for deliverable 1, please click the link below
 
 | Member        | Role  | Contribution (hrs)  |
 | ------------- |-------------| -----|
-| Charles Bourbeau     | Refining Domain Model, UML Lab. | 18 |
-| Kyle Myers      |   Managing the issues on Github, documentation.    |   18 |
-| Anthony Porporino |  Documentation of project wiki, activity flow diagrams.   |    18 |
-| Felix Simard |   Architecture. Setting up backend Java SpringBoot, HerokuApp, linking Travis-CI and Gradle.   |    18 |
-| Tyler Watson |    Use case diagrams. Domain Modeling. Flow Diagrams.   |    18 |
+| Charles Bourbeau     | Refining Domain Model, UML Lab. | 25 |
+| Kyle Myers      |   Managing the issues on Github, documentation.    |   25 |
+| Anthony Porporino |  Documentation of project wiki, activity flow diagrams.   |    25 |
+| Felix Simard |   Architecture. Setting up backend Java SpringBoot, HerokuApp, linking Travis-CI and Gradle.   |    25 |
+| Tyler Watson |    Use case diagrams. Domain Modeling. Flow Diagrams.   |    25 |
 
 
 ---

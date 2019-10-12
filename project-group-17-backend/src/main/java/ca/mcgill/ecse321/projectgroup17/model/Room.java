@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.projectgroup17.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+
 import java.util.Set;
 import javax.persistence.OneToMany;
 import javax.persistence.Id;
@@ -31,7 +33,7 @@ private long roomID;
 public void setRoomID(long value) {
     this.roomID = value;
 }
-@Id
+@Id @GeneratedValue
 public long getRoomID() {
     return this.roomID;
 }

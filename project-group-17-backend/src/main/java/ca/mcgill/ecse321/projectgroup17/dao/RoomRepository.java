@@ -1,5 +1,16 @@
 package ca.mcgill.ecse321.projectgroup17.dao;
 
-public interface RoomRepository {
+
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
+
+import ca.mcgill.ecse321.projectgroup17.model.Room;
+
+public interface RoomRepository extends CrudRepository<Room, String> {
+	
+	Room findByRoomID(long roomID);
+	
+	List<Room> findByBig(boolean isBig);
 
 }

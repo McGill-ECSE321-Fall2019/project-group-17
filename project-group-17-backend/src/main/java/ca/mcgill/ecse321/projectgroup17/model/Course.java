@@ -2,8 +2,12 @@ package ca.mcgill.ecse321.projectgroup17.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import java.util.ArrayList;
 import java.util.Set;
 import javax.persistence.OneToMany;
+
+import antlr.collections.List;
 
 @Entity
 public class Course{
@@ -13,6 +17,7 @@ public class Course{
 	public void setName(String value) {
 		this.name = value;
 	}
+	
 	public String getName() {
 		return this.name;
 	}

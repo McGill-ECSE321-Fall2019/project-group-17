@@ -1,6 +1,6 @@
 package ca.mcgill.ecse321.projectgroup17.dao;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -8,12 +8,12 @@ import ca.mcgill.ecse321.projectgroup17.model.SpecificCourse;
 
 public interface SpecificCourseRepository extends CrudRepository<SpecificCourse, Long>{
 	
-	SpecificCourse findByID(Long ID);
+	SpecificCourse findBySpecificCourseID(Long specificCourseID);
 
-	ArrayList<SpecificCourse> findByTutor(String tutorUsername);
+	List<SpecificCourse> findByTutor(String tutorUsername);
 	
-	ArrayList<SpecificCourse> findByCourse(String courseName);
+	List<SpecificCourse> findByCourse(String courseName);
 	
-	ArrayList<SpecificCourse> findAll();
+	List<SpecificCourse> findAll();
 
 }
