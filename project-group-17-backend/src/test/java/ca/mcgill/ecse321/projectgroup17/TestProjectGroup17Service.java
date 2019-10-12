@@ -7,6 +7,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -262,7 +263,7 @@ public class TestProjectGroup17Service {
 		List<Person> allPersons = service.getAllPersons();
 
 		assertEquals(1, allPersons.size());
-		assertEquals(personType, allPersons.get(0).getClass().toString());
+		assertEquals(personType, allPersons.get(0).getClass().getSimpleName());
 		assertEquals(firstName, allPersons.get(0).getFirstName());
 		assertEquals(lastName, allPersons.get(0).getLastName());
 		assertEquals(username, allPersons.get(0).getUsername());
@@ -505,11 +506,11 @@ public class TestProjectGroup17Service {
 		String email2 = "tim.tom@mail.ca";
 
 		String personType3 = "Tutor";
-		String firstName3 = "Alex";
-		String lastName3 = "Jones";
-		String username3 = "alexjones123";
+		String firstName3 = "Tim";
+		String lastName3 = "Tom";
+		String username3 = "timothytom";
 		String password3 = "pass123";
-		String email3 = "alex.jones@mail.ca";
+		String email3 = "timothy.tom@mail.ca";
 
 		try {
 			service.createPerson(personType, firstName, lastName, username, password, email, null,0L);
@@ -523,11 +524,9 @@ public class TestProjectGroup17Service {
 
 		List<Person> person = service.getPersonByLastName(lastName);
 		List<Person> person2 = service.getPersonByLastName(lastName2);
-		List<Person> person3 = service.getPersonByLastName(lastName3);
 
 		for(int i=0; i<person.size(); i++) assertEquals(lastName, person.get(i).getLastName());
 		for(int i=0; i<person2.size(); i++) assertEquals(lastName2, person2.get(i).getLastName());
-		for(int i=0; i<person3.size(); i++) assertEquals(lastName3, person3.get(i).getLastName());
 	}
 
 	@Test
@@ -550,11 +549,11 @@ public class TestProjectGroup17Service {
 		String email2 = "tim.tom@mail.ca";
 
 		String personType3 = "Tutor";
-		String firstName3 = "Alex";
-		String lastName3 = "Jones";
-		String username3 = "alexjones123";
+		String firstName3 = "Tim";
+		String lastName3 = "Tom";
+		String username3 = "timothytom";
 		String password3 = "pass123";
-		String email3 = "alex.jones@mail.ca";
+		String email3 = "timothy.tom@mail.ca";
 
 		try {
 			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
@@ -568,19 +567,14 @@ public class TestProjectGroup17Service {
 
 		List<Person> person = service.getPersonByFirstNameAndLastName(firstName, lastName);
 		List<Person> person2 = service.getPersonByFirstNameAndLastName(firstName2, lastName2);
-		List<Person> person3 = service.getPersonByFirstNameAndLastName(firstName3, lastName3);
 
 		for(int i=0; i<person.size(); i++) {
 			assertEquals(firstName, person.get(i).getFirstName());
 			assertEquals(lastName, person.get(i).getLastName());
 		}
 		for(int i=0; i<person2.size(); i++) {
-			assertEquals(firstName2, person.get(i).getFirstName());
+			assertEquals(firstName2, person2.get(i).getFirstName());
 			assertEquals(lastName2, person2.get(i).getLastName());
-		}
-		for(int i=0; i<person3.size(); i++) {
-			assertEquals(firstName3, person.get(i).getFirstName());
-			assertEquals(lastName3, person3.get(i).getLastName());
 		}
 	}
 
@@ -628,6 +622,8 @@ public class TestProjectGroup17Service {
 		assertEquals(email3, person3.getEmail());
 	}
 
+		
+	@Test
 	public void testGetPersonByUsernameDoesNotExist() {
 		
 		assertEquals(0, service.getAllPersons().size());
@@ -648,12 +644,12 @@ public class TestProjectGroup17Service {
 			
 		Person person = service.getPersonByUsername("wrongusername");
 			
-		// make sure the returned person object is actually null since it should not have founf any users witht that username
+		// make sure the returned person object is actually null since it should not have found any users with that username
 		assertEquals(null, person);
-
 
 	}
 
+	@Test
 	public void testCreateAppointment() {
 
 		assertEquals(0, service.getAllAppointments().size());
@@ -749,6 +745,49 @@ public class TestProjectGroup17Service {
 			fail();
 		}
 	}
+	
+	@Test
+	public void testGetAppointmentByDate() {
+		
+		List<Appointment> appointments = ;
+		
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		Tutor tutor = new Tutor();
+		tutor.setFirstName(firstName);
+		tutor.setLastName(lastName);
+		tutor.setUsername(username);
+		tutor.setPassword(password);
+		tutor.setEmail(email);
+
+		Date date = new Date(Calendar.getInstance().getTime().getTime());
+		Time endTime = new Time(9, 0, 0);
+		Time startTime = new Time(10, 0, 0);
+		Room room = new Room();
+		room.setRoomID(1L);
+		String status = "Requested";
+		
+		try {
+			service.createAppointment(date, startTime, endTime, room, tutor, status);
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			fail();
+		}
+		
+		appointments = appointmentRepository.findByDate(date);
+		
+		for(int i=0; i<appointments.size(); i++) {
+			assertEquals(date, appointments.get(i).getDate());
+		}
+		
+		
+		
+	}
 
 	/*------------------------------------------*/
 
@@ -816,6 +855,7 @@ public class TestProjectGroup17Service {
 		String sex = "male";
 		long age = 20;
 		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
+		
 
 		//Create 1st availability
 		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );

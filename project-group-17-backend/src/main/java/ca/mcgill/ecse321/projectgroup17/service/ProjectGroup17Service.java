@@ -215,7 +215,6 @@ public class ProjectGroup17Service {
 			error = error + "Email cannot be empty! ";
 		}
 
-		error = error.trim();
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}

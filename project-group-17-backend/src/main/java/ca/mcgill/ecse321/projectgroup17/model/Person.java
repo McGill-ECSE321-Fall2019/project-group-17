@@ -50,7 +50,7 @@ public class Person{
 	}
 	private Set<Review> receivedReviews;
 
-	@OneToMany(mappedBy="reviewee" )
+	@OneToMany(cascade= {CascadeType.REMOVE}, mappedBy="reviewee" )
 	public Set<Review> getReceivedReviews() {
 		return this.receivedReviews;
 	}
@@ -61,7 +61,7 @@ public class Person{
 
 	private Set<Review> givenReviews;
 
-	@OneToMany(mappedBy="reviewer" )
+	@OneToMany(cascade= {CascadeType.REMOVE}, mappedBy="reviewer" )
 	public Set<Review> getGivenReviews() {
 		return this.givenReviews;
 	}
