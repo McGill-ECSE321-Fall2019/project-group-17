@@ -49,6 +49,8 @@ public class TestProjectGroup17Service {
 	private TutorRepository tutorRepository;
 	@Autowired
 	private StudentRepository studentRepository;
+	@Autowired
+	private PersonAvailabilitiesRepository personAvailabilitiesRepository;
 
 	/*------------------------------------------*/
 
@@ -56,6 +58,7 @@ public class TestProjectGroup17Service {
 	//@Before // or @After ?? --> does not seem to clear DB before each tests...
 	public void clearDatabase() {
 		// First, we clear registrations to avoid exceptions due to inconsistencies
+		personAvailabilitiesRepository.deleteAll();
 		availabilityRepository.deleteAll();
 		appointmentRepository.deleteAll();
 		specificCourseRepository.deleteAll();
@@ -702,7 +705,8 @@ public class TestProjectGroup17Service {
 	@Test
 	public void testCreateAppointmentNull() {
 		assertEquals(0, service.getAllAppointments().size());
-
+		
+		String error = "";
 		Tutor tutor = null;
 		Date date = null;
 		Time endTime = null;
@@ -714,10 +718,11 @@ public class TestProjectGroup17Service {
 			service.createAppointment(date, startTime, endTime, room, tutor, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
-			fail();
+			error = e.getMessage();
 		}	
 
 		// make sure no appointment were created
+		assertEquals(error, "Appointment date cannot be empty! Appointment start time cannot be empty! Appointment end time cannot be empty! Appointment tutor cannot be empty! Appointment status cannot be empty and must be 'Requested'! ");
 		assertEquals(0, service.getAllAppointments().size());
 
 
@@ -727,6 +732,8 @@ public class TestProjectGroup17Service {
 	public void testCreateAppointmentEndTimeBeforeStartTime() {
 		assertEquals(0, service.getAllAppointments().size());
 
+		String error = "";
+		
 		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
@@ -735,10 +742,7 @@ public class TestProjectGroup17Service {
 		String email = "john.smith@mail.ca";
 		String sex = "male";
 		long age = 20;
-		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
-		long roomID = (long) 1234;
 		boolean big = false;
-		Room room = service.createRoom(roomID, big);
 		String status = "Requested";
 
 		java.sql.Date date = java.sql.Date.valueOf( "2019-10-31" );
@@ -746,17 +750,24 @@ public class TestProjectGroup17Service {
 		java.sql.Time endTime = java.sql.Time.valueOf( "19:05:00" );
 
 		try {
+			Room room = service.createRoom(100L, big);
+			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
 			service.createAppointment(date, startTime, endTime, room, tutor, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
-			fail();
+			error = e.getMessage();
+			System.out.println(error);
 		}
+		
+		assertEquals(error, "Appointment end time cannot be before appointment start time! ");
+		assertEquals(0, service.getAllAppointments().size());
+		
 	}
 
 	@Test
 	public void testGetAppointmentByDate() {
 
-		List<Appointment> appointments = ;
+		List<Appointment> appointments;
 
 		String personType = "Tutor";
 		String firstName = "John";
@@ -765,24 +776,20 @@ public class TestProjectGroup17Service {
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-		Tutor tutor = new Tutor();
-		tutor.setFirstName(firstName);
-		tutor.setLastName(lastName);
-		tutor.setUsername(username);
-		tutor.setPassword(password);
-		tutor.setEmail(email);
-
+		
 		Date date = new Date(Calendar.getInstance().getTime().getTime());
 		Time endTime = new Time(9, 0, 0);
 		Time startTime = new Time(10, 0, 0);
-		Room room = new Room();
-		room.setRoomID(1L);
+		
 		String status = "Requested";
 
 		try {
+			Room room = service.createRoom(1000L, false);
+			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
 			service.createAppointment(date, startTime, endTime, room, tutor, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
+			System.out.println(e);
 			fail();
 		}
 
@@ -792,9 +799,45 @@ public class TestProjectGroup17Service {
 			assertEquals(date, appointments.get(i).getDate());
 		}
 
-
+	
 
 	}
+	
+	@Test
+	public void testGetAppointmentByStartTimeAndEndTime() {
+		
+		List<Appointment> appointments;
+		
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
+
+		Date date = new Date(Calendar.getInstance().getTime().getTime());
+		Time endTime = new Time(9, 0, 0);
+		Time startTime = new Time(10, 0, 0);
+		Room room = service.createRoom(1000L, false);
+		String status = "Requested";
+		
+		try {
+			service.createAppointment(date, startTime, endTime, room, tutor, status);
+		} catch (IllegalArgumentException e) {
+			// Check that no error occurred
+			fail();
+		}
+		
+		appointments = appointmentRepository.findByStartTimeAndEndTime(startTime, endTime);
+		
+		for(int i=0; i<appointments.size(); i++) {
+			assertEquals(startTime, appointments.get(i).getStartTime());
+			assertEquals(endTime, appointments.get(i).getEndTime());
+		}
+	}
+	
 
 	/*------------------------------------------*/
 
@@ -1131,6 +1174,7 @@ public class TestProjectGroup17Service {
 		appointmentRepository.deleteAll();
 		roomRepository.deleteAll();
 		personRepository.deleteAll();
+		
 
 
 		assertEquals(0, service.getAllReviews().size());

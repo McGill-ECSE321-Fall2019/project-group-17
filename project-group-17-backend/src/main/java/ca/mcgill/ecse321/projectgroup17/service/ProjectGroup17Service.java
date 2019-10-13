@@ -478,11 +478,10 @@ public class ProjectGroup17Service {
 		if (tutor == null) {
 			error = error + "Appointment tutor cannot be empty! ";
 		}
-		if (status == null || ! (status.equals("Requested") || status.equals("Accepted") || status.equals("Refused") || status.equals("Paid") || status.equals("Cancelled"))) {
-			error = error + "Appointment status cannot be empty and must be either 'Requested' or 'Accepted' or 'Refused' or 'Paid' or 'Cancelled'! ";
+		if (status == null || ! (status.toLowerCase().equals("requested"))) {
+			error = error + "Appointment status cannot be empty and must be 'Requested'! ";
 		}
 
-		error = error.trim();
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
@@ -525,6 +524,7 @@ public class ProjectGroup17Service {
 		Room room = new Room();
 		room.setBig(big);
 		room.setRoomID(roomID);
+		roomRepository.save(room);
 		
 		return room;
 	}
