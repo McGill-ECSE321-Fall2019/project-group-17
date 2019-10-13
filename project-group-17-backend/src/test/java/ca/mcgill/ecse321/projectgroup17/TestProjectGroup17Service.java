@@ -43,6 +43,12 @@ public class TestProjectGroup17Service {
 	private RoomRepository roomRepository;
 	@Autowired
 	private AppointmentRepository appointmentRepository;
+	@Autowired
+	private ReviewRepository reviewRepository;
+	@Autowired
+	private TutorRepository tutorRepository;
+	@Autowired
+	private StudentRepository studentRepository;
 
 	/*------------------------------------------*/
 
@@ -1108,6 +1114,144 @@ public class TestProjectGroup17Service {
 
 
 	/*------------------------------------------*/
+	
+	
+	// -----------------------------------------------------------
+		//CHARLES BOURBEAU
+		//REVIEW REPOSITORY TESTS
+		// -----------------------------------------------------------
+		
+		@Test
+		public void testCreateReview() {
+			
+			
+			courseRepository.deleteAll();;
+			specificCourseRepository.deleteAll();;
+			availabilityRepository.deleteAll();;	
+			appointmentRepository.deleteAll();;
+			roomRepository.deleteAll();;
+			reviewRepository.deleteAll();;
+			
+			assertEquals(0, service.getAllReviews().size());
+			
+			String reviewText = "This is text concerning the review. ";
+			int rating = 5;
+			Time createdTime = Time.valueOf("10:00:00");
+			Date createdDate = Date.valueOf("2019-10-10");
+			
+			// creating a first person to be the reviewee
+			
+			String firstName = "John";
+			String lastName = "Smith";
+			String username = "johnsmith123";
+			String password = "pass123";
+			String email = "john.smith@mail.ca";
+			
+			Person reviewee = new Person();
+			reviewee.setFirstName(firstName);
+			reviewee.setLastName(lastName);
+			reviewee.setUsername(username);
+			reviewee.setPassword(password);
+			reviewee.setEmail(email);
+			
+			// creating a second person to be the reviewer
+			
+			String firstName3 = "Alex";
+			String lastName3 = "Jones";
+			String username3 = "alexjones123";
+			String password3 = "pass123";
+			String email3 = "alex.jones@mail.ca";
+			
+			Person reviewer = new Person();
+			reviewer.setFirstName(firstName3);
+			reviewer.setLastName(lastName3);
+			reviewer.setUsername(username3);
+			reviewer.setPassword(password3);
+			reviewer.setEmail(email3);
+			
+			// creating the Appointment tied to the review 
+			
+			Time startTime = Time.valueOf("10:00:00");
+			Time endTime = Time.valueOf("11:00:00");
+			Date appointmentDate = Date.valueOf("2019-10-10");
+			
+			Room room = new Room();
+			
+			
+			Appointment appointment = new Appointment();
+			appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
+			appointment.setRoom(room);
+			
+//			appointment.setTutor(reviewee);
+//			Set<Student> students = new HashSet<Student>();
+//			students.add(reviewer);
+//			appointment.setStudent(students);
+			
+			//saving what was created
+		
+			personRepository.save(reviewer);
+			personRepository.save(reviewee);
+			roomRepository.save(room);
+			appointmentRepository.save(appointment);
+			
+			
+			try {
+				service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
+			} catch (IllegalArgumentException e) {
+				fail();
+			}
+			
+			List<Review> reviews = service.getAllReviews();
+			Review review = reviews.get(0);
+			
+			assertEquals(1, reviews.size());
+			assertEquals("This is text concerning the review. ", review.getReviewText());
+			assertEquals(5, review.getRating());
+			assertEquals(reviewee, review.getReviewee());
+			assertEquals(reviewer, review.getReviewer());
+			assertEquals(appointment, review.getAppointment());
+			
+			
+		}
+		
+		@Test
+		public void testGetReviewByReviewID() {
+			
+			
+
+		}
+		
+		@Test
+		public void testGetReviewsByReviewee(){
+
+		}
+		
+		@Test
+		public void testGetReviewsByByReviewer(){
+
+		}
+		
+		@Test
+		public void testGetReviewsByAppointment(){
+
+		}
+		
+		@Test
+		public void testGetAllReviews(){
+			
+		}
+		
+		
+		@Test
+		public void testDeleteReview() {
+			
+		}
+		
+		@Test
+		public void testDeleteAllReviews(){
+			
+		}
+		
 
 }
 

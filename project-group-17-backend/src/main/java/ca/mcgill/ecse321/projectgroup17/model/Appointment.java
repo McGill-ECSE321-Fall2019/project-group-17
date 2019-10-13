@@ -13,102 +13,102 @@ import javax.persistence.Id;
 
 @Entity
 public class Appointment{
-	private enum AppointmentStatus {
-		   REQUESTED, ACCEPTED, REFUSED, PAID, CANCELLED;
-	   }
-	
-    private Date date;
+	public enum AppointmentStatus {
+		REQUESTED, ACCEPTED, REFUSED, PAID, CANCELLED;
+	}
 
-public void setDate(Date value) {
-    this.date = value;
-}
-public Date getDate() {
-    return this.date;
-}
-private Time endTime;
+	private Date date;
 
-public void setEndTime(Time value) {
-    this.endTime = value;
-}
-public Time getEndTime() {
-    return this.endTime;
-}
-private Room room;
+	public void setDate(Date value) {
+		this.date = value;
+	}
+	public Date getDate() {
+		return this.date;
+	}
+	private Time endTime;
 
-@ManyToOne(optional=false)
-public Room getRoom() {
-   return this.room;
-}
+	public void setEndTime(Time value) {
+		this.endTime = value;
+	}
+	public Time getEndTime() {
+		return this.endTime;
+	}
+	private Room room;
 
-public void setRoom(Room room) {
-   this.room = room;
-}
+	@ManyToOne(optional=false)
+	public Room getRoom() {
+		return this.room;
+	}
 
-private Set<Review> review;
+	public void setRoom(Room room) {
+		this.room = room;
+	}
 
-@OneToMany(mappedBy="appointment" )
-public Set<Review> getReview() {
-   return this.review;
-}
+	private Set<Review> review;
 
-public void setReview(Set<Review> reviews) {
-   this.review = reviews;
-}
+	@OneToMany(mappedBy="appointment" )
+	public Set<Review> getReview() {
+		return this.review;
+	}
 
-private Tutor tutor;
+	public void setReview(Set<Review> reviews) {
+		this.review = reviews;
+	}
 
-@ManyToOne
-public Tutor getTutor() {
-   return this.tutor;
-}
+	private Tutor tutor;
 
-public void setTutor(Tutor tutor) {
-   this.tutor = tutor;
-}
+	@ManyToOne
+	public Tutor getTutor() {
+		return this.tutor;
+	}
 
-private Set<Student> student;
+	public void setTutor(Tutor tutor) {
+		this.tutor = tutor;
+	}
 
-@ManyToMany
-public Set<Student> getStudent() {
-   return this.student;
-}
+	private Set<Student> student;
 
-public void setStudent(Set<Student> students) {
-   this.student = students;
-}
+	@ManyToMany
+	public Set<Student> getStudent() {
+		return this.student;
+	}
 
-private long appointmentID;
+	public void setStudent(Set<Student> students) {
+		this.student = students;
+	}
 
-public void setAppointmentID(long value) {
-    this.appointmentID = value;
-}
-@Id @GeneratedValue
-public long getAppointmentID() {
-    return this.appointmentID;
-}
-private Date createdDate;
+	private long appointmentID;
 
-public void setCreatedDate(Date value) {
-    this.createdDate = value;
-}
-public Date getCreatedDate() {
-    return this.createdDate;
-}
-private AppointmentStatus status;
+	public void setAppointmentID(long value) {
+		this.appointmentID = value;
+	}
+	@Id @GeneratedValue
+	public long getAppointmentID() {
+		return this.appointmentID;
+	}
+	private Date createdDate;
 
-public void setStatus(String value) {
-	AppointmentStatus status = AppointmentStatus.valueOf(value);
-    this.status = status;
-}
-public String getStatus() {
-    return this.status.toString();
-}
-private Time startTime;
+	public void setCreatedDate(Date value) {
+		this.createdDate = value;
+	}
+	public Date getCreatedDate() {
+		return this.createdDate;
+	}
 
-public void setStartTime(Time value) {
-    this.startTime = value;
-}
-public Time getStartTime() {
-    return this.startTime;
-}
+	private AppointmentStatus status;
+
+	public void setStatus(AppointmentStatus value) {
+		this.status = value;
+	}
+	public AppointmentStatus getStatus() {
+		return this.status;
+	}
+	private Time startTime;
+
+	public void setStartTime(Time value) {
+		this.startTime = value;
+	}
+	public Time getStartTime() {
+		return this.startTime;
+	}
 }

@@ -25,6 +25,6 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Long>
 	
 	Appointment findByTutorAndDateAndStartTime(Tutor tutor, Date date, Time startTime);
 	
-	List<Appointment> findByAppointmentStatus(String appointmentStatus);
+	//List<Appointment> findByAppointmentStatus(String appointmentStatus);
 	
 }
