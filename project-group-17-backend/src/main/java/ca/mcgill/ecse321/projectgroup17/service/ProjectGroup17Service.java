@@ -42,33 +42,39 @@ public class ProjectGroup17Service {
 	@Autowired
 	CourseRepository courseRepository;
 
-	/*--------------ANTHONY----------------*/
+	/*------------------------------*/
 
-	//Tony Stark
+	
 	@Transactional
 	public SpecificCourse createSpecificCourse(Tutor tutor, Course course, Double hourlyRate) {
-
+		
 		SpecificCourse specificCourse;
-		String error = null;
+		
+		String error = "";
 
 		if (tutor == null) {
 			error += "Tutor cannot be null! ";
 		}
+		
 		if (course == null) {
 			error += "Course cannot be null! ";
 		}
-		if ((hourlyRate == null) | (hourlyRate < 12)) {
+		
+		if (hourlyRate == null) {
 			error += "HourlyRate must be above minimum wage! ";
 		}
+		
 		error = error.trim();
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
-
+		
 		specificCourse = new SpecificCourse();
 		specificCourse.setHourlyRate(hourlyRate);
 		specificCourse.setCourse(course);
 		specificCourse.setTutor(tutor);
+		specificCourseRepository.save(specificCourse);
+		
 		return specificCourse;
 	}
 
@@ -399,7 +405,7 @@ public class ProjectGroup17Service {
 		}
 	}
 
-	//Availability functions
+	/*----------------------------*/
 
 	@Transactional
 	public Availability createAvailability(Tutor tutor, Date date, Time startTime, Time endTime) {
@@ -459,6 +465,8 @@ public class ProjectGroup17Service {
 
 	}
 
+	/*----------------------------*/
+	
 	@Transactional 
 	public Appointment createAppointment(Date date, Time endTime, Time startTime, Room room, Tutor tutor, String status) {
 		// Input validation

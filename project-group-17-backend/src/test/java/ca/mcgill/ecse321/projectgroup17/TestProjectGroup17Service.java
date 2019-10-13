@@ -50,8 +50,7 @@ public class TestProjectGroup17Service {
 	private TutorRepository tutorRepository;
 	@Autowired
 	private StudentRepository studentRepository;
-	@Autowired
-	private PersonAvailabilitiesRepository personAvailabilitiesRepository;
+	
 
 	/*------------------------------------------*/
 
@@ -59,7 +58,7 @@ public class TestProjectGroup17Service {
 	//@Before // or @After ?? --> does not seem to clear DB before each tests...
 	public void clearDatabase() {
 		// First, we clear registrations to avoid exceptions due to inconsistencies
-		personAvailabilitiesRepository.deleteAll();
+		
 		availabilityRepository.deleteAll();
 		appointmentRepository.deleteAll();
 		specificCourseRepository.deleteAll();
@@ -859,7 +858,7 @@ public class TestProjectGroup17Service {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage().toString();
 		}
-		assertEquals(error, "Must specify a tutor! Date cannot be empty! Start time cannot be empty! End time cannot be empty! ");
+		assertEquals(error, "Must specify a tutor! Date cannot be empty! Start time cannot be empty! End time cannot be empty!");
 
 		//make sure an availability was not created
 		assertEquals(0, service.getAllAvailabilities().size());
@@ -870,7 +869,7 @@ public class TestProjectGroup17Service {
 		assertEquals(0, service.getAllAvailabilities().size());
 
 		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
-		java.sql.Time startTime = java.sql.Time.valueOf( "19:05:00" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "17:05:00" );
 		java.sql.Time endTime = java.sql.Time.valueOf( "18:05:00" );
 		//Make a tutor
 		String personType = "Tutor";
@@ -886,6 +885,7 @@ public class TestProjectGroup17Service {
 		try {
 			service.createAvailability(tutor, date, startTime, endTime);
 		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
 			fail();
 		}
 
@@ -919,7 +919,7 @@ public class TestProjectGroup17Service {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage().toString();
 		}
-		assertEquals(error, "End time cannot be before startTime! ");
+		assertEquals(error, "End time cannot be before startTime!");
 
 		//make sure an availability was not created
 		assertEquals(0, service.getAllAvailabilities().size());
@@ -1034,15 +1034,16 @@ public class TestProjectGroup17Service {
 		Tutor tutor = null;
 		Double hourlyRate = null;
 		Course course = null;
-		String error = null;
+		String error = "";
 
 		try {
 			service.createSpecificCourse(tutor, course, hourlyRate);
 		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
 			error = e.getMessage();
 		}
 
-		assertEquals(error, "Tutor cannot be null! Course cannot be null! HourlyRate must be above minimum wage! ");
+		assertEquals(error, "Tutor cannot be null! Course cannot be null! HourlyRate must be above minimum wage!");
 
 		assertEquals(0, service.getAllAvailabilities().size());
 	}
