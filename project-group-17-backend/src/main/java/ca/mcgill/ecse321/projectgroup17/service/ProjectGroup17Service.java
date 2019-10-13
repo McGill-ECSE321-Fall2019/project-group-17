@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.projectgroup17.dao.*;
 import ca.mcgill.ecse321.projectgroup17.model.*;
+import ca.mcgill.ecse321.projectgroup17.model.Appointment.AppointmentStatus;
 
 
 @Service
@@ -485,7 +486,7 @@ public class ProjectGroup17Service {
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
-
+		
 		Appointment appt = new Appointment();
 		appt.setDate(date);
 		appt.setStartTime(startTime);
@@ -493,7 +494,8 @@ public class ProjectGroup17Service {
 		appt.setRoom(room);
 		appt.setTutor(tutor);
 		appt.setCreatedDate(new Date(Calendar.getInstance().getTime().getTime()));
-		appt.setStatus(status);
+		AppointmentStatus apptStatus = AppointmentStatus.valueOf(status);
+		appt.setStatus(apptStatus);
 		appointmentRepository.save(appt);
 		return appt;
 
