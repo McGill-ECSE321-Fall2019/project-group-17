@@ -305,7 +305,7 @@ public class ProjectGroup17Service {
 	}
 
 	@Transactional
-	public List<Review> getReviewsByByReviewer(Person reviewer){
+	public List<Review> getReviewsByReviewer(Person reviewer){
 		List<Review> reviews = reviewRepository.findByReviewer(reviewer);
 		return reviews;
 	}

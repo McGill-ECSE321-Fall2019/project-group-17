@@ -62,9 +62,9 @@ public class TestProjectGroup17Service {
 		courseRepository.deleteAll();
 		roomRepository.deleteAll();
 		personRepository.deleteAll();
-		
-		
-		
+
+
+
 	}
 
 	/*-----------------------------------------*/
@@ -629,10 +629,10 @@ public class TestProjectGroup17Service {
 		assertEquals(email3, person3.getEmail());
 	}
 
-		
+
 	@Test
 	public void testGetPersonByUsernameDoesNotExist() {
-		
+
 		assertEquals(0, service.getAllPersons().size());
 
 		String personType = "Tutor";
@@ -641,16 +641,16 @@ public class TestProjectGroup17Service {
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
-		
+
 		try {
 			service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
 		}
-			
+
 		Person person = service.getPersonByUsername("wrongusername");
-			
+
 		// make sure the returned person object is actually null since it should not have found any users with that username
 		assertEquals(null, person);
 
@@ -752,12 +752,12 @@ public class TestProjectGroup17Service {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void testGetAppointmentByDate() {
-		
+
 		List<Appointment> appointments = ;
-		
+
 		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
@@ -778,22 +778,22 @@ public class TestProjectGroup17Service {
 		Room room = new Room();
 		room.setRoomID(1L);
 		String status = "Requested";
-		
+
 		try {
 			service.createAppointment(date, startTime, endTime, room, tutor, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
 		}
-		
+
 		appointments = appointmentRepository.findByDate(date);
-		
+
 		for(int i=0; i<appointments.size(); i++) {
 			assertEquals(date, appointments.get(i).getDate());
 		}
-		
-		
-		
+
+
+
 	}
 
 	/*------------------------------------------*/
@@ -862,7 +862,7 @@ public class TestProjectGroup17Service {
 		String sex = "male";
 		long age = 20;
 		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
-		
+
 
 		//Create 1st availability
 		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
@@ -1032,17 +1032,17 @@ public class TestProjectGroup17Service {
 		Double hourlyRate = 13.0;
 		Double hourlyRate2 = 14.0;
 		Course course = service.createCourse(courseID, name, level, subject);
-		
+
 		service.createSpecificCourse(tutor, course, hourlyRate);
-		
+
 		service.createSpecificCourse(tutor2, course, hourlyRate2);
-		
+
 		try {
 			service.getSpecificCourseByCourse(courseID);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-		
+
 	}
 
 	@Test
@@ -1073,7 +1073,7 @@ public class TestProjectGroup17Service {
 			fail();
 		}
 	}
-	
+
 	@Test
 	public void testGetSpecificCourseByID() {
 		//Make a tutor
@@ -1114,262 +1114,879 @@ public class TestProjectGroup17Service {
 
 
 	/*------------------------------------------*/
-	
-	
+
+
 	// -----------------------------------------------------------
-		//CHARLES BOURBEAU
-		//REVIEW REPOSITORY TESTS
-		// -----------------------------------------------------------
+	//CHARLES BOURBEAU
+	//REVIEW REPOSITORY TESTS
+	// -----------------------------------------------------------
+
+	@Test
+	public void testCreateReview() {					
+
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
+
+
+		assertEquals(0, service.getAllReviews().size());
+
+		String reviewText = "This is text concerning the review. ";
+		int rating = 5;
+		Time createdTime = Time.valueOf("10:00:00");
+		Date createdDate = Date.valueOf("2019-10-10");
+
+		// creating a first person to be the reviewee
+
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		Person reviewee = new Person();
+		reviewee.setFirstName(firstName);
+		reviewee.setLastName(lastName);
+		reviewee.setUsername(username);
+		reviewee.setPassword(password);
+		reviewee.setEmail(email);
+
+		// creating a second person to be the reviewer
+
+		String firstName3 = "Alex";
+		String lastName3 = "Jones";
+		String username3 = "alexjones123";
+		String password3 = "pass123";
+		String email3 = "alex.jones@mail.ca";
+
+		Person reviewer = new Person();
+		reviewer.setFirstName(firstName3);
+		reviewer.setLastName(lastName3);
+		reviewer.setUsername(username3);
+		reviewer.setPassword(password3);
+		reviewer.setEmail(email3);
+
+		// creating the Appointment tied to the review 
+
+		Time startTime = Time.valueOf("10:00:00");
+		Time endTime = Time.valueOf("11:00:00");
+		Date appointmentDate = Date.valueOf("2019-10-10");
+
+		Room room = new Room();
+
+
+		Appointment appointment = new Appointment();
+		appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
+		appointment.setRoom(room);
+
+		//			appointment.setTutor(reviewee);
+		//			Set<Student> students = new HashSet<Student>();
+		//			students.add(reviewer);
+		//			appointment.setStudent(students);
+
+		//saving what was created
+
+		personRepository.save(reviewer);
+		personRepository.save(reviewee);
+		roomRepository.save(room);
+		appointmentRepository.save(appointment);
+
+
+		try {
+			service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+
+		List<Review> reviews = service.getAllReviews();
+		Review review = reviews.get(0);
+
+		assertEquals(1, reviews.size());
+		assertEquals("This is text concerning the review. ", review.getReviewText());
+		assertEquals(5, review.getRating());
+		assertEquals(reviewee, review.getReviewee());
+		assertEquals(reviewer, review.getReviewer());
+		assertEquals(appointment, review.getAppointment());
+
+
+	}
+
+	@Test
+	public void testReviewNoText() {
+
+		assertEquals(0, service.getAllReviews().size());
+
+		String reviewText = null;
+		int rating = 5;
+		Time createdTime = Time.valueOf("10:00:00");
+		Date createdDate = Date.valueOf("2019-10-10");
+
+		// creating a first person to be the reviewee
+
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		Person reviewee = new Person();
+		reviewee.setFirstName(firstName);
+		reviewee.setLastName(lastName);
+		reviewee.setUsername(username);
+		reviewee.setPassword(password);
+		reviewee.setEmail(email);
+
+		// creating a second person to be the reviewer
+
+		String firstName3 = "Alex";
+		String lastName3 = "Jones";
+		String username3 = "alexjones123";
+		String password3 = "pass123";
+		String email3 = "alex.jones@mail.ca";
+
+		Person reviewer = new Person();
+		reviewer.setFirstName(firstName3);
+		reviewer.setLastName(lastName3);
+		reviewer.setUsername(username3);
+		reviewer.setPassword(password3);
+		reviewer.setEmail(email3);
+
+		// creating the Appointment tied to the review 
+
+		Time startTime = Time.valueOf("10:00:00");
+		Time endTime = Time.valueOf("11:00:00");
+		Date appointmentDate = Date.valueOf("2019-10-10");
+
+		Room room = new Room();
+
+
+		Appointment appointment = new Appointment();
+		appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
+		appointment.setRoom(room);
+
+		//			appointment.setTutor(reviewee);
+		//			Set<Student> students = new HashSet<Student>();
+		//			students.add(reviewer);
+		//			appointment.setStudent(students);
+
+		//saving what was created
+
+		personRepository.save(reviewer);
+		personRepository.save(reviewee);
+		roomRepository.save(room);
+		appointmentRepository.save(appointment);
+
+		String error = null;
+		try {
+			service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertEquals(0, service.getAllReviews().size());
+		assertEquals(error, "A review must containt text. ");
+
+	}
+
+	@Test
+	public void testReviewNoRating() {
+
+		assertEquals(0, service.getAllReviews().size());
+
+		String reviewText = "This is review text. ";
+		Integer rating = null;
+		Time createdTime = Time.valueOf("10:00:00");
+		Date createdDate = Date.valueOf("2019-10-10");
+
+		// creating a first person to be the reviewee
+
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		Person reviewee = new Person();
+		reviewee.setFirstName(firstName);
+		reviewee.setLastName(lastName);
+		reviewee.setUsername(username);
+		reviewee.setPassword(password);
+		reviewee.setEmail(email);
+
+		// creating a second person to be the reviewer
+
+		String firstName3 = "Alex";
+		String lastName3 = "Jones";
+		String username3 = "alexjones123";
+		String password3 = "pass123";
+		String email3 = "alex.jones@mail.ca";
+
+		Person reviewer = new Person();
+		reviewer.setFirstName(firstName3);
+		reviewer.setLastName(lastName3);
+		reviewer.setUsername(username3);
+		reviewer.setPassword(password3);
+		reviewer.setEmail(email3);
+
+		// creating the Appointment tied to the review 
+
+		Time startTime = Time.valueOf("10:00:00");
+		Time endTime = Time.valueOf("11:00:00");
+		Date appointmentDate = Date.valueOf("2019-10-10");
+
+		Room room = new Room();
+
+
+		Appointment appointment = new Appointment();
+		appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
+		appointment.setRoom(room);
+
+		//			appointment.setTutor(reviewee);
+		//			Set<Student> students = new HashSet<Student>();
+		//			students.add(reviewer);
+		//			appointment.setStudent(students);
+
+		//saving what was created
+
+		personRepository.save(reviewer);
+		personRepository.save(reviewee);
+		roomRepository.save(room);
+		appointmentRepository.save(appointment);
+
+		String error = null;
+		try {
+			service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertEquals(0, service.getAllReviews().size());
+		assertEquals(error, "A rating must be a number between 0 and 5. ");
+
+	}
+
+	@Test
+	public void testReviewWithInvalidRating() {
+
+		assertEquals(0, service.getAllReviews().size());
+
+		String reviewText = "This is review text. ";
+
+		// first test rating with a value too high
+		Integer rating = 6;
+
+		Time createdTime = Time.valueOf("10:00:00");
+		Date createdDate = Date.valueOf("2019-10-10");
+
+		// creating a first person to be the reviewee
+
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		Person reviewee = new Person();
+		reviewee.setFirstName(firstName);
+		reviewee.setLastName(lastName);
+		reviewee.setUsername(username);
+		reviewee.setPassword(password);
+		reviewee.setEmail(email);
+
+		// creating a second person to be the reviewer
+
+		String firstName3 = "Alex";
+		String lastName3 = "Jones";
+		String username3 = "alexjones123";
+		String password3 = "pass123";
+		String email3 = "alex.jones@mail.ca";
+
+		Person reviewer = new Person();
+		reviewer.setFirstName(firstName3);
+		reviewer.setLastName(lastName3);
+		reviewer.setUsername(username3);
+		reviewer.setPassword(password3);
+		reviewer.setEmail(email3);
+
+		// creating the Appointment tied to the review 
+
+		Time startTime = Time.valueOf("10:00:00");
+		Time endTime = Time.valueOf("11:00:00");
+		Date appointmentDate = Date.valueOf("2019-10-10");
+
+		Room room = new Room();
+
+
+		Appointment appointment = new Appointment();
+		appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
+		appointment.setRoom(room);
+
+		//			appointment.setTutor(reviewee);
+		//			Set<Student> students = new HashSet<Student>();
+		//			students.add(reviewer);
+		//			appointment.setStudent(students);
+
+		//saving what was created
+
+		personRepository.save(reviewer);
+		personRepository.save(reviewee);
+		roomRepository.save(room);
+		appointmentRepository.save(appointment);
+
+		String error = null;
+		try {
+			service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertEquals(0, service.getAllReviews().size());
+		assertEquals(error, "A rating must be a number between 0 and 5. ");
+
+		//now set the rating too low
+		rating = -5;
+
+		error = null;
+		try {
+			service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertEquals(0, service.getAllReviews().size());
+		assertEquals(error, "A rating must be a number between 0 and 5. ");
+	}
+
+	@Test 
+	public void testReviewNoCreatedTime() {
+
+		assertEquals(0, service.getAllReviews().size());
+
+		String reviewText = "This is review text. ";
+		Integer rating = 5;
+		Time createdTime = null;
+		Date createdDate = Date.valueOf("2019-10-10");
+
+		// creating a first person to be the reviewee
+
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		Person reviewee = new Person();
+		reviewee.setFirstName(firstName);
+		reviewee.setLastName(lastName);
+		reviewee.setUsername(username);
+		reviewee.setPassword(password);
+		reviewee.setEmail(email);
+
+		// creating a second person to be the reviewer
+
+		String firstName3 = "Alex";
+		String lastName3 = "Jones";
+		String username3 = "alexjones123";
+		String password3 = "pass123";
+		String email3 = "alex.jones@mail.ca";
+
+		Person reviewer = new Person();
+		reviewer.setFirstName(firstName3);
+		reviewer.setLastName(lastName3);
+		reviewer.setUsername(username3);
+		reviewer.setPassword(password3);
+		reviewer.setEmail(email3);
+
+		// creating the Appointment tied to the review 
+
+		Time startTime = Time.valueOf("10:00:00");
+		Time endTime = Time.valueOf("11:00:00");
+		Date appointmentDate = Date.valueOf("2019-10-10");
+
+		Room room = new Room();
+
+
+		Appointment appointment = new Appointment();
+		appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
+		appointment.setRoom(room);
+
+		//			appointment.setTutor(reviewee);
+		//			Set<Student> students = new HashSet<Student>();
+		//			students.add(reviewer);
+		//			appointment.setStudent(students);
+
+		//saving what was created
+
+		personRepository.save(reviewer);
+		personRepository.save(reviewee);
+		roomRepository.save(room);
+		appointmentRepository.save(appointment);
+
+		String error = null;
+		try {
+			service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertEquals(0, service.getAllReviews().size());
+		assertEquals(error, "The review must have a time of creation. ");
+	}
+
+	@Test
+	public void testReviewNoCreatedDate() {
+
+		assertEquals(0, service.getAllReviews().size());
+
+		String reviewText = "This is review text. ";
+		Integer rating = 5;
+		Time createdTime = Time.valueOf("10:00:00");
+		Date createdDate = null;
+
+		// creating a first person to be the reviewee
+
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		Person reviewee = new Person();
+		reviewee.setFirstName(firstName);
+		reviewee.setLastName(lastName);
+		reviewee.setUsername(username);
+		reviewee.setPassword(password);
+		reviewee.setEmail(email);
+
+		// creating a second person to be the reviewer
+
+		String firstName3 = "Alex";
+		String lastName3 = "Jones";
+		String username3 = "alexjones123";
+		String password3 = "pass123";
+		String email3 = "alex.jones@mail.ca";
+
+		Person reviewer = new Person();
+		reviewer.setFirstName(firstName3);
+		reviewer.setLastName(lastName3);
+		reviewer.setUsername(username3);
+		reviewer.setPassword(password3);
+		reviewer.setEmail(email3);
+
+		// creating the Appointment tied to the review 
+
+		Time startTime = Time.valueOf("10:00:00");
+		Time endTime = Time.valueOf("11:00:00");
+		Date appointmentDate = Date.valueOf("2019-10-10");
+
+		Room room = new Room();
+
+
+		Appointment appointment = new Appointment();
+		appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
+		appointment.setRoom(room);
+
+		//			appointment.setTutor(reviewee);
+		//			Set<Student> students = new HashSet<Student>();
+		//			students.add(reviewer);
+		//			appointment.setStudent(students);
+
+		//saving what was created
+
+		personRepository.save(reviewer);
+		personRepository.save(reviewee);
+		roomRepository.save(room);
+		appointmentRepository.save(appointment);
+
+		String error = null;
+		try {
+			service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertEquals(0, service.getAllReviews().size());
+		assertEquals(error, "The review must have a date of creation. ");
+	}
+
+	@Test 
+	public void testCreateReviewNoReviewee() {
+
+		assertEquals(0, service.getAllReviews().size());
+
+		String reviewText = "This is review text. ";
+		Integer rating = 5;
+		Time createdTime = Time.valueOf("10:00:00");
+		Date createdDate = Date.valueOf("2019-10-10");
+
+		// creating a first person to be the reviewee. it is null
+
+		Person reviewee = null;
+
+
+		// creating a second person to be the reviewer
+
+		String firstName3 = "Alex";
+		String lastName3 = "Jones";
+		String username3 = "alexjones123";
+		String password3 = "pass123";
+		String email3 = "alex.jones@mail.ca";
+
+		Person reviewer = new Person();
+		reviewer.setFirstName(firstName3);
+		reviewer.setLastName(lastName3);
+		reviewer.setUsername(username3);
+		reviewer.setPassword(password3);
+		reviewer.setEmail(email3);
+
+		// creating the Appointment tied to the review 
+
+		Time startTime = Time.valueOf("10:00:00");
+		Time endTime = Time.valueOf("11:00:00");
+		Date appointmentDate = Date.valueOf("2019-10-10");
+
+		Room room = new Room();
+
+
+		Appointment appointment = new Appointment();
+		appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
+		appointment.setRoom(room);
+
+		//			appointment.setTutor(reviewee);
+		//			Set<Student> students = new HashSet<Student>();
+		//			students.add(reviewer);
+		//			appointment.setStudent(students);
+
+		//saving what was created
+
+		personRepository.save(reviewer);
+		personRepository.save(reviewee);
+		roomRepository.save(room);
+		appointmentRepository.save(appointment);
+
+		String error = null;
+		try {
+			service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertEquals(0, service.getAllReviews().size());
+		assertEquals(error, "The review must have a reviewee. ");
+
+	}
+
+	@Test 
+	public void testCreateReviewNoReviewer() {
+
+		assertEquals(0, service.getAllReviews().size());
+
+		String reviewText = "This is review text. ";
+		Integer rating = 5;
+		Time createdTime = Time.valueOf("10:00:00");
+		Date createdDate = Date.valueOf("2019-10-10");
+
+		// creating a first person to be the reviewer. it is null
+
+		Person reviewer = null;
+
+
+		// creating a second person to be the reviewee
+
+		String firstName3 = "Alex";
+		String lastName3 = "Jones";
+		String username3 = "alexjones123";
+		String password3 = "pass123";
+		String email3 = "alex.jones@mail.ca";
+
+		Person reviewee = new Person();
+		reviewee.setFirstName(firstName3);
+		reviewee.setLastName(lastName3);
+		reviewee.setUsername(username3);
+		reviewee.setPassword(password3);
+		reviewee.setEmail(email3);
+
+		// creating the Appointment tied to the review 
+
+		Time startTime = Time.valueOf("10:00:00");
+		Time endTime = Time.valueOf("11:00:00");
+		Date appointmentDate = Date.valueOf("2019-10-10");
+
+		Room room = new Room();
+
+
+		Appointment appointment = new Appointment();
+		appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
+		appointment.setRoom(room);
+
+		//			appointment.setTutor(reviewee);
+		//			Set<Student> students = new HashSet<Student>();
+		//			students.add(reviewer);
+		//			appointment.setStudent(students);
+
+		//saving what was created
+
+		personRepository.save(reviewer);
+		personRepository.save(reviewee);
+		roomRepository.save(room);
+		appointmentRepository.save(appointment);
+
+		String error = null;
+		try {
+			service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertEquals(0, service.getAllReviews().size());
+		assertEquals(error, "The review must have a reviewer. ");
+
+	}
+
+	@Test
+	public void testReviewNoAppointment() {
 		
-		@Test
-		public void testCreateReview() {					
-			
-			specificCourseRepository.deleteAll();
-			courseRepository.deleteAll();;
-			availabilityRepository.deleteAll();
-			reviewRepository.deleteAll();
-			appointmentRepository.deleteAll();
-			roomRepository.deleteAll();
-			personRepository.deleteAll();
-			
-			
-			assertEquals(0, service.getAllReviews().size());
-			
-			String reviewText = "This is text concerning the review. ";
-			int rating = 5;
-			Time createdTime = Time.valueOf("10:00:00");
-			Date createdDate = Date.valueOf("2019-10-10");
-			
-			// creating a first person to be the reviewee
-			
-			String firstName = "John";
-			String lastName = "Smith";
-			String username = "johnsmith123";
-			String password = "pass123";
-			String email = "john.smith@mail.ca";
-			
-			Person reviewee = new Person();
-			reviewee.setFirstName(firstName);
-			reviewee.setLastName(lastName);
-			reviewee.setUsername(username);
-			reviewee.setPassword(password);
-			reviewee.setEmail(email);
-			
-			// creating a second person to be the reviewer
-			
-			String firstName3 = "Alex";
-			String lastName3 = "Jones";
-			String username3 = "alexjones123";
-			String password3 = "pass123";
-			String email3 = "alex.jones@mail.ca";
-			
-			Person reviewer = new Person();
-			reviewer.setFirstName(firstName3);
-			reviewer.setLastName(lastName3);
-			reviewer.setUsername(username3);
-			reviewer.setPassword(password3);
-			reviewer.setEmail(email3);
-			
-			// creating the Appointment tied to the review 
-			
-			Time startTime = Time.valueOf("10:00:00");
-			Time endTime = Time.valueOf("11:00:00");
-			Date appointmentDate = Date.valueOf("2019-10-10");
-			
-			Room room = new Room();
-			
-			
-			Appointment appointment = new Appointment();
-			appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
-			appointment.setRoom(room);
-			
-//			appointment.setTutor(reviewee);
-//			Set<Student> students = new HashSet<Student>();
-//			students.add(reviewer);
-//			appointment.setStudent(students);
-			
-			//saving what was created
+		assertEquals(0, service.getAllReviews().size());
+
+		String reviewText = "This is review text. ";
+		int rating = 5;
+		Time createdTime = Time.valueOf("10:00:00");
+		Date createdDate = Date.valueOf("2019-10-10");
+
+		// creating a first person to be the reviewee
+
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		Person reviewee = new Person();
+		reviewee.setFirstName(firstName);
+		reviewee.setLastName(lastName);
+		reviewee.setUsername(username);
+		reviewee.setPassword(password);
+		reviewee.setEmail(email);
+
+		// creating a second person to be the reviewer
+
+		String firstName3 = "Alex";
+		String lastName3 = "Jones";
+		String username3 = "alexjones123";
+		String password3 = "pass123";
+		String email3 = "alex.jones@mail.ca";
+
+		Person reviewer = new Person();
+		reviewer.setFirstName(firstName3);
+		reviewer.setLastName(lastName3);
+		reviewer.setUsername(username3);
+		reviewer.setPassword(password3);
+		reviewer.setEmail(email3);
+
+		// creating the Appointment tied to the review. it is null
+
+		Appointment appointment = null;
+
+		//			appointment.setTutor(reviewee);
+		//			Set<Student> students = new HashSet<Student>();
+		//			students.add(reviewer);
+		//			appointment.setStudent(students);
+
+		//saving what was created
+
+		personRepository.save(reviewer);
+		personRepository.save(reviewee);
+
+		String error = null;
+		try {
+			service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+
+		assertEquals(0, service.getAllReviews().size());
+		assertEquals(error, "The review must have an appointment. ");
+	}
+
+	@Test
+	public void testDeleteNonExistentReview() {
 		
-			personRepository.save(reviewer);
-			personRepository.save(reviewee);
-			roomRepository.save(room);
-			appointmentRepository.save(appointment);
-			
-			
-			try {
-				service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
-			} catch (IllegalArgumentException e) {
-				fail();
-			}
-			
-			List<Review> reviews = service.getAllReviews();
-			Review review = reviews.get(0);
-			
-			assertEquals(1, reviews.size());
-			assertEquals("This is text concerning the review. ", review.getReviewText());
-			assertEquals(5, review.getRating());
-			assertEquals(reviewee, review.getReviewee());
-			assertEquals(reviewer, review.getReviewer());
-			assertEquals(appointment, review.getAppointment());
-			
-			
+		assertEquals(0, service.getAllReviews().size());
+
+		// there is no review
+		long invalid_id = -1;
+		
+		String error = null;
+		try {
+			service.deleteReview(invalid_id);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
 		}
 		
-		@Test
-		public void testGetReviewByReviewID() {
-			//create a new review, the id should be generated automatically
-			
-			Review review = new Review();
-			reviewRepository.save(review);
-			
-			long id = review.getReviewID();
-			
-			assertEquals(service.getReviewByReviewID(id), review);
+		assertEquals(error, "This review does not exist. ");
 
+		
+	}
+
+	@Test
+	public void testGetReviewByReviewID() {
+		//create a new review, the id should be generated automatically
+
+		Review review = new Review();
+		reviewRepository.save(review);
+
+		long id = review.getReviewID();
+
+		assertEquals(service.getReviewByReviewID(id), review);
+
+	}
+
+	@Test
+	public void testGetReviewsByReviewee(){
+
+		//create the review
+		Review review = new Review();
+		reviewRepository.save(review);
+
+		//create the reviewee
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		Person reviewee = new Person();
+		reviewee.setFirstName(firstName);
+		reviewee.setLastName(lastName);
+		reviewee.setUsername(username);
+		reviewee.setPassword(password);
+		reviewee.setEmail(email);
+
+		assertEquals(service.getReviewsByReviewee(reviewee), review);
+	}
+
+	@Test
+	public void testGetReviewsByReviewer(){
+
+		//create the review
+		Review review = new Review();
+		reviewRepository.save(review);
+
+		//create the reviewer
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		Person reviewer = new Person();
+		reviewer.setFirstName(firstName);
+		reviewer.setLastName(lastName);
+		reviewer.setUsername(username);
+		reviewer.setPassword(password);
+		reviewer.setEmail(email);
+
+		assertEquals(service.getReviewsByReviewer(reviewer), review);
+
+	}
+	
+	@Test
+	public void testGetReviewsByAppointment(){
+
+		//create the review
+		Review review = new Review();
+		reviewRepository.save(review);
+
+		//creating the appointment
+		Room room = new Room();					
+		Appointment appointment = new Appointment();
+		appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
+		appointment.setRoom(room);
+
+		appointmentRepository.save(appointment);
+		roomRepository.save(room);
+
+		assertEquals(service.getReviewsByAppointment(appointment), review);
+	}
+
+	@Test
+	public void testGetAllReviews(){
+
+		// create 3 reviews
+
+		Review review1 = new Review();
+		reviewRepository.save(review1);
+
+		Review review2 = new Review();
+		reviewRepository.save(review2);
+
+		Review review3 = new Review();
+		reviewRepository.save(review3);
+
+
+		ArrayList<Review> reviews = new ArrayList<Review>();
+		reviews.add(review1);
+		reviews.add(review2);
+		reviews.add(review3);
+
+		ArrayList<Review> reviewsToTest = (ArrayList<Review>) service.getAllReviews();
+
+		for(int i = 0; i < 2; i++) {
+			assertEquals(reviewsToTest.get(i), reviews.get(i));
 		}
-		
-		@Test
-		public void testGetReviewsByReviewee(){
-			
-			//create the review
-			Review review = new Review();
-			reviewRepository.save(review);
-			
-			//create the reviewee
-			String firstName = "John";
-			String lastName = "Smith";
-			String username = "johnsmith123";
-			String password = "pass123";
-			String email = "john.smith@mail.ca";
-			
-			Person reviewee = new Person();
-			reviewee.setFirstName(firstName);
-			reviewee.setLastName(lastName);
-			reviewee.setUsername(username);
-			reviewee.setPassword(password);
-			reviewee.setEmail(email);
-			
-			assertEquals(service.getReviewsByReviewee(reviewee), review);
-		}
-		
-		@Test
-		public void testGetReviewsByByReviewer(){
-			
-			//create the review
-			Review review = new Review();
-			reviewRepository.save(review);
-			
-			//create the reviewer
-			String firstName = "John";
-			String lastName = "Smith";
-			String username = "johnsmith123";
-			String password = "pass123";
-			String email = "john.smith@mail.ca";
-			
-			Person reviewer = new Person();
-			reviewer.setFirstName(firstName);
-			reviewer.setLastName(lastName);
-			reviewer.setUsername(username);
-			reviewer.setPassword(password);
-			reviewer.setEmail(email);
-			
-			assertEquals(service.getReviewsByReviewee(reviewer), review);
 
-		}
-		
-		@Test
-		public void testGetReviewsByAppointment(){
-			
-			//create the review
-			Review review = new Review();
-			reviewRepository.save(review);
-			
-			//creating the appointment
-			Room room = new Room();					
-			Appointment appointment = new Appointment();
-			appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
-			appointment.setRoom(room);
-			
-			appointmentRepository.save(appointment);
-			roomRepository.save(room);
-			
-			assertEquals(service.getReviewsByAppointment(appointment), review);
-		}
-		
-		@Test
-		public void testGetAllReviews(){
-			
-			// create 3 reviews
-			
-			Review review1 = new Review();
-			reviewRepository.save(review1);
+	}
 
-			Review review2 = new Review();
-			reviewRepository.save(review2);
 
-			Review review3 = new Review();
-			reviewRepository.save(review3);
+	@Test
+	public void testDeleteReview() {
 
-			
-			ArrayList<Review> reviews = new ArrayList<Review>();
-			reviews.add(review1);
-			reviews.add(review2);
-			reviews.add(review3);
-			
-			ArrayList<Review> reviewsToTest = (ArrayList<Review>) service.getAllReviews();
-			
-			for(int i = 0; i < 2; i++) {
-				assertEquals(reviewsToTest.get(i), reviews.get(i));
-			}
-			
-		}
-		
-		
-		@Test
-		public void testDeleteReview() {
-			
-			assertEquals(0, service.getAllReviews().size());
+		assertEquals(0, service.getAllReviews().size());
 
-			// create a review
-			Review review = new Review();
-			reviewRepository.save(review);
-			
-			//confirm the review is really there
-			assertEquals(1, service.getAllReviews().size());
-			
-			//delete the review
-			service.deleteReview(review.getReviewID());
-			
-			//confirm it was deleted
-			assertEquals(0, service.getAllReviews().size());
-			
-		}
-		
-		@Test
-		public void testDeleteAllReviews(){
-			
-			assertEquals(0, service.getAllReviews().size());
+		// create a review
+		Review review = new Review();
+		reviewRepository.save(review);
 
-			//create 3 reviews			
-			Review review1 = new Review();
-			reviewRepository.save(review1);
+		//confirm the review is really there
+		assertEquals(1, service.getAllReviews().size());
 
-			Review review2 = new Review();
-			reviewRepository.save(review2);
+		//delete the review
+		service.deleteReview(review.getReviewID());
 
-			Review review3 = new Review();
-			reviewRepository.save(review3);
-			
-			assertEquals(3, service.getAllReviews().size());
-			
-			//delete the reviews			
-			service.deleteAllReviews();
-			
-			//confirm they were deleted
-			assertEquals(0, service.getAllReviews().size());
-			
-		}
-		
+		//confirm it was deleted
+		assertEquals(0, service.getAllReviews().size());
+
+	}
+
+	@Test
+	public void testDeleteAllReviews(){
+
+		assertEquals(0, service.getAllReviews().size());
+
+		//create 3 reviews			
+		Review review1 = new Review();
+		reviewRepository.save(review1);
+
+		Review review2 = new Review();
+		reviewRepository.save(review2);
+
+		Review review3 = new Review();
+		reviewRepository.save(review3);
+
+		assertEquals(3, service.getAllReviews().size());
+
+		//delete the reviews			
+		service.deleteAllReviews();
+
+		//confirm they were deleted
+		assertEquals(0, service.getAllReviews().size());
+
+	}
+
 
 }
 
