@@ -688,6 +688,7 @@ public class TestProjectGroup17Service {
 		try {
 			service.createAppointment(date, endTime, startTime, room, tutor, status);
 		} catch (IllegalArgumentException e) {
+			//System.out.println(e.getMessage());
 			fail();
 		}
 
@@ -790,6 +791,8 @@ public class TestProjectGroup17Service {
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			//System.out.println(e);
+
+			//System.out.println(e.getMessage());
 			fail();
 		}
 
@@ -856,7 +859,8 @@ public class TestProjectGroup17Service {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage().toString();
 		}
-		assertEquals(error, "Must specify a tutor! Date cannot be empty! Start time cannot be empty! End time cannot be empty! ");
+		//System.out.println(error);
+		assertEquals(error, "Must specify a tutor! Date cannot be empty! Start time cannot be empty! End time cannot be empty!");
 
 		//make sure an availability was not created
 		assertEquals(0, service.getAllAvailabilities().size());
@@ -867,7 +871,7 @@ public class TestProjectGroup17Service {
 		assertEquals(0, service.getAllAvailabilities().size());
 
 		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
-		java.sql.Time startTime = java.sql.Time.valueOf( "19:05:00" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "17:05:00" );
 		java.sql.Time endTime = java.sql.Time.valueOf( "18:05:00" );
 		//Make a tutor
 		String personType = "Tutor";
@@ -916,7 +920,8 @@ public class TestProjectGroup17Service {
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage().toString();
 		}
-		assertEquals(error, "End time cannot be before startTime! ");
+		//System.out.println(error);
+		assertEquals(error, "End time cannot be before startTime!");
 
 		//make sure an availability was not created
 		assertEquals(0, service.getAllAvailabilities().size());
@@ -1252,15 +1257,23 @@ public class TestProjectGroup17Service {
 		assertEquals(1, reviews.size());
 		assertEquals("This is text concerning the review. ", review.getReviewText());
 		assertEquals(5, review.getRating());
-		assertEquals(reviewee, review.getReviewee());
-		assertEquals(reviewer, review.getReviewer());
-		assertEquals(appointment, review.getAppointment());
+		assertEquals(reviewee.getUsername(), review.getReviewee().getUsername());
+		assertEquals(reviewer.getUsername(), review.getReviewer().getUsername());
+		assertEquals(appointment.getAppointmentID(), review.getAppointment().getAppointmentID());
 
 
 	}
 
 	@Test
 	public void testReviewNoText() {
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
 
 		assertEquals(0, service.getAllReviews().size());
 
@@ -1339,6 +1352,14 @@ public class TestProjectGroup17Service {
 	@Test
 	public void testReviewNoRating() {
 
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
+		
 		assertEquals(0, service.getAllReviews().size());
 
 		String reviewText = "This is review text. ";
@@ -1415,6 +1436,14 @@ public class TestProjectGroup17Service {
 
 	@Test
 	public void testReviewWithInvalidRating() {
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
 
 		assertEquals(0, service.getAllReviews().size());
 
@@ -1507,6 +1536,14 @@ public class TestProjectGroup17Service {
 
 	@Test 
 	public void testReviewNoCreatedTime() {
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
 
 		assertEquals(0, service.getAllReviews().size());
 
@@ -1583,6 +1620,14 @@ public class TestProjectGroup17Service {
 
 	@Test
 	public void testReviewNoCreatedDate() {
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
 
 		assertEquals(0, service.getAllReviews().size());
 
@@ -1659,6 +1704,14 @@ public class TestProjectGroup17Service {
 
 	@Test 
 	public void testCreateReviewNoReviewee() {
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
 
 		assertEquals(0, service.getAllReviews().size());
 
@@ -1726,6 +1779,14 @@ public class TestProjectGroup17Service {
 
 	@Test 
 	public void testCreateReviewNoReviewer() {
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
 
 		assertEquals(0, service.getAllReviews().size());
 
@@ -1794,6 +1855,14 @@ public class TestProjectGroup17Service {
 	@Test
 	public void testReviewNoAppointment() {
 		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
+		
 		assertEquals(0, service.getAllReviews().size());
 
 		String reviewText = "This is review text. ";
@@ -1859,6 +1928,14 @@ public class TestProjectGroup17Service {
 	@Test
 	public void testDeleteNonExistentReview() {
 		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
+		
 		assertEquals(0, service.getAllReviews().size());
 
 		// there is no review
@@ -1878,6 +1955,15 @@ public class TestProjectGroup17Service {
 
 	@Test
 	public void testGetReviewByReviewID() {
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
+		
 		//create a new review, the id should be generated automatically
 
 		Review review = new Review();
@@ -1891,6 +1977,14 @@ public class TestProjectGroup17Service {
 
 	@Test
 	public void testGetReviewsByReviewee(){
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
 
 		//create the review
 		Review review = new Review();
@@ -1915,6 +2009,14 @@ public class TestProjectGroup17Service {
 
 	@Test
 	public void testGetReviewsByReviewer(){
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
 
 		//create the review
 		Review review = new Review();
@@ -1940,6 +2042,14 @@ public class TestProjectGroup17Service {
 	
 	@Test
 	public void testGetReviewsByAppointment(){
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
 
 		//create the review
 		Review review = new Review();
@@ -1959,6 +2069,14 @@ public class TestProjectGroup17Service {
 
 	@Test
 	public void testGetAllReviews(){
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
 
 		// create 3 reviews
 
@@ -1988,6 +2106,14 @@ public class TestProjectGroup17Service {
 
 	@Test
 	public void testDeleteReview() {
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
 
 		assertEquals(0, service.getAllReviews().size());
 
@@ -2008,6 +2134,14 @@ public class TestProjectGroup17Service {
 
 	@Test
 	public void testDeleteAllReviews(){
+		
+		specificCourseRepository.deleteAll();
+		courseRepository.deleteAll();;
+		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
+		appointmentRepository.deleteAll();
+		roomRepository.deleteAll();
+		personRepository.deleteAll();
 
 		assertEquals(0, service.getAllReviews().size());
 
