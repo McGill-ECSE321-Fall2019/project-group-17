@@ -789,7 +789,7 @@ public class TestProjectGroup17Service {
 			service.createAppointment(date, startTime, endTime, room, tutor, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
-			System.out.println(e);
+			//System.out.println(e);
 			fail();
 		}
 
