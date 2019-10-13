@@ -1122,15 +1122,16 @@ public class TestProjectGroup17Service {
 		// -----------------------------------------------------------
 		
 		@Test
-		public void testCreateReview() {
+		public void testCreateReview() {					
 			
-			
+			specificCourseRepository.deleteAll();
 			courseRepository.deleteAll();;
-			specificCourseRepository.deleteAll();;
-			availabilityRepository.deleteAll();;	
-			appointmentRepository.deleteAll();;
-			roomRepository.deleteAll();;
-			reviewRepository.deleteAll();;
+			availabilityRepository.deleteAll();
+			reviewRepository.deleteAll();
+			appointmentRepository.deleteAll();
+			roomRepository.deleteAll();
+			personRepository.deleteAll();
+			
 			
 			assertEquals(0, service.getAllReviews().size());
 			
@@ -1216,28 +1217,110 @@ public class TestProjectGroup17Service {
 		
 		@Test
 		public void testGetReviewByReviewID() {
+			//create a new review, the id should be generated automatically
 			
+			Review review = new Review();
+			reviewRepository.save(review);
 			
+			long id = review.getReviewID();
+			
+			assertEquals(service.getReviewByReviewID(id), review);
 
 		}
 		
 		@Test
 		public void testGetReviewsByReviewee(){
-
+			
+			//create the review
+			Review review = new Review();
+			reviewRepository.save(review);
+			
+			//create the reviewee
+			String firstName = "John";
+			String lastName = "Smith";
+			String username = "johnsmith123";
+			String password = "pass123";
+			String email = "john.smith@mail.ca";
+			
+			Person reviewee = new Person();
+			reviewee.setFirstName(firstName);
+			reviewee.setLastName(lastName);
+			reviewee.setUsername(username);
+			reviewee.setPassword(password);
+			reviewee.setEmail(email);
+			
+			assertEquals(service.getReviewsByReviewee(reviewee), review);
 		}
 		
 		@Test
 		public void testGetReviewsByByReviewer(){
+			
+			//create the review
+			Review review = new Review();
+			reviewRepository.save(review);
+			
+			//create the reviewer
+			String firstName = "John";
+			String lastName = "Smith";
+			String username = "johnsmith123";
+			String password = "pass123";
+			String email = "john.smith@mail.ca";
+			
+			Person reviewer = new Person();
+			reviewer.setFirstName(firstName);
+			reviewer.setLastName(lastName);
+			reviewer.setUsername(username);
+			reviewer.setPassword(password);
+			reviewer.setEmail(email);
+			
+			assertEquals(service.getReviewsByReviewee(reviewer), review);
 
 		}
 		
 		@Test
 		public void testGetReviewsByAppointment(){
-
+			
+			//create the review
+			Review review = new Review();
+			reviewRepository.save(review);
+			
+			//creating the appointment
+			Room room = new Room();					
+			Appointment appointment = new Appointment();
+			appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
+			appointment.setRoom(room);
+			
+			appointmentRepository.save(appointment);
+			roomRepository.save(room);
+			
+			assertEquals(service.getReviewsByAppointment(appointment), review);
 		}
 		
 		@Test
 		public void testGetAllReviews(){
+			
+			// create 3 reviews
+			
+			Review review1 = new Review();
+			reviewRepository.save(review1);
+
+			Review review2 = new Review();
+			reviewRepository.save(review2);
+
+			Review review3 = new Review();
+			reviewRepository.save(review3);
+
+			
+			ArrayList<Review> reviews = new ArrayList<Review>();
+			reviews.add(review1);
+			reviews.add(review2);
+			reviews.add(review3);
+			
+			ArrayList<Review> reviewsToTest = (ArrayList<Review>) service.getAllReviews();
+			
+			for(int i = 0; i < 2; i++) {
+				assertEquals(reviewsToTest.get(i), reviews.get(i));
+			}
 			
 		}
 		
@@ -1245,10 +1328,45 @@ public class TestProjectGroup17Service {
 		@Test
 		public void testDeleteReview() {
 			
+			assertEquals(0, service.getAllReviews().size());
+
+			// create a review
+			Review review = new Review();
+			reviewRepository.save(review);
+			
+			//confirm the review is really there
+			assertEquals(1, service.getAllReviews().size());
+			
+			//delete the review
+			service.deleteReview(review.getReviewID());
+			
+			//confirm it was deleted
+			assertEquals(0, service.getAllReviews().size());
+			
 		}
 		
 		@Test
 		public void testDeleteAllReviews(){
+			
+			assertEquals(0, service.getAllReviews().size());
+
+			//create 3 reviews			
+			Review review1 = new Review();
+			reviewRepository.save(review1);
+
+			Review review2 = new Review();
+			reviewRepository.save(review2);
+
+			Review review3 = new Review();
+			reviewRepository.save(review3);
+			
+			assertEquals(3, service.getAllReviews().size());
+			
+			//delete the reviews			
+			service.deleteAllReviews();
+			
+			//confirm they were deleted
+			assertEquals(0, service.getAllReviews().size());
 			
 		}
 		
