@@ -11,7 +11,10 @@ import antlr.collections.List;
 
 @Entity
 public class Course{
-
+	public enum Level {
+		UNIVERSITY, HIGHSCHOOL, CEGEP;
+	}
+	
 	private String name;
 
 	public void setName(String value) {
@@ -21,12 +24,12 @@ public class Course{
 	public String getName() {
 		return this.name;
 	}
-	private String level;
+	private Level level;
 
-	public void setLevel(String value) {
-		this.level = value;
+	public void setLevel(Level level2) {
+		this.level = level2;
 	}
-	public String getLevel() {
+	public Level getLevel() {
 		return this.level;
 	}
 	private Set<SpecificCourse> specificCourse;

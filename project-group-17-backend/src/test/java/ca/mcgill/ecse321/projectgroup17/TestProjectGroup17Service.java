@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import ca.mcgill.ecse321.projectgroup17.dao.*;
 import ca.mcgill.ecse321.projectgroup17.model.*;
+import ca.mcgill.ecse321.projectgroup17.model.Course.Level;
 import ca.mcgill.ecse321.projectgroup17.service.ProjectGroup17Service;
 
 
@@ -78,12 +79,13 @@ public class TestProjectGroup17Service {
 
 		String courseID = "ECSE321";
 		String subject = "Science";
-		String level = "University";
+		Level level = Level.UNIVERSITY;
 		String name = "Intro to the Software Engineering Profession";
 
 		try {
 			service.createCourse(courseID, name, level, subject);
 		} catch(IllegalArgumentException e) {
+			System.out.println(e.getMessage());
 			fail();
 		}
 
@@ -103,7 +105,7 @@ public class TestProjectGroup17Service {
 
 		String courseID = null;
 		String subject = null;
-		String level = null;
+		Level level = null;
 		String name = null;
 
 		String error = "";
@@ -115,7 +117,8 @@ public class TestProjectGroup17Service {
 		}
 
 		// check error
-		assertEquals(0, error.length());
+		assertEquals("Course ID must be specified (ie: ECSE321)!Course name must be specified!Course level must be specified!Invalid course level specified (Highschool, Cegep, University)!The course name must be specified!", 
+				error);
 
 		// check no change in memory
 		assertEquals(0, service.getAllCourses().size());
@@ -129,17 +132,17 @@ public class TestProjectGroup17Service {
 
 		String courseID = "ECSE321";
 		String subject = "Science";
-		String level = "University";
+		Level level = Level.UNIVERSITY;
 		String name = "Intro to the Software Engineering Profession";
 
 		String courseID2 = "ECSE321";
 		String subject2 = "Mathematic";
-		String level2 = "University";
+		Level level2 = Level.UNIVERSITY;
 		String name2 = "Probability";
 
 		String courseID3 = "ECSE202";
 		String subject3 = "Programming";
-		String level3 = "University";
+		Level level3 = Level.UNIVERSITY;
 		String name3 = "Intro to Software Development";
 
 		try {
@@ -180,7 +183,7 @@ public class TestProjectGroup17Service {
 
 		String courseID = "ECSE321";
 		String subject = "Science";
-		String level = "University";
+		Level level = Level.UNIVERSITY;
 		String name = "Intro to the Software Engineering Profession";
 
 		service.createCourse(courseID, name, level, subject);
@@ -203,17 +206,17 @@ public class TestProjectGroup17Service {
 
 		String courseID = "ECSE321";
 		String subject = "Science";
-		String level = "University";
+		Level level = Level.UNIVERSITY;
 		String name = "Intro to the Software Engineering Profession";
 
 		String courseID2 = "ECSE321";
 		String subject2 = "Mathematic";
-		String level2 = "University";
+		Level level2 = Level.UNIVERSITY;
 		String name2 = "Probability";
 
 		String courseID3 = "ECSE202";
 		String subject3 = "Programming";
-		String level3 = "University";
+		Level level3 = Level.UNIVERSITY;
 		String name3 = "Intro to Software Development";
 
 		try {
@@ -1013,7 +1016,7 @@ public class TestProjectGroup17Service {
 		//Make course
 		String courseID = "MATH240";
 		String name = "DiscreteStructures";
-		String level = "University";
+		Level level = Level.UNIVERSITY;
 		String subject = "Math";
 		Double hourlyRate = 13.0;
 		Course course = service.createCourse(courseID, name, level, subject);
@@ -1070,7 +1073,7 @@ public class TestProjectGroup17Service {
 		//Make course
 		String courseID = "MATH240";
 		String name = "DiscreteStructures";
-		String level = "University";
+		Level level = Level.UNIVERSITY;
 		String subject = "Math";
 		Double hourlyRate = 13.0;
 		Double hourlyRate2 = 14.0;
@@ -1104,7 +1107,7 @@ public class TestProjectGroup17Service {
 		//Make course
 		String courseID = "MATH240";
 		String name = "DiscreteStructures";
-		String level = "University";
+		Level level = Level.UNIVERSITY;
 		String subject = "Math";
 		Double hourlyRate = 13.0;
 		Course course = service.createCourse(courseID, name, level, subject);
@@ -1133,7 +1136,7 @@ public class TestProjectGroup17Service {
 		//Make course
 		String courseID = "MATH240";
 		String name = "DiscreteStructures";
-		String level = "University";
+		Level level = Level.UNIVERSITY;
 		String subject = "Math";
 		Double hourlyRate = 13.0;
 		Course course = service.createCourse(courseID, name, level, subject);

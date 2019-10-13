@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.jboss.logging.Logger.Level;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.projectgroup17.dao.*;
 import ca.mcgill.ecse321.projectgroup17.model.*;
 import ca.mcgill.ecse321.projectgroup17.model.Appointment.AppointmentStatus;
-
+import ca.mcgill.ecse321.projectgroup17.model.Course.Level;
 
 @Service
 public class ProjectGroup17Service {
@@ -99,7 +99,7 @@ public class ProjectGroup17Service {
 	/*--------------FELIX------------------*/
 
 	@Transactional
-	public Course createCourse(String courseID, String name, String level, String subject) {
+	public Course createCourse(String courseID, String name, Level level, String subject) {
 		String error = "";
 		if(courseID == null || courseID.equals("") || courseID.trim().length() == 0) {
 			error += "Course ID must be specified (ie: ECSE321)!";
@@ -110,7 +110,7 @@ public class ProjectGroup17Service {
 		if(level == null || level.equals("")) {
 			error += "Course level must be specified!";
 		}
-		if(Level.valueOf(level) == null) {
+		if ((level != Level.UNIVERSITY)&&(level != Level.CEGEP)&&(level != Level.HIGHSCHOOL)) {
 			error += "Invalid course level specified (Highschool, Cegep, University)!";
 		}
 		if(subject == null || subject.equals("")) {
@@ -122,7 +122,7 @@ public class ProjectGroup17Service {
 		}
 		Course course = new Course();
 		course.setCourseID(courseID);
-		course .setLevel(level);
+		course.setLevel(level);
 		course.setName(name);
 		course.setSubject(subject);
 		courseRepository.save(course);
