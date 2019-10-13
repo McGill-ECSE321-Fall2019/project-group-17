@@ -455,7 +455,7 @@ public class ProjectGroup17Service {
 
 	@Transactional
 	public List<Availability> getAllAvailabilities() {
-		return null;
+		return toList(availabilityRepository.findAll());
 
 	}
 
@@ -475,10 +475,10 @@ public class ProjectGroup17Service {
 		if (endTime != null && startTime != null && endTime.before(startTime)) {
 			error = error + "Appointment end time cannot be before appointment start time! ";
 		}
-		if (tutor != null) {
+		if (tutor == null) {
 			error = error + "Appointment tutor cannot be empty! ";
 		}
-		if (tutor != null || ! (status.equals("Requested") && status.equals("Accepted") && status.equals("Refused") && status.equals("Paid") && status.equals("Cancelled"))) {
+		if (status == null || ! (status.equals("Requested") || status.equals("Accepted") || status.equals("Refused") || status.equals("Paid") || status.equals("Cancelled"))) {
 			error = error + "Appointment status cannot be empty and must be either 'Requested' or 'Accepted' or 'Refused' or 'Paid' or 'Cancelled'! ";
 		}
 
@@ -494,7 +494,7 @@ public class ProjectGroup17Service {
 		appt.setRoom(room);
 		appt.setTutor(tutor);
 		appt.setCreatedDate(new Date(Calendar.getInstance().getTime().getTime()));
-		AppointmentStatus apptStatus = AppointmentStatus.valueOf(status);
+		AppointmentStatus apptStatus = AppointmentStatus.valueOf(status.toUpperCase());
 		appt.setStatus(apptStatus);
 		appointmentRepository.save(appt);
 		return appt;
