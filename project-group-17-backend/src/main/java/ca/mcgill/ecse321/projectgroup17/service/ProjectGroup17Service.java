@@ -511,7 +511,7 @@ public class ProjectGroup17Service {
 	@Transactional
 	public List<Appointment> getAllAppointments() {
 		return toList(appointmentRepository.findAll());
-	}
+	} 
 	
 	/*----------------------------*/
 	

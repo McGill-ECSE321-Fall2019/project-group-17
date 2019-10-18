@@ -3,6 +3,11 @@ package ca.mcgill.ecse321.projectgroup17;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalTime;
@@ -10,6 +15,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import org.junit.Before;
 import org.junit.After;
@@ -27,6 +35,10 @@ import ca.mcgill.ecse321.projectgroup17.service.ProjectGroup17Service;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+
+// the line below is apparently what we should use instead of the two above...
+//@RunWith(MockitoJUnitRunner.class) 
+
 public class TestProjectGroup17Service {
 
 	@Autowired

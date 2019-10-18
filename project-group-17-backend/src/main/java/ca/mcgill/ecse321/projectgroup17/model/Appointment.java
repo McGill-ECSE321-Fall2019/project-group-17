@@ -16,7 +16,7 @@ public class Appointment{
 	public enum AppointmentStatus {
 		REQUESTED, ACCEPTED, REFUSED, PAID, CANCELLED;
 	}
-
+ 
 	private Date date;
 
 	public void setDate(Date value) {
