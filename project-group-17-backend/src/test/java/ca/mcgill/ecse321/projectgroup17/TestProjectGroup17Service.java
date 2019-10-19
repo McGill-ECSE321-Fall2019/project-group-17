@@ -28,9 +28,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import ca.mcgill.ecse321.projectgroup17.dao.*;
-import ca.mcgill.ecse321.projectgroup17.model.*;
-import ca.mcgill.ecse321.projectgroup17.model.Course.Level;
+import ca.mcgill.ecse321.projectgroup17.model.Appointment;
+import ca.mcgill.ecse321.projectgroup17.model.Availability;
+import ca.mcgill.ecse321.projectgroup17.model.Course;
+import ca.mcgill.ecse321.projectgroup17.model.Person;
+import ca.mcgill.ecse321.projectgroup17.model.Review;
+import ca.mcgill.ecse321.projectgroup17.model.SpecificCourse;
+import ca.mcgill.ecse321.projectgroup17.model.Tutor;
+import ca.mcgill.ecse321.projectgroup17.model.Student;
+import ca.mcgill.ecse321.projectgroup17.model.Room;
 import ca.mcgill.ecse321.projectgroup17.service.ProjectGroup17Service;
+import ca.mcgill.ecse321.projectgroup17.model.Appointment.AppointmentStatus;
+import ca.mcgill.ecse321.projectgroup17.model.Course.Level;
 
 
 @RunWith(SpringRunner.class)
@@ -678,29 +687,31 @@ public class TestProjectGroup17Service {
 
 		assertEquals(0, service.getAllAppointments().size());
 
-		String personType = "Tutor";
-		String firstName = "John";
-		String lastName = "Smith";
-		String username = "johnsmith123";
-		String password = "pass123";
-		String email = "john.smith@mail.ca";
-
-		Tutor tutor = new Tutor();
-		tutor.setFirstName(firstName);
-		tutor.setLastName(lastName);
-		tutor.setUsername(username);
-		tutor.setPassword(password);
-		tutor.setEmail(email);
+//		String personType = "Tutor";
+//		String firstName = "John";
+//		String lastName = "Smith";
+//		String username = "johnsmith123";
+//		String password = "pass123";
+//		String email = "john.smith@mail.ca";
+//
+//		Tutor tutor = new Tutor();
+//		tutor.setFirstName(firstName);
+//		tutor.setLastName(lastName);
+//		tutor.setUsername(username);
+//		tutor.setPassword(password);
+//		tutor.setEmail(email);
+		
+		String tutorUsername = "johnsmith123";
 
 		Date date = new Date(Calendar.getInstance().getTime().getTime());
 		Time endTime = new Time(9, 0, 0);
 		Time startTime = new Time(10, 0, 0);
-		Room room = new Room();
-		room.setRoomID(1L);
+		long roomId = 1000L;
 		String status = "Requested";
 
 		try {
-			service.createAppointment(date, endTime, startTime, room, tutor, status);
+			
+			service.createAppointment(date, endTime, startTime, roomId, tutorUsername, status);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -711,7 +722,8 @@ public class TestProjectGroup17Service {
 		assertEquals(date, allAppointments.get(0).getDate());
 		assertEquals(endTime, allAppointments.get(0).getEndTime());
 		assertEquals(startTime, allAppointments.get(0).getStartTime());
-		assertEquals(room.getRoomID(), allAppointments.get(0).getRoom().getRoomID());
+		assertEquals(roomId, allAppointments.get(0).getRoom().getRoomID());
+		assertEquals(tutorUsername, allAppointments.get(0).getTutor().getUsername());
 		assertEquals(status, allAppointments.get(0).getStatus());
 
 	}
@@ -721,22 +733,22 @@ public class TestProjectGroup17Service {
 		assertEquals(0, service.getAllAppointments().size());
 		
 		String error = "";
-		Tutor tutor = null;
+		String tutorUsername = null;
 		Date date = null;
 		Time endTime = null;
 		Time startTime = null;
-		Room room = null;
+		long roomId = 0L;
 		String status = null;
 
 		try {
-			service.createAppointment(date, startTime, endTime, room, tutor, status);
+			service.createAppointment(date, startTime, endTime, roomId, tutorUsername, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
 		}	
 
 		// make sure no appointment were created
-		assertEquals(error, "Appointment date cannot be empty! Appointment start time cannot be empty! Appointment end time cannot be empty! Appointment tutor cannot be empty! Appointment status cannot be empty and must be 'Requested'! ");
+		assertEquals(error, "Appointment date cannot be empty! Appointment start time cannot be empty! Appointment end time cannot be empty! Appointment tutor cannot be null! Appointment status cannot be empty and must be 'Requested'! Appointment room cannot be null! ");
 		assertEquals(0, service.getAllAppointments().size());
 
 
@@ -758,15 +770,16 @@ public class TestProjectGroup17Service {
 		long age = 20;
 		boolean big = false;
 		String status = "Requested";
+		long roomId = 1000L;
 
 		java.sql.Date date = java.sql.Date.valueOf( "2019-10-31" );
 		java.sql.Time startTime = java.sql.Time.valueOf( "18:05:00" );
 		java.sql.Time endTime = java.sql.Time.valueOf( "19:05:00" );
 
 		try {
-			Room room = service.createRoom(100L, big);
+			Room room = service.createRoom(roomId, big);
 			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
-			service.createAppointment(date, startTime, endTime, room, tutor, status);
+			service.createAppointment(date, startTime, endTime, roomId, username, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
@@ -789,6 +802,7 @@ public class TestProjectGroup17Service {
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
+		long roomId = 1000L;
 
 		
 		Date date = new Date(Calendar.getInstance().getTime().getTime());
@@ -798,9 +812,9 @@ public class TestProjectGroup17Service {
 		String status = "Requested";
 
 		try {
-			Room room = service.createRoom(1000L, false);
+			Room room = service.createRoom(roomId, false);
 			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
-			service.createAppointment(date, startTime, endTime, room, tutor, status);
+			service.createAppointment(date, startTime, endTime, roomId, username, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			//System.out.println(e);
@@ -828,17 +842,19 @@ public class TestProjectGroup17Service {
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
+		
+		long roomId = 1000L;
 
 		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
 
 		Date date = new Date(Calendar.getInstance().getTime().getTime());
 		Time endTime = new Time(9, 0, 0);
 		Time startTime = new Time(10, 0, 0);
-		Room room = service.createRoom(1000L, false);
+		Room room = service.createRoom(roomId, false);
 		String status = "Requested";
 		
 		try {
-			service.createAppointment(date, startTime, endTime, room, tutor, status);
+			service.createAppointment(date, startTime, endTime, roomId, username, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();

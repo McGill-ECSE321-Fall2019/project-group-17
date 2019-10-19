@@ -468,9 +468,14 @@ public class ProjectGroup17Service {
 	/*----------------------------*/
 	
 	@Transactional 
-	public Appointment createAppointment(Date date, Time endTime, Time startTime, Room room, Tutor tutor, String status) {
+	public Appointment createAppointment(Date date, Time endTime, Time startTime, long roomId, String tutorUsername, String status) {
 		// Input validation
+		
+		Room room = getRoomByRoomID(roomId);
+		Tutor tutor = (Tutor) getPersonByUsername(tutorUsername);
+		
 		String error = "";
+		
 		if (date == null) {
 			error = error + "Appointment date cannot be empty! ";
 		}
@@ -484,10 +489,13 @@ public class ProjectGroup17Service {
 			error = error + "Appointment end time cannot be before appointment start time! ";
 		}
 		if (tutor == null) {
-			error = error + "Appointment tutor cannot be empty! ";
+			error = error + "Appointment tutor cannot be null! ";
 		}
 		if (status == null || ! (status.toLowerCase().equals("requested"))) {
 			error = error + "Appointment status cannot be empty and must be 'Requested'! ";
+		}
+		if(room == null) {
+			error = error + "Appointment room cannot be null! ";
 		}
 
 		if (error.length() > 0) {
@@ -498,7 +506,9 @@ public class ProjectGroup17Service {
 		appt.setDate(date);
 		appt.setStartTime(startTime);
 		appt.setEndTime(endTime);
+		
 		appt.setRoom(room);
+		
 		appt.setTutor(tutor);
 		appt.setCreatedDate(new Date(Calendar.getInstance().getTime().getTime()));
 		AppointmentStatus apptStatus = AppointmentStatus.valueOf(status.toUpperCase());
@@ -512,6 +522,11 @@ public class ProjectGroup17Service {
 	public List<Appointment> getAllAppointments() {
 		return toList(appointmentRepository.findAll());
 	} 
+	
+	@Transactional
+	public List<Appointment> getAppointmentsByTutor(Tutor tutor) {
+		return toList(appointmentRepository.findByTutor(tutor));
+	}
 	
 	/*----------------------------*/
 	
