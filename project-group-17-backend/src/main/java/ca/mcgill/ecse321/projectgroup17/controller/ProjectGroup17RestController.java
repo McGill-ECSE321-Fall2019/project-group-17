@@ -24,7 +24,7 @@ public class ProjectGroup17RestController {
 	
 	/*----------- PERSON ----------*/
 	
-	@PostMapping(value = { "/persons", "/persons/" })
+	@PostMapping(value = { "/persons/createPerson", "/persons/createPerson/" })
 	public PersonDto createPerson(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, @RequestParam("username") String username, @RequestParam("personType") String personType, @RequestParam("password") String password, @RequestParam("email") String email, @RequestParam("sexe") String sexe, @RequestParam("age") long age) throws IllegalArgumentException {
 		// @formatter:on
 		Person person = service.createPerson(personType, firstName, lastName, username, password, email, sexe, age);
