@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.projectgroup17.controller;
 
-import java.sql.Time;
+
 import java.sql.Date;
+import java.sql.Time;
+
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,6 @@ public class ProjectGroup17RestController {
 			@RequestParam("username") String username, @RequestParam("personType") String personType, 
 			@RequestParam("password") String password, @RequestParam("email") String email, @RequestParam("sexe") String sexe, 
 			@RequestParam("age") long age) throws IllegalArgumentException {
-		// @formatter:on
 		Person person = service.createPerson(personType, firstName, lastName, username, password, email, sexe, age);
 		return convertToDto(person);
 	}
@@ -46,10 +47,20 @@ public class ProjectGroup17RestController {
 		return personDtos;
 	}
 	
+	@GetMapping(value = { "/persons/tutor", "/persons/tutor/" })
+	public Tutor getPersonsGetTutor(@RequestParam("username") String username) {
+		Tutor t = (Tutor) service.getPersonByUsername(username);
+		return t;
+	}
+	
+	@GetMapping(value = { "/persons/student", "/persons/student/" })
+	public Student getPersonsGetStudent(@RequestParam("username") String username) {
+		Student s = (Student) service.getPersonByUsername(username);
+		return s;
+	}
 	
 	
-	
-	
+
 	/*----------- APPOINTMENT --------------*/
 	
 	@GetMapping(value = { "/appointments/tutor", "/appointments/tutor/" })
@@ -70,11 +81,6 @@ public class ProjectGroup17RestController {
 		return convertToDto(appt);
 	}
 	
-	
-	
-	
-	
-	
 	private List<AppointmentDto> createAppointmentDtosForTutor(Tutor t) {
 		List<Appointment> apptsForTutor = service.getAppointmentsByTutor(t);
 		List<AppointmentDto> appts = new ArrayList<>();
@@ -86,8 +92,50 @@ public class ProjectGroup17RestController {
 	
 	/*----------- COURSE ----------*/
 	
+	@PostMapping(value = { "/courses/createCourse", "/courses/createCourse/" })
+	public CourseDto createCourse(@RequestParam("courseID") String courseID, @RequestParam("courseName") String courseName, 
+			@RequestParam("level") String level, @RequestParam("subject") String subject) throws IllegalArgumentException {
+		Course course = service.createCourse(courseID, courseName, level, subject);
+		return convertToDto(course);
+	}
 	
+	@GetMapping(value = { "/courses/courseID", "/courses/courseID/" })
+	public List<CourseDto> getCourseByCourseID(@RequestParam("courseID") String courseID) {
+		Course c = (Course) service.getCourseByID(courseID);
+		List<CourseDto> coursesDto = new ArrayList<>();
+		coursesDto.add(convertToDto(c));
+		return coursesDto;
+	}
 	
+	@GetMapping(value = { "/courses/subject", "/courses/subject/" })
+	public List<CourseDto> getCoursesBySubject(@RequestParam("subject") String subject) {
+		List<Course> courses = service.getCoursesBySubject(subject);
+		List<CourseDto> coursesDto = new ArrayList<>();
+		for(Course c : courses) {
+			coursesDto.add(convertToDto(c));
+		}
+		return coursesDto;
+	}
+	
+	/*
+	@GetMapping(value = { "/courses/level", "/courses/level/" })
+	public List<CourseDto> getCoursesByLevel(@RequestParam("level") String level) {
+		List<Course> courses = service.getCoursesByLevel(level);
+		List<CourseDto> coursesDto = new ArrayList<>();
+		for(Course c : courses) {
+			coursesDto.add(convertToDto(c));
+		}
+		
+	 */
+	
+	@GetMapping(value = { "/courses", "/courses/" })
+	public List<CourseDto> getAllCourses() {
+		List<CourseDto> coursesDto = new ArrayList<>();
+		for (Course course : service.getAllCourses()) {
+			coursesDto.add(convertToDto(course));
+		}
+		return coursesDto;
+	}
 	
 	
 	/*----------- REVIEW ----------*/
@@ -118,8 +166,32 @@ public class ProjectGroup17RestController {
 	
 	/*----------- AVAILABILITY ----------*/
 	
+	@PostMapping(value = { "/availabilities", "/availabilities/" })
+	public AvailabilityDto createAvailability(@RequestParam("tutorUsername")String tutorUsername, @RequestParam("date")Date date, @RequestParam("createdDate")Date createdDate, @RequestParam("startTime")Time startTime, @RequestParam("endTime")Time endTime) throws IllegalArgumentException {
+		// @formatter:on
+		Tutor tutor = (Tutor) service.getPersonByUsername(tutorUsername);
+		Availability availability = service.createAvailability(tutor,date,createdDate,startTime,endTime);
+		return convertAvailabilityToDto(availability);
+	}
 	
 	
+	@GetMapping(value = { "/availabilities", "/availabilities/" })
+	public List<AvailabilityDto> getAllAvailabilities() {
+		List<AvailabilityDto> availabilityDtos = new ArrayList<>();
+		for (Availability availability : service.getAllAvailabilities()) {
+			availabilityDtos.add(convertAvailabilityToDto(availability));
+		}
+		return availabilityDtos;
+	}
+	
+	private AvailabilityDto convertAvailabilityToDto(Availability a) {
+		if(a == null) {
+			throw new IllegalArgumentException("There is no such Person!");
+		}
+		AvailabilityDto availabilityDto = new AvailabilityDto(a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
+		return availabilityDto;
+	}
+
 
 	
 	/*----------- ROOM ----------*/
@@ -128,8 +200,43 @@ public class ProjectGroup17RestController {
 	
 	
 	
+	
+	
 	/*----------- SPECIFIC COURSE ----------*/
+	
+	
+	@PostMapping(value = { "/specificCourses/create", "/specificCourses/create/" })
+	public SpecificCourseDto createSpecificCourse(@RequestParam("hourlyRate") String hourlyRate, @RequestParam("tutorUsername") String tutorUsername, 
+			@RequestParam("courseID") String courseID) throws IllegalArgumentException {
+		Tutor t = (Tutor) service.getPersonByUsername(tutorUsername);
+		Course c = (Course) service.getCourseByID(courseID);
+		double rate = Double.parseDouble(hourlyRate);
+		SpecificCourse sc = service.createSpecificCourse(t, c, rate);
+		return convertToDto(sc);
+	}
+	
+	@GetMapping(value = { "/specificCourses/tutor", "/specificCourses/tutor/" })
+	public List<SpecificCourseDto> getSpecificCoursesOfTutor(@RequestParam("username") String tutorUsername) {
+		List<SpecificCourse> scourses = service.getSpecificCourseByTutor(tutorUsername);
+		List<SpecificCourseDto> scDto = new ArrayList<>();
+		for (SpecificCourse sc : scourses) {
+			scDto.add(convertToDto(sc));
+		}
+		return scDto;
+	}
 
+	
+	@GetMapping(value = { "/specificCourses", "/specificCourses/" })
+	public List<SpecificCourseDto> getAllSpecificCourses() {
+		List<SpecificCourseDto> scDto = new ArrayList<>();
+		for (SpecificCourse sc : service.getAllSpecificCourses()) {
+			scDto.add(convertToDto(sc));
+		}
+		return scDto;
+	}
+	
+	
+	/*--------------------------------------*/
 	
 	
 	//CONVERT TO DOMAIN OBJECT METHODS
@@ -179,6 +286,22 @@ public class ProjectGroup17RestController {
 		}
 		PersonDto personDto = new PersonDto(p.getFirstName(), p.getLastName(), p.getUsername(), p.getPersonType(), p.getEmail(), p.getPassword(), p.getSexe(), p.getAge());
 		return personDto;
+	}
+	
+	private CourseDto convertToDto(Course c) {
+		if(c == null) {
+			throw new IllegalArgumentException("There is no such Course!");
+		}
+		CourseDto courseDto = new CourseDto(c.getCourseID(), c.getName(), c.getLevel(), c.getSubject());
+		return courseDto;
+	}
+	
+	private SpecificCourseDto convertToDto(SpecificCourse sc) {
+		if(sc == null) {
+			throw new IllegalArgumentException("There is no such Specific Course!");
+		}
+		SpecificCourseDto specificCourseDto = new SpecificCourseDto(sc.getHourlyRate(), sc.getTutor(), sc.getCourse(), sc.getSpecificCourseID());
+		return specificCourseDto;
 	}
 	
 }

@@ -33,7 +33,7 @@ private long roomID;
 public void setRoomID(long value) {
     this.roomID = value;
 }
-@Id 
+@Id @GeneratedValue
 public long getRoomID() {
     return this.roomID;
 }

@@ -85,7 +85,7 @@ public class ProjectGroup17Service {
 	}
 	@Transactional
 	public List<SpecificCourse> getSpecificCourseByTutor(String tutorUsername) {
-		List<SpecificCourse> specificCourses = specificCourseRepository.findByTutor(tutorUsername);
+		List<SpecificCourse> specificCourses = specificCourseRepository.findByTutorUsername(tutorUsername);
 		return specificCourses;
 	}
 	@Transactional
@@ -105,7 +105,7 @@ public class ProjectGroup17Service {
 	/*--------------FELIX------------------*/
 
 	@Transactional
-	public Course createCourse(String courseID, String name, Level level, String subject) {
+	public Course createCourse(String courseID, String name, String level, String subject) {
 		String error = "";
 		if(courseID == null || courseID.equals("") || courseID.trim().length() == 0) {
 			error += "Course ID must be specified (ie: ECSE321)!";
@@ -116,7 +116,7 @@ public class ProjectGroup17Service {
 		if(level == null || level.equals("")) {
 			error += "Course level must be specified!";
 		}
-		if ((level != Level.UNIVERSITY)&&(level != Level.CEGEP)&&(level != Level.HIGHSCHOOL)) {
+		if ((level.toLowerCase().equals("university")) && (level.toLowerCase().equals("cegep")) && (level.toLowerCase().equals("highschool"))) {
 			error += "Invalid course level specified (Highschool, Cegep, University)!";
 		}
 		if(subject == null || subject.equals("")) {
@@ -128,7 +128,8 @@ public class ProjectGroup17Service {
 		}
 		Course course = new Course();
 		course.setCourseID(courseID);
-		course.setLevel(level);
+		Level courseLevel = Level.valueOf(level.toUpperCase());
+		course.setLevel(courseLevel);
 		course.setName(name);
 		course.setSubject(subject);
 		courseRepository.save(course);
@@ -146,13 +147,25 @@ public class ProjectGroup17Service {
 	}
 
 	@Transactional
-	public List<Course> getCourseBySubject(String subject) {
+	public List<Course> getCoursesBySubject(String subject) {
 		if(subject == null || subject.equals("") || subject.trim().length() == 0) {
-			throw new IllegalArgumentException("Course ID must be specified (ie: ECSE321)!");
+			throw new IllegalArgumentException("Course ID must be specified (ie: Science)!");
 		}
 		List<Course> course = courseRepository.findCourseBySubject(subject);
 		return course;
 	}
+	
+	/*
+	 * Below not working
+	@Transactional
+	public List<Course> getCoursesByLevel(String level) {
+		if(level == null || level.equals("") || level.trim().length() == 0) {
+			throw new IllegalArgumentException("Course level must be specified (ie: University)!");
+		}
+		List<Course> course = courseRepository.findCourseByLevel(Level.valueOf(level.toUpperCase()).toString());
+		return course;
+	}
+	*/
 
 	@Transactional
 	public List<Course> getAllCourses() {
@@ -408,7 +421,7 @@ public class ProjectGroup17Service {
 	/*----------------------------*/
 
 	@Transactional
-	public Availability createAvailability(Tutor tutor, Date date, Time startTime, Time endTime) {
+	public Availability createAvailability(Tutor tutor, Date date, Date createdDate, Time startTime, Time endTime) {
 
 		String error = "";
 
@@ -419,6 +432,9 @@ public class ProjectGroup17Service {
 		}
 		if (date == null) {
 			error += "Date cannot be empty! ";
+		}
+		if (createdDate == null) {
+			error += "Date created cannot be empty! ";
 		}
 		if (startTime == null) {
 			error += "Start time cannot be empty! ";
@@ -442,6 +458,7 @@ public class ProjectGroup17Service {
 		availability.setDate(date);
 		availability.setStartTime(startTime);
 		availability.setEndTime(endTime);
+		availability.setCreatedDate(createdDate);
 
 		availabilityRepository.save(availability);
 

@@ -99,7 +99,7 @@ public class TestProjectGroup17Service {
 
 		String courseID = "ECSE321";
 		String subject = "Science";
-		Level level = Level.UNIVERSITY;
+		String level = "University";
 		String name = "Intro to the Software Engineering Profession";
 
 		try {
@@ -125,7 +125,7 @@ public class TestProjectGroup17Service {
 
 		String courseID = null;
 		String subject = null;
-		Level level = null;
+		String level = null;
 		String name = null;
 
 		String error = "";
@@ -152,17 +152,17 @@ public class TestProjectGroup17Service {
 
 		String courseID = "ECSE321";
 		String subject = "Science";
-		Level level = Level.UNIVERSITY;
+		String level = "University";
 		String name = "Intro to the Software Engineering Profession";
 
 		String courseID2 = "ECSE321";
 		String subject2 = "Mathematic";
-		Level level2 = Level.UNIVERSITY;
+		String level2 = "University";
 		String name2 = "Probability";
 
 		String courseID3 = "ECSE202";
 		String subject3 = "Programming";
-		Level level3 = Level.UNIVERSITY;
+		String level3 = "University";
 		String name3 = "Intro to Software Development";
 
 		try {
@@ -203,7 +203,7 @@ public class TestProjectGroup17Service {
 
 		String courseID = "ECSE321";
 		String subject = "Science";
-		Level level = Level.UNIVERSITY;
+		String level = "University";
 		String name = "Intro to the Software Engineering Profession";
 
 		service.createCourse(courseID, name, level, subject);
@@ -226,17 +226,17 @@ public class TestProjectGroup17Service {
 
 		String courseID = "ECSE321";
 		String subject = "Science";
-		Level level = Level.UNIVERSITY;
+		String level = "University";
 		String name = "Intro to the Software Engineering Profession";
 
 		String courseID2 = "ECSE321";
 		String subject2 = "Mathematic";
-		Level level2 = Level.UNIVERSITY;
+		String level2 = "University";
 		String name2 = "Probability";
 
 		String courseID3 = "ECSE202";
 		String subject3 = "Programming";
-		Level level3 = Level.UNIVERSITY;
+		String level3 = "University";
 		String name3 = "Intro to Software Development";
 
 		try {
@@ -250,9 +250,9 @@ public class TestProjectGroup17Service {
 		}
 
 
-		List<Course> course = service.getCourseBySubject(subject);
-		List<Course> course2 = service.getCourseBySubject(subject2);
-		List<Course> course3 = service.getCourseBySubject(subject3);
+		List<Course> course = service.getCoursesBySubject(subject);
+		List<Course> course2 = service.getCoursesBySubject(subject2);
+		List<Course> course3 = service.getCoursesBySubject(subject3);
 
 		assertEquals(courseID, course.get(0).getCourseID());
 		assertEquals(subject, course.get(0).getSubject());
@@ -882,7 +882,7 @@ public class TestProjectGroup17Service {
 		String error = null;
 
 		try {
-			service.createAvailability(tutor, date, startTime, endTime);
+			service.createAvailability(tutor, date, date, startTime, endTime);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage().toString();
 		}
@@ -911,7 +911,7 @@ public class TestProjectGroup17Service {
 		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
 
 		try {
-			service.createAvailability(tutor, date, startTime, endTime);
+			service.createAvailability(tutor, date, date, startTime, endTime);
 		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			fail();
@@ -943,7 +943,7 @@ public class TestProjectGroup17Service {
 		java.sql.Time startTime = java.sql.Time.valueOf( "19:05:00" );
 		java.sql.Time endTime = java.sql.Time.valueOf( "18:05:00" );
 		try {
-			service.createAvailability(tutor,date,startTime,endTime);
+			service.createAvailability(tutor,date,date,startTime,endTime);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage().toString();
 		}
@@ -972,14 +972,14 @@ public class TestProjectGroup17Service {
 		java.sql.Time startTime = java.sql.Time.valueOf( "18:05:00" );
 		java.sql.Time endTime = java.sql.Time.valueOf( "19:05:00" );
 
-		service.createAvailability(tutor,date,startTime,endTime);
+		service.createAvailability(tutor,date,date,startTime,endTime);
 
 		//Create 2nd availability
 		java.sql.Date date2 = java.sql.Date.valueOf( "2019-10-02" );
 		java.sql.Time startTime2 = java.sql.Time.valueOf( "17:05:00" );
 		java.sql.Time endTime2 = java.sql.Time.valueOf( "18:05:00" );
 
-		service.createAvailability(tutor,date2,startTime2,endTime2);
+		service.createAvailability(tutor,date2,date2,startTime2,endTime2);
 
 		try {
 			service.getAvailabilityByDate(date);
@@ -1008,14 +1008,14 @@ public class TestProjectGroup17Service {
 		java.sql.Time startTime = java.sql.Time.valueOf( "18:05:00" );
 		java.sql.Time endTime = java.sql.Time.valueOf( "19:05:00" );
 
-		service.createAvailability(tutor,date,startTime,endTime);
+		service.createAvailability(tutor,date,date, startTime,endTime);
 
 		//Create 2nd availability
 		java.sql.Date date2 = java.sql.Date.valueOf( "2019-10-04" );
 		java.sql.Time startTime2 = java.sql.Time.valueOf( "17:05:00" );
 		java.sql.Time endTime2 = java.sql.Time.valueOf( "18:05:00" );
 
-		service.createAvailability(tutor,date2,startTime2,endTime2);
+		service.createAvailability(tutor,date2,date2, startTime2,endTime2);
 
 		try {
 			service.getAvailabilityByTutorUsername(username);
@@ -1044,7 +1044,7 @@ public class TestProjectGroup17Service {
 		//Make course
 		String courseID = "MATH240";
 		String name = "DiscreteStructures";
-		Level level = Level.UNIVERSITY;
+		String level = "University";
 		String subject = "Math";
 		Double hourlyRate = 13.0;
 		Course course = service.createCourse(courseID, name, level, subject);
@@ -1102,7 +1102,7 @@ public class TestProjectGroup17Service {
 		//Make course
 		String courseID = "MATH240";
 		String name = "DiscreteStructures";
-		Level level = Level.UNIVERSITY;
+		String level = "University";
 		String subject = "Math";
 		Double hourlyRate = 13.0;
 		Double hourlyRate2 = 14.0;
@@ -1136,7 +1136,7 @@ public class TestProjectGroup17Service {
 		//Make course
 		String courseID = "MATH240";
 		String name = "DiscreteStructures";
-		Level level = Level.UNIVERSITY;
+		String level = "University";
 		String subject = "Math";
 		Double hourlyRate = 13.0;
 		Course course = service.createCourse(courseID, name, level, subject);
@@ -1165,7 +1165,7 @@ public class TestProjectGroup17Service {
 		//Make course
 		String courseID = "MATH240";
 		String name = "DiscreteStructures";
-		Level level = Level.UNIVERSITY;
+		String level = "University";
 		String subject = "Math";
 		Double hourlyRate = 13.0;
 		Course course = service.createCourse(courseID, name, level, subject);
