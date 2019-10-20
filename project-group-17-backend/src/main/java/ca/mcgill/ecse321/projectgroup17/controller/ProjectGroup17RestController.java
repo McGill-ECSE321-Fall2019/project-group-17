@@ -111,7 +111,8 @@ public class ProjectGroup17RestController {
 		for(Review review : reviews) {
 			reviewsDto.add(convertToDto(review));
 		}
-		return reviewsDto;		
+		return reviewsDto;
+		
 	}
 	
 	
