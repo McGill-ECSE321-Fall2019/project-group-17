@@ -119,31 +119,74 @@ public class ProjectGroup17RestController {
 	
 	/*----------- AVAILABILITY ----------*/
 	
-	@PostMapping(value = { "/availabilities", "/availabilities/" })
-	public AvailabilityDto createAvailability(@RequestParam("tutorUsername")String tutorUsername, @RequestParam("date")Date date, @RequestParam("createdDate")Date createdDate, @RequestParam("startTime")Time startTime, @RequestParam("endTime")Time endTime) throws IllegalArgumentException {
+	/**
+	 * Creates an Availability
+	 * @param tutorUsername
+	 * @param date
+	 * @param createdDate
+	 * @param startTime
+	 * @param endTime
+	 * @return AvailabilityDto object
+	 * @throws IllegalArgumentException
+	 */
+	@PostMapping(value = { "/availabilities/createAvailability", "/availabilities/createAvailability/" })
+	public AvailabilityDto createAvailability(@RequestParam("tutorUsername")String tutorUsername, @RequestParam("date")long date, 
+			@RequestParam("createdDate")long createdDate, @RequestParam("startTime")long startTime, @RequestParam("endTime")long endTime) throws IllegalArgumentException {
 		// @formatter:on
+		Date realDate = new Date(date);
+		Date realCreatedDate = new Date(createdDate);
+		Time realStartTime = new Time(startTime);
+		Time realEndTime = new Time(endTime);
 		Tutor tutor = (Tutor) service.getPersonByUsername(tutorUsername);
-		Availability availability = service.createAvailability(tutor,date,createdDate,startTime,endTime);
-		return convertAvailabilityToDto(availability);
+		Availability availability = service.createAvailability(tutor,realDate,realCreatedDate,realStartTime,realEndTime);
+		return convertToDto(availability);
 	}
 	
-	
+	/**
+	 * Get all the availabilities in the database.
+	 * 
+	 * @return ArrayList of AvailabilityDto objects
+	 */
 	@GetMapping(value = { "/availabilities", "/availabilities/" })
 	public List<AvailabilityDto> getAllAvailabilities() {
 		List<AvailabilityDto> availabilityDtos = new ArrayList<>();
 		for (Availability availability : service.getAllAvailabilities()) {
-			availabilityDtos.add(convertAvailabilityToDto(availability));
+			availabilityDtos.add(convertToDto(availability));
 		}
 		return availabilityDtos;
 	}
 	
-	private AvailabilityDto convertAvailabilityToDto(Availability a) {
-		if(a == null) {
-			throw new IllegalArgumentException("There is no such Person!");
+	/**
+	 * Get all the availabilities in the database for a specific tutor.
+	 * 
+	 * @param tutorUsername
+	 * @return ArrayList of AvailabilityDto objects
+	 */
+	@GetMapping(value = { "/availabilitiesTutor", "/availabilitiesTutor/" })
+	public List<AvailabilityDto> getAllAvailabilitiesByTutor(@RequestParam("tutorUsername")String tutorUsername) {
+		List<AvailabilityDto> availabilityDtos = new ArrayList<>();
+		for (Availability availability : service.getAvailabilityByTutorUsername(tutorUsername)) {
+			availabilityDtos.add(convertToDto(availability));
 		}
-		AvailabilityDto availabilityDto = new AvailabilityDto(a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
-		return availabilityDto;
+		return availabilityDtos;
 	}
+	
+	/**
+	 * Get all the availabilities in the database for a specific date.
+	 * 
+	 * @param tutorUsername
+	 * @return ArrayList of AvailabilityDto objects
+	 */
+	@GetMapping(value = { "/availabilitiesDate", "/availabilitiesDate/" })
+	public List<AvailabilityDto> getAllAvailabilitiesByDate(@RequestParam("date")long date) {
+		Date realDate = new Date(date);
+		List<AvailabilityDto> availabilityDtos = new ArrayList<>();
+		for (Availability availability : service.getAvailabilityByDate(realDate)) {
+			availabilityDtos.add(convertToDto(availability));
+		}
+		return availabilityDtos;
+	}
+	
 
 	
 	/*----------- ROOM ----------*/
@@ -203,6 +246,14 @@ public class ProjectGroup17RestController {
 		}
 		PersonDto personDto = new PersonDto(p.getFirstName(), p.getLastName(), p.getUsername(), p.getPersonType(), p.getEmail(), p.getPassword(), p.getSexe(), p.getAge());
 		return personDto;
+	}
+	
+	private AvailabilityDto convertToDto(Availability a) {
+		if(a == null) {
+			throw new IllegalArgumentException("There is no such Person!");
+		}
+		AvailabilityDto availabilityDto = new AvailabilityDto(a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
+		return availabilityDto;
 	}
 	
 }

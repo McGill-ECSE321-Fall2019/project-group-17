@@ -12,9 +12,11 @@ import ca.mcgill.ecse321.projectgroup17.model.*;
 
 public interface AvailabilityRepository extends CrudRepository<Availability, Long> {
 
+	List<Availability>	findAll();
+	
 	List<Availability> findByDate(Date date);
 	
-	List<Availability> findByTutor(String tutorUsername);
+	List<Availability> findByTutorUsername(String tutorUsername);
 	
 	@Modifying
 	@Query("DELETE FROM Availability")

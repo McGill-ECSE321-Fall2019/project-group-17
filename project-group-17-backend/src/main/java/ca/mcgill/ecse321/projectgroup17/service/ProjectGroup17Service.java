@@ -459,7 +459,7 @@ public class ProjectGroup17Service {
 	}
 	@Transactional
 	public List<Availability> getAvailabilityByTutorUsername(String tutorUsername) {
-		List<Availability> availabilities = availabilityRepository.findByTutor(tutorUsername);
+		List<Availability> availabilities = availabilityRepository.findByTutorUsername(tutorUsername);
 		return availabilities;
 	}
 
