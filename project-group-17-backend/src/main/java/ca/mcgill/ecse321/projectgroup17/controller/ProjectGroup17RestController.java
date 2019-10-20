@@ -140,6 +140,18 @@ public class ProjectGroup17RestController {
 	
 	/*----------- REVIEW ----------*/
 	
+	/**
+	 * Creates a review object using the service method createReview.
+	 * @param reviewText
+	 * @param rating
+	 * @param createdTime
+	 * @param createdDate
+	 * @param reviewee
+	 * @param reviewer
+	 * @param appointment
+	 * @return	The review object as a ReviewDto.
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/reviews/createReview", "/reviews/createReview/" })
 	public ReviewDto createReview(@RequestParam("reviewText") String reviewText, @RequestParam("rating") int rating,
 			@RequestParam("createdTime") Time createdTime, @RequestParam("createdDate") Date createdDate,
@@ -152,6 +164,11 @@ public class ProjectGroup17RestController {
 		
 	}
 	
+	/**
+	 * Get all the reviews in database as transfer objects.
+	 * 
+	 * @return ArrayList of ReviewDto objects.
+	 */
 	@GetMapping(value = { "/reviews", "/reviews/"})
 	public List<ReviewDto> getAllReviews(){
 		List<Review> reviews = service.getAllReviews();
@@ -162,6 +179,67 @@ public class ProjectGroup17RestController {
 		return reviewsDto;
 		
 	}
+	
+	/**
+	 * Get a review transfer object based on a reviewID.
+	 * 
+	 * @param id
+	 * @return A ReviewDto object.
+	 */
+	@GetMapping(value = {"/reviews/reviewByID", "reviews/reviewByID/", "reviews/reviewById" ,"reviews/reviewById/"})
+	public ReviewDto getReviewByReviewID(@RequestParam("id") long id) {
+		Review review = service.getReviewByReviewID(id);
+		return convertToDto(review);
+	}
+	
+	/**
+	 * Get a list of review transfer objects based on a specific reviewee, i.e. the object of a review.
+	 * 
+	 * @param reviewee
+	 * @return An ArrayList of ReviewDto objects.
+	 */
+	@GetMapping(value = {"/reviews/reviewsByReviewee","/reviews/reviewsByReviewee/"})
+	public List<ReviewDto> getReviewsByReviewee(@RequestParam("reviewee") Person reviewee){
+		List<Review> reviews = service.getReviewsByReviewee(reviewee);
+		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
+		for (Review review : reviews) {
+			reviewsDto.add(convertToDto(review));
+		}
+		return reviewsDto;	
+	}
+	
+	/**
+	 * Get a list of review transfer objects based on a specific reviewer, i.e. the author of a review.
+	 * 
+	 * @param reviewer
+	 * @return An ArrayList of ReviewDto objects.
+	 */
+	@GetMapping(value = {"/reviews/reviewsByReviewer","/reviews/reviewsByReviewer/"})
+	public List<ReviewDto> getReviewsByReviewer(@RequestParam("reviewer") Person reviewer){
+		List<Review> reviews = service.getReviewsByReviewer(reviewer);
+		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
+		for (Review review : reviews) {
+			reviewsDto.add(convertToDto(review));
+		}
+		return reviewsDto;	
+	}
+	
+	/**
+	 * Get a list of review transfer objects based on a specific appointment.
+	 * 
+	 * @param appointment
+	 * @return An ArrayList of ReviewDto objects.
+	 */
+	@GetMapping(value = {"/reviews/reviewsByAppointment","/reviews/reviewsByAppointment/"})
+	public List<ReviewDto> getReviewsByAppointment(@RequestParam("appointment") Appointment appointment){
+		List<Review> reviews = service.getReviewsByAppointment(appointment);
+		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
+		for (Review review : reviews) {
+			reviewsDto.add(convertToDto(review));
+		}
+		return reviewsDto;	
+	}
+	
 	
 	
 	/*----------- AVAILABILITY ----------*/
