@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.projectgroup17.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -39,7 +40,7 @@ public class SpecificCourse{
 	
 	private long specificCourseID;
 
-	@Id
+	@Id @GeneratedValue
 	public long getSpecificCourseID() {
 	    return this.specificCourseID;
 

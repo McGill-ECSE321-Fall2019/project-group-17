@@ -10,7 +10,7 @@ public interface SpecificCourseRepository extends CrudRepository<SpecificCourse,
 	
 	SpecificCourse findBySpecificCourseID(Long specificCourseID);
 
-	List<SpecificCourse> findByTutor(String tutorUsername);
+	List<SpecificCourse> findByTutorUsername(String tutorUsername);
 	
 	List<SpecificCourse> findByCourse(String courseName);
 	

@@ -43,7 +43,8 @@ private long availabilityID;
 public void setAvailabilityID(long value) {
     this.availabilityID = value;
 }
-@Id @GeneratedValue(strategy=GenerationType.AUTO)
+
+@Id @GeneratedValue
 public long getAvailabilityID() {
     return this.availabilityID;
 }

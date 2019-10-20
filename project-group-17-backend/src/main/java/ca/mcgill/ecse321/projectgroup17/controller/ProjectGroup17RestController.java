@@ -34,7 +34,6 @@ public class ProjectGroup17RestController {
 			@RequestParam("username") String username, @RequestParam("personType") String personType, 
 			@RequestParam("password") String password, @RequestParam("email") String email, @RequestParam("sexe") String sexe, 
 			@RequestParam("age") long age) throws IllegalArgumentException {
-		// @formatter:on
 		Person person = service.createPerson(personType, firstName, lastName, username, password, email, sexe, age);
 		return convertToDto(person);
 	}
@@ -48,10 +47,20 @@ public class ProjectGroup17RestController {
 		return personDtos;
 	}
 	
+	@GetMapping(value = { "/persons/tutor", "/persons/tutor/" })
+	public Tutor getPersonsGetTutor(@RequestParam("username") String username) {
+		Tutor t = (Tutor) service.getPersonByUsername(username);
+		return t;
+	}
+	
+	@GetMapping(value = { "/persons/student", "/persons/student/" })
+	public Student getPersonsGetStudent(@RequestParam("username") String username) {
+		Student s = (Student) service.getPersonByUsername(username);
+		return s;
+	}
 	
 	
-	
-	
+
 	/*----------- APPOINTMENT --------------*/
 	
 	@GetMapping(value = { "/appointments/tutor", "/appointments/tutor/" })
@@ -72,11 +81,6 @@ public class ProjectGroup17RestController {
 		return convertToDto(appt);
 	}
 	
-	
-	
-	
-	
-	
 	private List<AppointmentDto> createAppointmentDtosForTutor(Tutor t) {
 		List<Appointment> apptsForTutor = service.getAppointmentsByTutor(t);
 		List<AppointmentDto> appts = new ArrayList<>();
@@ -88,12 +92,66 @@ public class ProjectGroup17RestController {
 	
 	/*----------- COURSE ----------*/
 	
+	@PostMapping(value = { "/courses/createCourse", "/courses/createCourse/" })
+	public CourseDto createCourse(@RequestParam("courseID") String courseID, @RequestParam("courseName") String courseName, 
+			@RequestParam("level") String level, @RequestParam("subject") String subject) throws IllegalArgumentException {
+		Course course = service.createCourse(courseID, courseName, level, subject);
+		return convertToDto(course);
+	}
 	
+	@GetMapping(value = { "/courses/courseID", "/courses/courseID/" })
+	public List<CourseDto> getCourseByCourseID(@RequestParam("courseID") String courseID) {
+		Course c = (Course) service.getCourseByID(courseID);
+		List<CourseDto> coursesDto = new ArrayList<>();
+		coursesDto.add(convertToDto(c));
+		return coursesDto;
+	}
 	
+	@GetMapping(value = { "/courses/subject", "/courses/subject/" })
+	public List<CourseDto> getCoursesBySubject(@RequestParam("subject") String subject) {
+		List<Course> courses = service.getCoursesBySubject(subject);
+		List<CourseDto> coursesDto = new ArrayList<>();
+		for(Course c : courses) {
+			coursesDto.add(convertToDto(c));
+		}
+		return coursesDto;
+	}
+	
+	/*
+	@GetMapping(value = { "/courses/level", "/courses/level/" })
+	public List<CourseDto> getCoursesByLevel(@RequestParam("level") String level) {
+		List<Course> courses = service.getCoursesByLevel(level);
+		List<CourseDto> coursesDto = new ArrayList<>();
+		for(Course c : courses) {
+			coursesDto.add(convertToDto(c));
+		}
+		
+	 */
+	
+	@GetMapping(value = { "/courses", "/courses/" })
+	public List<CourseDto> getAllCourses() {
+		List<CourseDto> coursesDto = new ArrayList<>();
+		for (Course course : service.getAllCourses()) {
+			coursesDto.add(convertToDto(course));
+		}
+		return coursesDto;
+	}
 	
 	
 	/*----------- REVIEW ----------*/
 	
+	/**
+	 * Creates a review object using the service method createReview.
+	 * @param reviewText
+	 * @param rating
+	 * @param createdTime
+	 * @param createdDate
+	 * @param reviewee
+	 * @param reviewer
+	 * @param appointment
+	 * @return	The review object as a ReviewDto.
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/reviews/createReview", "/reviews/createReview/" })
 	public ReviewDto createReview(@RequestParam("reviewText") String reviewText, @RequestParam("rating") int rating,
 			@RequestParam("createdTime") Time createdTime, @RequestParam("createdDate") Date createdDate,
@@ -106,6 +164,11 @@ public class ProjectGroup17RestController {
 		
 	}
 	
+	/**
+	 * Get all the reviews in database as transfer objects.
+	 * 
+	 * @return ArrayList of ReviewDto objects.
+	 */
 	@GetMapping(value = { "/reviews", "/reviews/"})
 	public List<ReviewDto> getAllReviews(){
 		List<Review> reviews = service.getAllReviews();
@@ -113,8 +176,70 @@ public class ProjectGroup17RestController {
 		for(Review review : reviews) {
 			reviewsDto.add(convertToDto(review));
 		}
-		return reviewsDto;		
+		return reviewsDto;
+		
 	}
+	
+	/**
+	 * Get a review transfer object based on a reviewID.
+	 * 
+	 * @param id
+	 * @return A ReviewDto object.
+	 */
+	@GetMapping(value = {"/reviews/reviewByID", "reviews/reviewByID/", "reviews/reviewById" ,"reviews/reviewById/"})
+	public ReviewDto getReviewByReviewID(@RequestParam("id") long id) {
+		Review review = service.getReviewByReviewID(id);
+		return convertToDto(review);
+	}
+	
+	/**
+	 * Get a list of review transfer objects based on a specific reviewee, i.e. the object of a review.
+	 * 
+	 * @param reviewee
+	 * @return An ArrayList of ReviewDto objects.
+	 */
+	@GetMapping(value = {"/reviews/reviewsByReviewee","/reviews/reviewsByReviewee/"})
+	public List<ReviewDto> getReviewsByReviewee(@RequestParam("reviewee") Person reviewee){
+		List<Review> reviews = service.getReviewsByReviewee(reviewee);
+		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
+		for (Review review : reviews) {
+			reviewsDto.add(convertToDto(review));
+		}
+		return reviewsDto;	
+	}
+	
+	/**
+	 * Get a list of review transfer objects based on a specific reviewer, i.e. the author of a review.
+	 * 
+	 * @param reviewer
+	 * @return An ArrayList of ReviewDto objects.
+	 */
+	@GetMapping(value = {"/reviews/reviewsByReviewer","/reviews/reviewsByReviewer/"})
+	public List<ReviewDto> getReviewsByReviewer(@RequestParam("reviewer") Person reviewer){
+		List<Review> reviews = service.getReviewsByReviewer(reviewer);
+		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
+		for (Review review : reviews) {
+			reviewsDto.add(convertToDto(review));
+		}
+		return reviewsDto;	
+	}
+	
+	/**
+	 * Get a list of review transfer objects based on a specific appointment.
+	 * 
+	 * @param appointment
+	 * @return An ArrayList of ReviewDto objects.
+	 */
+	@GetMapping(value = {"/reviews/reviewsByAppointment","/reviews/reviewsByAppointment/"})
+	public List<ReviewDto> getReviewsByAppointment(@RequestParam("appointment") Appointment appointment){
+		List<Review> reviews = service.getReviewsByAppointment(appointment);
+		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
+		for (Review review : reviews) {
+			reviewsDto.add(convertToDto(review));
+		}
+		return reviewsDto;	
+	}
+	
 	
 	
 	/*----------- AVAILABILITY ----------*/
@@ -188,6 +313,7 @@ public class ProjectGroup17RestController {
 	}
 	
 
+
 	
 	/*----------- ROOM ----------*/
 	
@@ -195,8 +321,43 @@ public class ProjectGroup17RestController {
 	
 	
 	
+	
+	
 	/*----------- SPECIFIC COURSE ----------*/
+	
+	
+	@PostMapping(value = { "/specificCourses/create", "/specificCourses/create/" })
+	public SpecificCourseDto createSpecificCourse(@RequestParam("hourlyRate") String hourlyRate, @RequestParam("tutorUsername") String tutorUsername, 
+			@RequestParam("courseID") String courseID) throws IllegalArgumentException {
+		Tutor t = (Tutor) service.getPersonByUsername(tutorUsername);
+		Course c = (Course) service.getCourseByID(courseID);
+		double rate = Double.parseDouble(hourlyRate);
+		SpecificCourse sc = service.createSpecificCourse(t, c, rate);
+		return convertToDto(sc);
+	}
+	
+	@GetMapping(value = { "/specificCourses/tutor", "/specificCourses/tutor/" })
+	public List<SpecificCourseDto> getSpecificCoursesOfTutor(@RequestParam("username") String tutorUsername) {
+		List<SpecificCourse> scourses = service.getSpecificCourseByTutor(tutorUsername);
+		List<SpecificCourseDto> scDto = new ArrayList<>();
+		for (SpecificCourse sc : scourses) {
+			scDto.add(convertToDto(sc));
+		}
+		return scDto;
+	}
 
+	
+	@GetMapping(value = { "/specificCourses", "/specificCourses/" })
+	public List<SpecificCourseDto> getAllSpecificCourses() {
+		List<SpecificCourseDto> scDto = new ArrayList<>();
+		for (SpecificCourse sc : service.getAllSpecificCourses()) {
+			scDto.add(convertToDto(sc));
+		}
+		return scDto;
+	}
+	
+	
+	/*--------------------------------------*/
 	
 	
 	//CONVERT TO DOMAIN OBJECT METHODS
@@ -248,12 +409,28 @@ public class ProjectGroup17RestController {
 		return personDto;
 	}
 	
+
 	private AvailabilityDto convertToDto(Availability a) {
 		if(a == null) {
 			throw new IllegalArgumentException("There is no such Person!");
 		}
 		AvailabilityDto availabilityDto = new AvailabilityDto(a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
 		return availabilityDto;
+	}
+	private CourseDto convertToDto(Course c) {
+		if(c == null) {
+			throw new IllegalArgumentException("There is no such Course!");
+		}
+		CourseDto courseDto = new CourseDto(c.getCourseID(), c.getName(), c.getLevel(), c.getSubject());
+		return courseDto;
+	}
+	
+	private SpecificCourseDto convertToDto(SpecificCourse sc) {
+		if(sc == null) {
+			throw new IllegalArgumentException("There is no such Specific Course!");
+		}
+		SpecificCourseDto specificCourseDto = new SpecificCourseDto(sc.getHourlyRate(), sc.getTutor(), sc.getCourse(), sc.getSpecificCourseID());
+		return specificCourseDto;
 	}
 	
 }
