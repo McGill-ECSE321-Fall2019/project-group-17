@@ -408,7 +408,7 @@ public class ProjectGroup17Service {
 	/*----------------------------*/
 
 	@Transactional
-	public Availability createAvailability(Tutor tutor, Date date, Time startTime, Time endTime) {
+	public Availability createAvailability(Tutor tutor, Date date, Date createdDate, Time startTime, Time endTime) {
 
 		String error = "";
 
@@ -419,6 +419,9 @@ public class ProjectGroup17Service {
 		}
 		if (date == null) {
 			error += "Date cannot be empty! ";
+		}
+		if (createdDate == null) {
+			error += "Date created cannot be empty! ";
 		}
 		if (startTime == null) {
 			error += "Start time cannot be empty! ";
@@ -442,6 +445,7 @@ public class ProjectGroup17Service {
 		availability.setDate(date);
 		availability.setStartTime(startTime);
 		availability.setEndTime(endTime);
+		availability.setCreatedDate(createdDate);
 
 		availabilityRepository.save(availability);
 
