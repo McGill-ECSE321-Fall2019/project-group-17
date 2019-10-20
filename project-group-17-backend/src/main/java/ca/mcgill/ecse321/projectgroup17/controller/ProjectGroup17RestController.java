@@ -92,8 +92,27 @@ public class ProjectGroup17RestController {
 	
 	/*----------- REVIEW ----------*/
 	
+	@PostMapping(value = { "/reviews/createReview", "/reviews/createReview/" })
+	public ReviewDto createReview(@RequestParam("reviewText") String reviewText, @RequestParam("rating") int rating,
+			@RequestParam("createdTime") Time createdTime, @RequestParam("createdDate") Date createdDate,
+			@RequestParam("reviewee") Person reviewee, @RequestParam("reviewer") Person reviewer,
+			@RequestParam("appointment") Appointment appointment) throws IllegalArgumentException {
+		
+		// formatter : on 
+		Review review = service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
+		return convertToDto(review);
+		
+	}
 	
-	
+	@GetMapping(value = { "/reviews", "/reviews/"})
+	public List<ReviewDto> getAllReviews(){
+		List<Review> reviews = service.getAllReviews();
+		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
+		for(Review review : reviews) {
+			reviewsDto.add(convertToDto(review));
+		}
+		return reviewsDto;		
+	}
 	
 	
 	/*----------- AVAILABILITY ----------*/
@@ -126,6 +145,22 @@ public class ProjectGroup17RestController {
 	
 	
 	//CONVERT TO DTO METHODS
+	
+	private ReviewDto convertToDto(Review rev) {
+		if(rev == null) {
+			throw new IllegalArgumentException("There is no such review");
+		}
+		ReviewDto reviewDto;
+		if(rev.getReviewee() == null || rev.getReviewer() == null || rev.getAppointment() == null) {
+			reviewDto = new ReviewDto(rev.getReviewText(), rev.getRating());
+		}else if(rev.getCreatedDate() == null || rev.getCreatedTime() == null) {
+			reviewDto = new ReviewDto(rev.getReviewText(), rev.getRating(), rev.getReviewee(), rev.getReviewer(), rev.getAppointment());
+		}else {
+			reviewDto = new ReviewDto(rev.getReviewText(), rev.getRating(), rev.getReviewee(), rev.getReviewer(), rev.getAppointment(),
+					rev.getCreatedDate(), rev.getCreatedTime());
+		}
+		return reviewDto;
+	}
 	
 	private AppointmentDto convertToDto(Appointment appt) {
 		if (appt == null) {
