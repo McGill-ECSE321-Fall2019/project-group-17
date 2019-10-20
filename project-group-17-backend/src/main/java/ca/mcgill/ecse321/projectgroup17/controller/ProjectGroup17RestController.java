@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.projectgroup17.controller;
 
-import java.sql.Time;
+
 import java.sql.Date;
+import java.sql.Time;
+
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,9 +165,32 @@ public class ProjectGroup17RestController {
 	
 	/*----------- AVAILABILITY ----------*/
 	
+	@PostMapping(value = { "/availabilities", "/availabilities/" })
+	public AvailabilityDto createAvailability(@RequestParam("tutorUsername")String tutorUsername, @RequestParam("date")Date date, @RequestParam("createdDate")Date createdDate, @RequestParam("startTime")Time startTime, @RequestParam("endTime")Time endTime) throws IllegalArgumentException {
+		// @formatter:on
+		Tutor tutor = (Tutor) service.getPersonByUsername(tutorUsername);
+		Availability availability = service.createAvailability(tutor,date,createdDate,startTime,endTime);
+		return convertAvailabilityToDto(availability);
+	}
 	
 	
+	@GetMapping(value = { "/availabilities", "/availabilities/" })
+	public List<AvailabilityDto> getAllAvailabilities() {
+		List<AvailabilityDto> availabilityDtos = new ArrayList<>();
+		for (Availability availability : service.getAllAvailabilities()) {
+			availabilityDtos.add(convertAvailabilityToDto(availability));
+		}
+		return availabilityDtos;
+	}
 	
+	private AvailabilityDto convertAvailabilityToDto(Availability a) {
+		if(a == null) {
+			throw new IllegalArgumentException("There is no such Person!");
+		}
+		AvailabilityDto availabilityDto = new AvailabilityDto(a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
+		return availabilityDto;
+	}
+
 
 	
 	/*----------- ROOM ----------*/

@@ -882,7 +882,7 @@ public class TestProjectGroup17Service {
 		String error = null;
 
 		try {
-			service.createAvailability(tutor, date, startTime, endTime);
+			service.createAvailability(tutor, date, date, startTime, endTime);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage().toString();
 		}
@@ -911,7 +911,7 @@ public class TestProjectGroup17Service {
 		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
 
 		try {
-			service.createAvailability(tutor, date, startTime, endTime);
+			service.createAvailability(tutor, date, date, startTime, endTime);
 		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
 			fail();
@@ -943,7 +943,7 @@ public class TestProjectGroup17Service {
 		java.sql.Time startTime = java.sql.Time.valueOf( "19:05:00" );
 		java.sql.Time endTime = java.sql.Time.valueOf( "18:05:00" );
 		try {
-			service.createAvailability(tutor,date,startTime,endTime);
+			service.createAvailability(tutor,date,date,startTime,endTime);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage().toString();
 		}
@@ -972,14 +972,14 @@ public class TestProjectGroup17Service {
 		java.sql.Time startTime = java.sql.Time.valueOf( "18:05:00" );
 		java.sql.Time endTime = java.sql.Time.valueOf( "19:05:00" );
 
-		service.createAvailability(tutor,date,startTime,endTime);
+		service.createAvailability(tutor,date,date,startTime,endTime);
 
 		//Create 2nd availability
 		java.sql.Date date2 = java.sql.Date.valueOf( "2019-10-02" );
 		java.sql.Time startTime2 = java.sql.Time.valueOf( "17:05:00" );
 		java.sql.Time endTime2 = java.sql.Time.valueOf( "18:05:00" );
 
-		service.createAvailability(tutor,date2,startTime2,endTime2);
+		service.createAvailability(tutor,date2,date2,startTime2,endTime2);
 
 		try {
 			service.getAvailabilityByDate(date);
@@ -1008,14 +1008,14 @@ public class TestProjectGroup17Service {
 		java.sql.Time startTime = java.sql.Time.valueOf( "18:05:00" );
 		java.sql.Time endTime = java.sql.Time.valueOf( "19:05:00" );
 
-		service.createAvailability(tutor,date,startTime,endTime);
+		service.createAvailability(tutor,date,date, startTime,endTime);
 
 		//Create 2nd availability
 		java.sql.Date date2 = java.sql.Date.valueOf( "2019-10-04" );
 		java.sql.Time startTime2 = java.sql.Time.valueOf( "17:05:00" );
 		java.sql.Time endTime2 = java.sql.Time.valueOf( "18:05:00" );
 
-		service.createAvailability(tutor,date2,startTime2,endTime2);
+		service.createAvailability(tutor,date2,date2, startTime2,endTime2);
 
 		try {
 			service.getAvailabilityByTutorUsername(username);
