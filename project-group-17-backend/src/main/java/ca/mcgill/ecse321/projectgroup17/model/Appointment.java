@@ -97,8 +97,8 @@ public class Appointment{
 
 	private AppointmentStatus status;
 
-	public void setStatus(AppointmentStatus value) {
-		this.status = value;
+	public void setStatus(AppointmentStatus status) {
+		this.status = status;
 	}
 	public AppointmentStatus getStatus() {
 		return this.status;
