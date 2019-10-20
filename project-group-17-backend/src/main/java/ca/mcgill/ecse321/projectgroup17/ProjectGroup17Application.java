@@ -18,14 +18,6 @@ public class ProjectGroup17Application {
  	 public String greeting(){
   		 return "Hello world from project-group-17-backend!";
  	 }	
- 	 
- 	 
- 	 /* Below is just for testing
- 	 @RequestMapping("/sayhello")
- 	 public String sayHello(@RequestParam(value="name", defaultValue="John") String name) {
- 		 return "Saying hello to " + name;
- 	 }
- 	 */
- 	 
+ 	
 
 }

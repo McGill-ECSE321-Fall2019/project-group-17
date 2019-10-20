@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.projectgroup17.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+
 import java.sql.Date;
 import java.sql.Time;
 import javax.persistence.ManyToOne;
@@ -40,7 +42,7 @@ private long availabilityID;
 public void setAvailabilityID(long value) {
     this.availabilityID = value;
 }
-@Id
+@Id @GeneratedValue
 public long getAvailabilityID() {
     return this.availabilityID;
 }

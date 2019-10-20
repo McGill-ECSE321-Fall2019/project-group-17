@@ -47,15 +47,16 @@ Get to know the team:
 
 ---
 
-# Deliverable 1
-
-Due Sunday, Oct. 13th 2019.
-
-
-### Project Report
+# Project Report
 
 To view the team's project report for deliverable 1, please click the link below:
 * **https://github.com/McGill-ECSE321-Fall2019/project-group-17/wiki**
+
+---
+
+# Deliverable 1
+
+Due Sunday, Oct. 13th 2019.
 
 ### Statement of Work
 
@@ -82,11 +83,11 @@ Due Oct. 27th 2019
 
 | Member        | Role  | Contribution (hrs)  |
 | ------------- |-------------| -----|
-| Charles Bourbeau     |  | 15 |
-| Kyle Myers      |       |   15 |
-| Anthony Porporino |       |    15 |
-| Felix Simard |       |    15 |
-| Tyler Watson |       |    15 |
+| Charles Bourbeau     |  Implementing RESTful services (Review). | 20 |
+| Kyle Myers      |   Implementing RESTful services (Room).    |   20 |
+| Anthony Porporino |    Implementing RESTful services (Availability). Meeting minutes.   |    20 |
+| Felix Simard |   Implementing RESTful services (Course and SpecificCourse). Travis-CI debug.    |    20 |
+| Tyler Watson |    Implementing RESTful services (Appointment and Person).   |    20 |
 
 
 ---
