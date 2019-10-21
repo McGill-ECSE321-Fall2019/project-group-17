@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
@@ -49,7 +53,7 @@ import ca.mcgill.ecse321.projectgroup17.model.Course.Level;
 //@RunWith(MockitoJUnitRunner.class) 
 
 public class TestProjectGroup17Service {
-
+	
 	@Autowired
 	private ProjectGroup17Service service;
 
@@ -77,6 +81,8 @@ public class TestProjectGroup17Service {
 
 
 	//@Before // or @After ?? --> does not seem to clear DB before each tests...
+	
+	//@Before
 	public void clearDatabase() {
 		// First, we clear registrations to avoid exceptions due to inconsistencies
 		
@@ -86,6 +92,8 @@ public class TestProjectGroup17Service {
 		courseRepository.deleteAll();
 		roomRepository.deleteAll();
 		personRepository.deleteAll();
+		
+
 
 
 
