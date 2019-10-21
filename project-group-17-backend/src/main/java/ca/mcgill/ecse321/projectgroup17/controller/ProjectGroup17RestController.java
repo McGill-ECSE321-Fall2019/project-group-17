@@ -47,16 +47,26 @@ public class ProjectGroup17RestController {
 		return personDtos;
 	}
 	
-	@GetMapping(value = { "/persons/tutor", "/persons/tutor/" })
-	public Tutor getPersonsGetTutor(@RequestParam("username") String username) {
-		Tutor t = (Tutor) service.getPersonByUsername(username);
-		return t;
+	@GetMapping(value = { "/persons/getByUsername", "/persons/getByUsername/" })
+	public PersonDto getPersonByUsername(@RequestParam("username") String username) {
+		Person p = service.getPersonByUsername(username);
+		return convertToDto(p);
 	}
 	
-	@GetMapping(value = { "/persons/student", "/persons/student/" })
-	public Student getPersonsGetStudent(@RequestParam("username") String username) {
-		Student s = (Student) service.getPersonByUsername(username);
-		return s;
+	@GetMapping(value = { "/persons/getByEmail", "/persons/getByEmail/" })
+	public PersonDto getPersonByEmail(@RequestParam("email") String email) {
+		Person p = service.getPersonByEmail(email);
+		return convertToDto(p);
+	}
+	
+	@GetMapping(value = { "/persons/getByFirstNameAndLastName", "/persons/getByFirstNameAndLastName/" })
+	public List<PersonDto> getPersonByFirstNameAndLastName(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+		List<PersonDto> result = new ArrayList<PersonDto>();
+		List<Person> p = service.getPersonByFirstNameAndLastName(firstName, lastName);
+		for(int i=0; i<p.size(); i++) {
+			result.add(convertToDto(p.get(i)));
+		}
+		return result;
 	}
 	
 	
@@ -287,7 +297,7 @@ public class ProjectGroup17RestController {
 	 * @param tutorUsername
 	 * @return ArrayList of AvailabilityDto objects
 	 */
-	@GetMapping(value = { "/availabilitiesTutor", "/availabilitiesTutor/" })
+	@GetMapping(value = { "/availabilities/getByTutor", "availabilities/getByTutor/" })
 	public List<AvailabilityDto> getAllAvailabilitiesByTutor(@RequestParam("tutorUsername")String tutorUsername) {
 		List<AvailabilityDto> availabilityDtos = new ArrayList<>();
 		for (Availability availability : service.getAvailabilityByTutorUsername(tutorUsername)) {
@@ -302,7 +312,7 @@ public class ProjectGroup17RestController {
 	 * @param tutorUsername
 	 * @return ArrayList of AvailabilityDto objects
 	 */
-	@GetMapping(value = { "/availabilitiesDate", "/availabilitiesDate/" })
+	@GetMapping(value = { "/availabilities/getByDate", "/availabilities/getByDate/" })
 	public List<AvailabilityDto> getAllAvailabilitiesByDate(@RequestParam("date")long date) {
 		Date realDate = new Date(date);
 		List<AvailabilityDto> availabilityDtos = new ArrayList<>();

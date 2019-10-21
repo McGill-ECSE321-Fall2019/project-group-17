@@ -488,10 +488,10 @@ public class ProjectGroup17Service {
 	/*----------------------------*/
 	
 	@Transactional 
-	public Appointment createAppointment(Date date, Time endTime, Time startTime, long roomId, String tutorUsername, String status) {
+	public Appointment createAppointment(Date date, Time endTime, Time startTime, Room room, String tutorUsername, String status) {
 		// Input validation
 		
-		Room room = getRoomByRoomID(roomId);
+		//Room room = getRoomByRoomID(roomId);
 		Tutor tutor = (Tutor) getPersonByUsername(tutorUsername);
 		
 		String error = "";
@@ -526,9 +526,7 @@ public class ProjectGroup17Service {
 		appt.setDate(date);
 		appt.setStartTime(startTime);
 		appt.setEndTime(endTime);
-		
 		appt.setRoom(room);
-		
 		appt.setTutor(tutor);
 		appt.setCreatedDate(new Date(Calendar.getInstance().getTime().getTime()));
 		AppointmentStatus apptStatus = AppointmentStatus.valueOf(status.toUpperCase());

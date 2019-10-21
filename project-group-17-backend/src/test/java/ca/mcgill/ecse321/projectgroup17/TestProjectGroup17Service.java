@@ -82,11 +82,12 @@ public class TestProjectGroup17Service {
 
 	//@Before // or @After ?? --> does not seem to clear DB before each tests...
 	
-	//@Before
+	@After
 	public void clearDatabase() {
 		// First, we clear registrations to avoid exceptions due to inconsistencies
 		
 		availabilityRepository.deleteAll();
+		reviewRepository.deleteAll();
 		appointmentRepository.deleteAll();
 		specificCourseRepository.deleteAll();
 		courseRepository.deleteAll();
@@ -718,8 +719,8 @@ public class TestProjectGroup17Service {
 		String status = "Requested";
 
 		try {
-			
-			service.createAppointment(date, endTime, startTime, roomId, tutorUsername, status);
+			Room room = service.createRoom(roomId, false);
+			service.createAppointment(date, endTime, startTime, room, tutorUsername, status);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
@@ -745,11 +746,12 @@ public class TestProjectGroup17Service {
 		Date date = null;
 		Time endTime = null;
 		Time startTime = null;
-		long roomId = 0L;
+		long roomId = 1000L;
 		String status = null;
 
 		try {
-			service.createAppointment(date, startTime, endTime, roomId, tutorUsername, status);
+			Room room = service.createRoom(roomId, true);
+			service.createAppointment(date, startTime, endTime, room, tutorUsername, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
@@ -787,7 +789,7 @@ public class TestProjectGroup17Service {
 		try {
 			Room room = service.createRoom(roomId, big);
 			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
-			service.createAppointment(date, startTime, endTime, roomId, username, status);
+			service.createAppointment(date, startTime, endTime, room, username, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			error = e.getMessage();
@@ -822,7 +824,7 @@ public class TestProjectGroup17Service {
 		try {
 			Room room = service.createRoom(roomId, false);
 			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
-			service.createAppointment(date, startTime, endTime, roomId, username, status);
+			service.createAppointment(date, startTime, endTime, room, username, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			//System.out.println(e);
@@ -862,7 +864,7 @@ public class TestProjectGroup17Service {
 		String status = "Requested";
 		
 		try {
-			service.createAppointment(date, startTime, endTime, roomId, username, status);
+			service.createAppointment(date, startTime, endTime, room, username, status);
 		} catch (IllegalArgumentException e) {
 			// Check that no error occurred
 			fail();
@@ -1940,8 +1942,6 @@ public class TestProjectGroup17Service {
 	public void testGetReviewsByReviewee(){
 
 		//create the review
-		Review review = new Review();
-		reviewRepository.save(review);
 
 		//create the reviewee
 		String firstName = "John";
@@ -1949,15 +1949,24 @@ public class TestProjectGroup17Service {
 		String username = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
+		
+		String personType3 = "Tutor";
+		String firstName3 = "Alex";
+		String lastName3 = "Jones";
+		String username3 = "alexjones123";
+		String password3 = "pass123";
+		String email3 = "alex.jones@mail.ca";
+		
+		Tutor reviewee = (Tutor) service.createPerson(personType3, firstName3, lastName3, username3, password3, email3, null, 1000L);
+		Student reviewer = (Student) service.createPerson("Student", firstName, lastName, username, password, email, null, 10L);
+		Room room = service.createRoom(123L, false);
+		
+		Appointment appointment = service.createAppointment(new Date(Calendar.getInstance().getTime().getTime()), new Time(Calendar.getInstance().getTime().getTime()), new Time(Calendar.getInstance().getTime().getTime()), room, "alexjones123", "Requested");
+		
+		Review review1 = service.createReview("Hello", new Integer(4), new Time(Calendar.getInstance().getTime().getTime()),new Date(Calendar.getInstance().getTime().getTime()), reviewee, reviewer, appointment);
+		
 
-		Person reviewee = new Person();
-		reviewee.setFirstName(firstName);
-		reviewee.setLastName(lastName);
-		reviewee.setUsername(username);
-		reviewee.setPassword(password);
-		reviewee.setEmail(email);
-
-		assertEquals(service.getReviewsByReviewee(reviewee), review);
+		assertEquals(service.getReviewsByReviewee(reviewee).get(0).getReviewID(), review1.getReviewID());
 	}
 
 	@Test
