@@ -1,9 +1,7 @@
 package ca.mcgill.ecse321.projectgroup17.controller;
 
-
-import java.sql.Date;
 import java.sql.Time;
-
+import java.sql.Date;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +75,8 @@ public class ProjectGroup17RestController {
 		Date realDate = new Date(date);
 		Time realStartTime = new Time(startTime);
 		Time realEndTime = new Time(endTime);
-		Appointment appt = service.createAppointment(realDate, realEndTime, realStartTime, roomId, tutorUsername, status);
+		Room room = service.getRoomByRoomID(roomId);
+		Appointment appt = service.createAppointment(realDate, realEndTime, realStartTime, room, tutorUsername, status);
 		return convertToDto(appt);
 	}
 	
@@ -165,37 +164,12 @@ public class ProjectGroup17RestController {
 	
 	/*----------- AVAILABILITY ----------*/
 	
-	@PostMapping(value = { "/availabilities", "/availabilities/" })
-	public AvailabilityDto createAvailability(@RequestParam("tutorUsername")String tutorUsername, @RequestParam("date")Date date, @RequestParam("createdDate")Date createdDate, @RequestParam("startTime")Time startTime, @RequestParam("endTime")Time endTime) throws IllegalArgumentException {
-		// @formatter:on
-		Tutor tutor = (Tutor) service.getPersonByUsername(tutorUsername);
-		Availability availability = service.createAvailability(tutor,date,createdDate,startTime,endTime);
-		return convertAvailabilityToDto(availability);
-	}
 	
 	
-	@GetMapping(value = { "/availabilities", "/availabilities/" })
-	public List<AvailabilityDto> getAllAvailabilities() {
-		List<AvailabilityDto> availabilityDtos = new ArrayList<>();
-		for (Availability availability : service.getAllAvailabilities()) {
-			availabilityDtos.add(convertAvailabilityToDto(availability));
-		}
-		return availabilityDtos;
-	}
 	
-	private AvailabilityDto convertAvailabilityToDto(Availability a) {
-		if(a == null) {
-			throw new IllegalArgumentException("There is no such Person!");
-		}
-		AvailabilityDto availabilityDto = new AvailabilityDto(a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
-		return availabilityDto;
-	}
-
 
 	
 	/*----------- ROOM ----------*/
-	
-	
 	
 	
 	
@@ -207,7 +181,7 @@ public class ProjectGroup17RestController {
 	
 	
 	@PostMapping(value = { "/specificCourses/create", "/specificCourses/create/" })
-	public SpecificCourseDto createSpecificCourse(@RequestParam("hourlyRate") String hourlyRate, @RequestParam("tutorUsername") String tutorUsername, 
+	public SpecificCourseDto createSpecificCourse(@RequestParam("hourlyRate") String hourlyRate, @RequestParam("tutor") String tutorUsername, 
 			@RequestParam("courseID") String courseID) throws IllegalArgumentException {
 		Tutor t = (Tutor) service.getPersonByUsername(tutorUsername);
 		Course c = (Course) service.getCourseByID(courseID);
@@ -216,11 +190,11 @@ public class ProjectGroup17RestController {
 		return convertToDto(sc);
 	}
 	
-	@GetMapping(value = { "/specificCourses/tutor", "/specificCourses/tutor/" })
+	@GetMapping(value = { "/specificCourses/tutor", "/specificCourses/tutor" })
 	public List<SpecificCourseDto> getSpecificCoursesOfTutor(@RequestParam("username") String tutorUsername) {
 		List<SpecificCourse> scourses = service.getSpecificCourseByTutor(tutorUsername);
 		List<SpecificCourseDto> scDto = new ArrayList<>();
-		for (SpecificCourse sc : scourses) {
+		for (SpecificCourse sc : service.getAllSpecificCourses()) {
 			scDto.add(convertToDto(sc));
 		}
 		return scDto;
@@ -236,8 +210,6 @@ public class ProjectGroup17RestController {
 		return scDto;
 	}
 	
-	
-	/*--------------------------------------*/
 	
 	
 	//CONVERT TO DOMAIN OBJECT METHODS
