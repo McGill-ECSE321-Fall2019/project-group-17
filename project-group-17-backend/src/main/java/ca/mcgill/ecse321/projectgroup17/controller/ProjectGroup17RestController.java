@@ -140,18 +140,6 @@ public class ProjectGroup17RestController {
 	
 	/*----------- REVIEW ----------*/
 	
-	/**
-	 * Creates a review object using the service method createReview.
-	 * @param reviewText
-	 * @param rating
-	 * @param createdTime
-	 * @param createdDate
-	 * @param reviewee
-	 * @param reviewer
-	 * @param appointment
-	 * @return	The review object as a ReviewDto.
-	 * @throws IllegalArgumentException
-	 */
 	@PostMapping(value = { "/reviews/createReview", "/reviews/createReview/" })
 	public ReviewDto createReview(@RequestParam("reviewText") String reviewText, @RequestParam("rating") int rating,
 			@RequestParam("createdTime") Time createdTime, @RequestParam("createdDate") Date createdDate,
@@ -164,11 +152,6 @@ public class ProjectGroup17RestController {
 		
 	}
 	
-	/**
-	 * Get all the reviews in database as transfer objects.
-	 * 
-	 * @return ArrayList of ReviewDto objects.
-	 */
 	@GetMapping(value = { "/reviews", "/reviews/"})
 	public List<ReviewDto> getAllReviews(){
 		List<Review> reviews = service.getAllReviews();
@@ -176,146 +159,43 @@ public class ProjectGroup17RestController {
 		for(Review review : reviews) {
 			reviewsDto.add(convertToDto(review));
 		}
-		return reviewsDto;
-		
+		return reviewsDto;		
 	}
-	
-	/**
-	 * Get a review transfer object based on a reviewID.
-	 * 
-	 * @param id
-	 * @return A ReviewDto object.
-	 */
-	@GetMapping(value = {"/reviews/reviewByID", "reviews/reviewByID/", "reviews/reviewById" ,"reviews/reviewById/"})
-	public ReviewDto getReviewByReviewID(@RequestParam("id") long id) {
-		Review review = service.getReviewByReviewID(id);
-		return convertToDto(review);
-	}
-	
-	/**
-	 * Get a list of review transfer objects based on a specific reviewee, i.e. the object of a review.
-	 * 
-	 * @param reviewee
-	 * @return An ArrayList of ReviewDto objects.
-	 */
-	@GetMapping(value = {"/reviews/reviewsByReviewee","/reviews/reviewsByReviewee/"})
-	public List<ReviewDto> getReviewsByReviewee(@RequestParam("reviewee") Person reviewee){
-		List<Review> reviews = service.getReviewsByReviewee(reviewee);
-		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
-		for (Review review : reviews) {
-			reviewsDto.add(convertToDto(review));
-		}
-		return reviewsDto;	
-	}
-	
-	/**
-	 * Get a list of review transfer objects based on a specific reviewer, i.e. the author of a review.
-	 * 
-	 * @param reviewer
-	 * @return An ArrayList of ReviewDto objects.
-	 */
-	@GetMapping(value = {"/reviews/reviewsByReviewer","/reviews/reviewsByReviewer/"})
-	public List<ReviewDto> getReviewsByReviewer(@RequestParam("reviewer") Person reviewer){
-		List<Review> reviews = service.getReviewsByReviewer(reviewer);
-		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
-		for (Review review : reviews) {
-			reviewsDto.add(convertToDto(review));
-		}
-		return reviewsDto;	
-	}
-	
-	/**
-	 * Get a list of review transfer objects based on a specific appointment.
-	 * 
-	 * @param appointment
-	 * @return An ArrayList of ReviewDto objects.
-	 */
-	@GetMapping(value = {"/reviews/reviewsByAppointment","/reviews/reviewsByAppointment/"})
-	public List<ReviewDto> getReviewsByAppointment(@RequestParam("appointment") Appointment appointment){
-		List<Review> reviews = service.getReviewsByAppointment(appointment);
-		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
-		for (Review review : reviews) {
-			reviewsDto.add(convertToDto(review));
-		}
-		return reviewsDto;	
-	}
-	
 	
 	
 	/*----------- AVAILABILITY ----------*/
 	
-	/**
-	 * Creates an Availability
-	 * @param tutorUsername
-	 * @param date
-	 * @param createdDate
-	 * @param startTime
-	 * @param endTime
-	 * @return AvailabilityDto object
-	 * @throws IllegalArgumentException
-	 */
-	@PostMapping(value = { "/availabilities/createAvailability", "/availabilities/createAvailability/" })
-	public AvailabilityDto createAvailability(@RequestParam("tutorUsername")String tutorUsername, @RequestParam("date")long date, 
-			@RequestParam("createdDate")long createdDate, @RequestParam("startTime")long startTime, @RequestParam("endTime")long endTime) throws IllegalArgumentException {
+	@PostMapping(value = { "/availabilities", "/availabilities/" })
+	public AvailabilityDto createAvailability(@RequestParam("tutorUsername")String tutorUsername, @RequestParam("date")Date date, @RequestParam("createdDate")Date createdDate, @RequestParam("startTime")Time startTime, @RequestParam("endTime")Time endTime) throws IllegalArgumentException {
 		// @formatter:on
-		Date realDate = new Date(date);
-		Date realCreatedDate = new Date(createdDate);
-		Time realStartTime = new Time(startTime);
-		Time realEndTime = new Time(endTime);
 		Tutor tutor = (Tutor) service.getPersonByUsername(tutorUsername);
-		Availability availability = service.createAvailability(tutor,realDate,realCreatedDate,realStartTime,realEndTime);
-		return convertToDto(availability);
+		Availability availability = service.createAvailability(tutor,date,createdDate,startTime,endTime);
+		return convertAvailabilityToDto(availability);
 	}
 	
-	/**
-	 * Get all the availabilities in the database.
-	 * 
-	 * @return ArrayList of AvailabilityDto objects
-	 */
+	
 	@GetMapping(value = { "/availabilities", "/availabilities/" })
 	public List<AvailabilityDto> getAllAvailabilities() {
 		List<AvailabilityDto> availabilityDtos = new ArrayList<>();
 		for (Availability availability : service.getAllAvailabilities()) {
-			availabilityDtos.add(convertToDto(availability));
+			availabilityDtos.add(convertAvailabilityToDto(availability));
 		}
 		return availabilityDtos;
 	}
 	
-	/**
-	 * Get all the availabilities in the database for a specific tutor.
-	 * 
-	 * @param tutorUsername
-	 * @return ArrayList of AvailabilityDto objects
-	 */
-	@GetMapping(value = { "/availabilitiesTutor", "/availabilitiesTutor/" })
-	public List<AvailabilityDto> getAllAvailabilitiesByTutor(@RequestParam("tutorUsername")String tutorUsername) {
-		List<AvailabilityDto> availabilityDtos = new ArrayList<>();
-		for (Availability availability : service.getAvailabilityByTutorUsername(tutorUsername)) {
-			availabilityDtos.add(convertToDto(availability));
+	private AvailabilityDto convertAvailabilityToDto(Availability a) {
+		if(a == null) {
+			throw new IllegalArgumentException("There is no such Person!");
 		}
-		return availabilityDtos;
+		AvailabilityDto availabilityDto = new AvailabilityDto(a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
+		return availabilityDto;
 	}
-	
-	/**
-	 * Get all the availabilities in the database for a specific date.
-	 * 
-	 * @param tutorUsername
-	 * @return ArrayList of AvailabilityDto objects
-	 */
-	@GetMapping(value = { "/availabilitiesDate", "/availabilitiesDate/" })
-	public List<AvailabilityDto> getAllAvailabilitiesByDate(@RequestParam("date")long date) {
-		Date realDate = new Date(date);
-		List<AvailabilityDto> availabilityDtos = new ArrayList<>();
-		for (Availability availability : service.getAvailabilityByDate(realDate)) {
-			availabilityDtos.add(convertToDto(availability));
-		}
-		return availabilityDtos;
-	}
-	
 
 
 	
 	/*----------- ROOM ----------*/
+	
+	
 	
 	
 	
@@ -409,14 +289,6 @@ public class ProjectGroup17RestController {
 		return personDto;
 	}
 	
-
-	private AvailabilityDto convertToDto(Availability a) {
-		if(a == null) {
-			throw new IllegalArgumentException("There is no such Person!");
-		}
-		AvailabilityDto availabilityDto = new AvailabilityDto(a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
-		return availabilityDto;
-	}
 	private CourseDto convertToDto(Course c) {
 		if(c == null) {
 			throw new IllegalArgumentException("There is no such Course!");

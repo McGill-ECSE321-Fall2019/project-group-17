@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.projectgroup17.dto;
 
 import ca.mcgill.ecse321.projectgroup17.model.*;
+import ca.mcgill.ecse321.projectgroup17.service.ProjectGroup17Service;
 
 public class SpecificCourseDto {
 	
@@ -8,6 +9,8 @@ public class SpecificCourseDto {
 	private Tutor tutor;
 	private Course course;
 	private long specificCourseID;
+	
+	ProjectGroup17Service service;
 	
 	public SpecificCourseDto() {	
 	}
