@@ -87,7 +87,8 @@ public class ProjectGroup17RestController {
 		Date realDate = new Date(date);
 		Time realStartTime = new Time(startTime);
 		Time realEndTime = new Time(endTime);
-		Appointment appt = service.createAppointment(realDate, realEndTime, realStartTime, roomId, tutorUsername, status);
+		Room room = service.getRoomByRoomID(roomId);
+		Appointment appt = service.createAppointment(realDate, realEndTime, realStartTime, room, tutorUsername, status);
 		return convertToDto(appt);
 	}
 	
@@ -99,6 +100,7 @@ public class ProjectGroup17RestController {
 		}
 		return appts;
 	}
+	
 	
 	/*----------- COURSE ----------*/
 	
