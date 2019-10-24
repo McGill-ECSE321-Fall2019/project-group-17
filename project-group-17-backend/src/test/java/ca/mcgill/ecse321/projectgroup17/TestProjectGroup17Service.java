@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import ca.mcgill.ecse321.projectgroup17.controller.ProjectGroup17RestController;
 import ca.mcgill.ecse321.projectgroup17.dao.*;
 import ca.mcgill.ecse321.projectgroup17.model.Appointment;
 import ca.mcgill.ecse321.projectgroup17.model.Availability;
@@ -75,6 +76,8 @@ public class TestProjectGroup17Service {
 	private TutorRepository tutorRepository;
 	@Autowired
 	private StudentRepository studentRepository;
+	@Autowired
+	private PersonAvailabilitiesRepository personAvailabilitiesRepository;
 	
 
 	/*------------------------------------------*/
@@ -82,7 +85,7 @@ public class TestProjectGroup17Service {
 
 	//@Before // or @After ?? --> does not seem to clear DB before each tests...
 	
-	@After
+	@Before
 	public void clearDatabase() {
 		// First, we clear registrations to avoid exceptions due to inconsistencies
 		
@@ -896,8 +899,9 @@ public class TestProjectGroup17Service {
 			service.createAvailability(tutor, date, createdDate, startTime, endTime);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage().toString();
+			System.out.println(error);
 		}
-		assertEquals(error, "Must specify a tutor! Date cannot be empty! Start time cannot be empty! End time cannot be empty!");
+		assertEquals(error, "Must specify a tutor! Date cannot be empty! Created date cannot be empty! Start time cannot be empty! End time cannot be empty!");
 
 		//make sure an availability was not created
 		assertEquals(0, service.getAllAvailabilities().size());
@@ -928,9 +932,17 @@ public class TestProjectGroup17Service {
 			System.out.println(e.getMessage());
 			fail();
 		}
-
+		
+		List<Availability> av = service.getAllAvailabilities();
 		//make sure an availability was created
 		assertEquals(1, service.getAllAvailabilities().size());
+		assertEquals(av.get(0).getTutor().getUsername(), username);
+		assertEquals(av.get(0).getDate(), date);
+		assertEquals(av.get(0).getCreatedDate(), createdDate);
+		assertEquals(av.get(0).getStartTime(), startTime);
+		assertEquals(av.get(0).getEndTime(), endTime);
+		
+		
 	}
 
 	@Test
@@ -948,7 +960,7 @@ public class TestProjectGroup17Service {
 		String sex = "male";
 		long age = 20;
 		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
-
+		
 
 		//Create 1st availability
 		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
@@ -968,7 +980,8 @@ public class TestProjectGroup17Service {
 
 	@Test
 	public void testGetAvailabilityByDate() {
-
+		assertEquals(0, service.getAllAvailabilities().size());
+		
 		//Make a tutor
 		String personType = "Tutor";
 		String firstName = "John";
@@ -1001,12 +1014,23 @@ public class TestProjectGroup17Service {
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
+		
+		assertEquals(service.getAvailabilityByDate(date).size(), 1);
+		assertEquals(service.getAvailabilityByDate(date).get(0).getDate(),date);
+		assertEquals(service.getAvailabilityByDate(date).get(0).getCreatedDate(),createdDate);
+		assertEquals(service.getAvailabilityByDate(date).get(0).getTutor().getUsername(),username);
+		assertEquals(service.getAvailabilityByDate(date).get(0).getStartTime(),startTime);
+		assertEquals(service.getAvailabilityByDate(date).get(0).getEndTime(),endTime);
+		
+		
+		
 
 	}
 
 	@Test
 	public void testGetAvailabilityByTutorUsername() {
-
+		assertEquals(0, service.getAllAvailabilities().size());
+		
 		//Make a tutor
 		String personType = "Tutor";
 		String firstName = "John";
@@ -1039,7 +1063,18 @@ public class TestProjectGroup17Service {
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-
+		
+		assertEquals(service.getAvailabilityByTutorUsername(username).size(), 2);
+		assertEquals(service.getAvailabilityByTutorUsername(username).get(0).getDate(),date);
+		assertEquals(service.getAvailabilityByTutorUsername(username).get(0).getCreatedDate(),createdDate);
+		assertEquals(service.getAvailabilityByTutorUsername(username).get(0).getTutor().getUsername(),username);
+		assertEquals(service.getAvailabilityByTutorUsername(username).get(0).getStartTime(),startTime);
+		assertEquals(service.getAvailabilityByTutorUsername(username).get(0).getEndTime(),endTime);
+		assertEquals(service.getAvailabilityByTutorUsername(username).get(1).getDate(),date2);
+		assertEquals(service.getAvailabilityByTutorUsername(username).get(1).getCreatedDate(),createdDate2);
+		assertEquals(service.getAvailabilityByTutorUsername(username).get(1).getTutor().getUsername(),username);
+		assertEquals(service.getAvailabilityByTutorUsername(username).get(1).getStartTime(),startTime2);
+		assertEquals(service.getAvailabilityByTutorUsername(username).get(1).getEndTime(),endTime2);
 	}	
 
 	/*------------------------------------------*/
