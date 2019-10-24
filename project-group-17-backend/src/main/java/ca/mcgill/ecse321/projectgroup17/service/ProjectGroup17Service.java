@@ -478,7 +478,7 @@ public class ProjectGroup17Service {
 	
 	@Transactional 
 	public Appointment createAppointment(Date date, Time endTime, Time startTime, 
-			Room room, Tutor tutor, String status) {
+			Room room, Tutor tutor, String status, Set<Student> students) {
 		// Input validation
 		
 		//Room room = getRoomByRoomID(roomId);
@@ -512,12 +512,11 @@ public class ProjectGroup17Service {
 		if(room == null) {
 			error = error + "Appointment room cannot be null! ";
 		}
-//		if(students.size() < 0) {
-//			error = error + "Appointment students cannot be empty";
-//		}
-
+		if(students.size() < 0) {
+			error = error + "Appointment students cannot be empty";
+		}
+		System.out.println("Here is error string: " + error);
 		if (error.length() > 0) {
-			System.out.println(error);
 			throw new IllegalArgumentException(error);
 		}
 		
@@ -527,11 +526,10 @@ public class ProjectGroup17Service {
 		appt.setEndTime(endTime);
 		appt.setRoom(room);
 		appt.setTutor(tutor);
-		//appt.setStudent(students);
+		appt.setStudent(students);
 		appt.setCreatedDate(new Date(Calendar.getInstance().getTime().getTime()));
 		AppointmentStatus apptStatus = AppointmentStatus.valueOf(status.toUpperCase());
 		appt.setStatus(apptStatus);
-		System.out.println("GOT HERE");
 		appointmentRepository.save(appt);
 		return appt;
 
@@ -545,6 +543,11 @@ public class ProjectGroup17Service {
 	@Transactional
 	public List<Appointment> getAppointmentsByTutor(Tutor tutor) {
 		return toList(appointmentRepository.findByTutor(tutor));
+	}
+	
+	@Transactional
+	public List<Appointment> getAppointmentsByStudent(Student student) {
+		return toList(appointmentRepository.findByStudent(student));
 	}
 	
 	/*----------------------------*/

@@ -38,12 +38,16 @@ public class AppointmentDto {
 		this(date, startTime, endTime, status, tutor, null);
 	}
 	
-	public AppointmentDto(Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor, Set<PersonDto> student) {
-		this(date, startTime, endTime, status, tutor, student, new Date(Calendar.getInstance().getTime().getTime()));
+	public AppointmentDto(Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor, RoomDto room) {
+		this(date, startTime, endTime, status, tutor, room, null);
+	}
+	
+	public AppointmentDto(Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor, RoomDto room, Set<PersonDto> student) {
+		this(date, startTime, endTime, status, tutor, room, student, new Date(Calendar.getInstance().getTime().getTime()));
 	}
 
 	
-	public AppointmentDto(Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor, Set<PersonDto> student, Date createdDate) {
+	public AppointmentDto(Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor, RoomDto room, Set<PersonDto> student, Date createdDate) {
 		this.date = date;
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -51,6 +55,7 @@ public class AppointmentDto {
 		this.status = status;
 		this.tutor = tutor;
 		this.student = student;
+		this.room = room;
 	}
 	
 	public Date getDate() {
