@@ -5,6 +5,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -488,11 +489,16 @@ public class ProjectGroup17Service {
 	/*----------------------------*/
 	
 	@Transactional 
-	public Appointment createAppointment(Date date, Time endTime, Time startTime, Room room, Tutor tutor, String status) {
+	public Appointment createAppointment(Date date, Time endTime, Time startTime, 
+			Room room, Tutor tutor, String status) {
 		// Input validation
 		
 		//Room room = getRoomByRoomID(roomId);
 		//Person tutor = getPersonByUsername(tutorUsername);
+		
+		//****
+		//SHOULD'NT THERE BE A SET OF STUDENTS AS INPUT ????
+		//
 		
 		
 		String error = "";
@@ -518,6 +524,9 @@ public class ProjectGroup17Service {
 		if(room == null) {
 			error = error + "Appointment room cannot be null! ";
 		}
+//		if(students.size() < 0) {
+//			error = error + "Appointment students cannot be empty";
+//		}
 
 		if (error.length() > 0) {
 			System.out.println(error);
@@ -530,6 +539,7 @@ public class ProjectGroup17Service {
 		appt.setEndTime(endTime);
 		appt.setRoom(room);
 		appt.setTutor(tutor);
+		//appt.setStudent(students);
 		appt.setCreatedDate(new Date(Calendar.getInstance().getTime().getTime()));
 		AppointmentStatus apptStatus = AppointmentStatus.valueOf("Cancelled".toUpperCase());
 		appt.setStatus(apptStatus);

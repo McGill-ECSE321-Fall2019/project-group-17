@@ -1278,12 +1278,7 @@ public class TestProjectGroup17Service {
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
 
-		Person reviewee = new Person();
-		reviewee.setFirstName(firstName);
-		reviewee.setLastName(lastName);
-		reviewee.setUsername(username);
-		reviewee.setPassword(password);
-		reviewee.setEmail(email);
+		Person reviewee = service.createPerson("Tutor", firstName, lastName, username, password, email, "male", 15);
 
 		// creating a second person to be the reviewer
 
@@ -1292,8 +1287,11 @@ public class TestProjectGroup17Service {
 		String username3 = "alexjones123";
 		String password3 = "pass123";
 		String email3 = "alex.jones@mail.ca";
+		
+		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email, "male", 25);
+		
 
-
+		
 
 		// creating the Appointment tied to the review 
 
@@ -1301,12 +1299,9 @@ public class TestProjectGroup17Service {
 		Time endTime = Time.valueOf("11:00:00");
 		Date appointmentDate = Date.valueOf("2019-10-10");
 
-		Room room = new Room();
+		Room room = service.createRoom(600, false);
 
-
-		Appointment appointment = new Appointment();
-		appointment.setStatus(Appointment.AppointmentStatus.ACCEPTED);
-		appointment.setRoom(room);
+		Appointment appointment = service.createAppointment(appointmentDate, startTime, endTime, room, (Tutor) reviewee, "ACCEPTED");
 
 		//			appointment.setTutor(reviewee);
 		//			Set<Student> students = new HashSet<Student>();
@@ -1314,12 +1309,6 @@ public class TestProjectGroup17Service {
 		//			appointment.setStudent(students);
 
 		//saving what was created
-
-		personRepository.save(reviewer);
-		personRepository.save(reviewee);
-		roomRepository.save(room);
-		appointmentRepository.save(appointment);
-
 
 		try {
 			service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
