@@ -1632,7 +1632,7 @@ public class TestProjectGroup17Service {
 		String password3 = "pass123";
 		String email3 = "alex.jones@mail.ca";
 
-		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "Male", 25);
+		Person reviewer = service.createPerson("Tutor", firstName3, lastName3, username3, password3, email3, "Male", 25);
 
 		// creating the Appointment tied to the review 
 
