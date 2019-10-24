@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.projectgroup17.model.Room;
 
-public interface RoomRepository extends CrudRepository<Room, String> {
+public interface RoomRepository extends CrudRepository<Room, Long> {
 	
 	Room findByRoomID(long roomID);
 	

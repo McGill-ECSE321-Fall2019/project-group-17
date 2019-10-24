@@ -2,8 +2,10 @@ package ca.mcgill.ecse321.projectgroup17;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.matchers.InstanceOf;
 import org.mockito.invocation.InvocationOnMock;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.http.MediaType;
 import ca.mcgill.ecse321.projectgroup17.controller.ProjectGroup17RestController;
 import ca.mcgill.ecse321.projectgroup17.dao.PersonRepository;
 import ca.mcgill.ecse321.projectgroup17.model.*;
+import ca.mcgill.ecse321.projectgroup17.model.Appointment.AppointmentStatus;
 import ca.mcgill.ecse321.projectgroup17.service.ProjectGroup17Service;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,6 +29,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.internal.progress.ThreadSafeMockingProgress.mockingProgress;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.util.Calendar;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = ProjectGroup17RestController.class, secure = false)
@@ -111,4 +119,93 @@ public class TestProjectGroup17RestController {
 				+ "\"personType\":null,\"name\":\"John Smith\"}";
 		assertEquals(expected, result.getResponse().getContentAsString());
 	}
+	
+	@Test
+	public void testCreateAppointment() throws Exception {
+		
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String username = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+		String sexe = "male";
+		long age = 29L;
+		
+		Tutor person = new Tutor();
+		person.setFirstName(firstName);
+		person.setLastName(lastName);
+		person.setUsername(username);
+		person.setEmail(email);
+		person.setPassword(password);
+		person.setSexe(sexe);
+		person.setAge(age);
+		
+		Date date = new Date(Calendar.getInstance().getTime().getTime());
+		Time endTime = new Time(9, 0, 0);
+		Time startTime = new Time(10, 0, 0);
+		long roomId = 1060L;
+		boolean isBig = false;
+		String status = "Requested";
+		Room room = service.createRoom(roomId, isBig);
+		//System.out.println(room.getRoomID());
+		
+		when(service.createAppointment(anyDate(), anyTime(), anyTime(), anyRoom(), anyTutor(), anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+			if(invocation.getArgument(3).equals(username)) {
+				Appointment appt = new Appointment();
+				appt.setDate(date);
+				appt.setStartTime(startTime);
+				appt.setEndTime(endTime);
+				appt.setRoom(room);
+				appt.setTutor(person);
+				appt.setCreatedDate(new Date(Calendar.getInstance().getTime().getTime()));
+				AppointmentStatus apptStatus = AppointmentStatus.valueOf(status.toUpperCase());
+				appt.setStatus(apptStatus);
+				return appt;
+			} else {
+				return null;
+			}
+		});
+		
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(
+				"/appointments/createAppointment?date="+Calendar.getInstance().getTime().getTime()+"&startTime="+Calendar.getInstance().getTime().getTime()+"&endTime="+Calendar.getInstance().getTime().getTime()+"&tutorUsername=jimmyflimmy"
+				+"&roomId="+roomId+"&status="+status).accept(
+				MediaType.APPLICATION_JSON);
+			
+		
+		
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		String expected = "{\"firstName\":\"John\",\"lastName\":\"Smith\",\"username\":\"johnsmith123\","
+				+ "\"email\":\"john.smith@mail.ca\",\"password\":\"pass123\",\"sexe\":null,\"age\":29,"
+				+ "\"personType\":null,\"name\":\"John Smith\"}";
+		System.out.println("HFIWEJFOEFEOFEFW");
+		System.out.println(result.getResponse().getStatus());
+		assertEquals(expected, result.getResponse().getContentAsString());
+	}
+
+	
+	public static Date anyDate() {
+        reportMatcher(new InstanceOf(Date.class, "<any date>"));
+        return new Date(Calendar.getInstance().getTimeInMillis());
+    }
+	
+	public static Time anyTime() {
+        reportMatcher(new InstanceOf(Time.class, "<any time>"));
+        return new Time(Calendar.getInstance().getTimeInMillis());
+    }
+	
+	public static Room anyRoom() {
+        reportMatcher(new InstanceOf(Room.class, "<any room>"));
+        return new Room();
+    }
+	
+	public static Tutor anyTutor() {
+        reportMatcher(new InstanceOf(Tutor.class, "<any tutor>"));
+        return new Tutor();
+    }
+	
+	private static void reportMatcher(ArgumentMatcher<?> matcher) {
+        mockingProgress().getArgumentMatcherStorage().reportMatcher(matcher);
+    }
+	
 }
