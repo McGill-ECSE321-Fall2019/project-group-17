@@ -437,7 +437,7 @@ public class ProjectGroup17Service {
 			error += "Date cannot be empty! ";
 		}
 		if (createdDate == null) {
-			error += "Date created cannot be empty! ";
+			error += "Created date cannot be empty! ";
 		}
 		if (startTime == null) {
 			error += "Start time cannot be empty! ";
