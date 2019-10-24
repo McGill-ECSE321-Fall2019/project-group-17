@@ -88,7 +88,8 @@ public class ProjectGroup17RestController {
 		Time realStartTime = new Time(startTime);
 		Time realEndTime = new Time(endTime);
 		Room room = service.getRoomByRoomID(roomId);
-		Appointment appt = service.createAppointment(realDate, realEndTime, realStartTime, room, tutorUsername, status);
+		Tutor tutor = (Tutor) service.getPersonByUsername(tutorUsername);
+		Appointment appt = service.createAppointment(realDate, realEndTime, realStartTime, room, tutor, status);
 		return convertToDto(appt);
 	}
 	
@@ -442,7 +443,7 @@ public class ProjectGroup17RestController {
 		if(sc == null) {
 			throw new IllegalArgumentException("There is no such Specific Course!");
 		}
-		SpecificCourseDto specificCourseDto = new SpecificCourseDto(sc.getHourlyRate(), sc.getTutor(), sc.getCourse(), sc.getSpecificCourseID());
+		SpecificCourseDto specificCourseDto = new SpecificCourseDto(sc.getHourlyRate(), sc.getTutor().getUsername(), sc.getCourse().getCourseID(), sc.getSpecificCourseID());
 		return specificCourseDto;
 	}
 	

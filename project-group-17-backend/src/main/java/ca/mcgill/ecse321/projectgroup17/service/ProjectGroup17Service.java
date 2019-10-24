@@ -476,11 +476,12 @@ public class ProjectGroup17Service {
 	/*----------------------------*/
 	
 	@Transactional 
-	public Appointment createAppointment(Date date, Time endTime, Time startTime, Room room, String tutorUsername, String status) {
+	public Appointment createAppointment(Date date, Time endTime, Time startTime, Room room, Tutor tutor, String status) {
 		// Input validation
 		
 		//Room room = getRoomByRoomID(roomId);
-		Tutor tutor = (Tutor) getPersonByUsername(tutorUsername);
+		//Person tutor = getPersonByUsername(tutorUsername);
+		
 		
 		String error = "";
 		
@@ -507,6 +508,7 @@ public class ProjectGroup17Service {
 		}
 
 		if (error.length() > 0) {
+			System.out.println(error);
 			throw new IllegalArgumentException(error);
 		}
 		
@@ -519,6 +521,7 @@ public class ProjectGroup17Service {
 		appt.setCreatedDate(new Date(Calendar.getInstance().getTime().getTime()));
 		AppointmentStatus apptStatus = AppointmentStatus.valueOf(status.toUpperCase());
 		appt.setStatus(apptStatus);
+		System.out.println("GOT HERE");
 		appointmentRepository.save(appt);
 		return appt;
 
@@ -538,7 +541,6 @@ public class ProjectGroup17Service {
 	
 	@Transactional
 	public Room createRoom(long roomID, boolean big) {
-		
 		String error = "";
 		
 		if(roomID == 0) {
@@ -549,12 +551,10 @@ public class ProjectGroup17Service {
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
-		
 		Room room = new Room();
 		room.setBig(big);
 		room.setRoomID(roomID);
 		roomRepository.save(room);
-		
 		return room;
 	}
 	

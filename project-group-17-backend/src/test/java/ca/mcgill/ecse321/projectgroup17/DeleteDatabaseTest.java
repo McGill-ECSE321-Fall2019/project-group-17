@@ -86,14 +86,14 @@ public class DeleteDatabaseTest {
 	/*-----------------------------------------*/
 
 	@Test
-	public void test() {
+	public void test() { 
 		Tutor t = (Tutor) service.createPerson("Tutor", "charles", "poulin", "cb", "h", "4@mail.ca", "undecided", 69);
 		Student s = (Student) service.createPerson("Student", "ty", "poulin", "ty", "h", "4@mail.ca", "undecided", 69);
 		Availability a = service.createAvailability(t, new Date(Calendar.getInstance().getTime().getTime()), new Date(Calendar.getInstance().getTime().getTime())
 				, new Time(Calendar.getInstance().getTime().getTime()), new Time(Calendar.getInstance().getTime().getTime() + 3600000));
 		Room r = service.createRoom(1000L, false);
 		Appointment ap = service.createAppointment(new Date(Calendar.getInstance().getTime().getTime()), new Time(Calendar.getInstance().getTime().getTime())
-				, new Time(Calendar.getInstance().getTime().getTime()), r, "cb", AppointmentStatus.REQUESTED.toString());
+				, new Time(Calendar.getInstance().getTime().getTime()), r, t, AppointmentStatus.REQUESTED.toString());
 		Review rev = service.createReview("h", 4, new Time(Calendar.getInstance().getTime().getTime()), new Date(Calendar.getInstance().getTime().getTime()), t, s, ap);
 		Course course = service.createCourse("ECSE123", "HELLO", "University", "Engineering");
 		SpecificCourse sc = service.createSpecificCourse(t, course, 5D);
