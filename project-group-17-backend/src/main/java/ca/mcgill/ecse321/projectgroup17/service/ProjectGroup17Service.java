@@ -157,18 +157,6 @@ public class ProjectGroup17Service {
 		List<Course> course = courseRepository.findCourseBySubject(subject);
 		return course;
 	}
-	
-	/*
-	 * Below not working
-	@Transactional
-	public List<Course> getCoursesByLevel(String level) {
-		if(level == null || level.equals("") || level.trim().length() == 0) {
-			throw new IllegalArgumentException("Course level must be specified (ie: University)!");
-		}
-		List<Course> course = courseRepository.findCourseByLevel(Level.valueOf(level.toUpperCase()).toString());
-		return course;
-	}
-	*/
 
 	@Transactional
 	public List<Course> getAllCourses() {

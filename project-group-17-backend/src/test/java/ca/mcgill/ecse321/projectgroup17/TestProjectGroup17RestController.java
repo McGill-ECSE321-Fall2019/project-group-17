@@ -12,8 +12,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
 import ca.mcgill.ecse321.projectgroup17.controller.ProjectGroup17RestController;
-import ca.mcgill.ecse321.projectgroup17.dao.PersonRepository;
+import ca.mcgill.ecse321.projectgroup17.dao.*;
 import ca.mcgill.ecse321.projectgroup17.model.*;
+import ca.mcgill.ecse321.projectgroup17.model.Course.Level;
 import ca.mcgill.ecse321.projectgroup17.service.ProjectGroup17Service;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -40,12 +41,14 @@ public class TestProjectGroup17RestController {
 	
 	@Mock
 	private PersonRepository personDao;
+	private CourseRepository courseDao;
 	
 	
 	private static final String PERSON_KEY = "TestPerson";
 	private static final String NONEXISTING_KEY = "NotAPerson";
 	
 	
+	/*----------- PERSON ----------*/
 	@Test
 	public void testGetPersonByUsername() throws Exception {
 
@@ -111,4 +114,64 @@ public class TestProjectGroup17RestController {
 				+ "\"personType\":null,\"name\":\"John Smith\"}";
 		assertEquals(expected, result.getResponse().getContentAsString());
 	}
+	
+	/*----------- APPOINTMENT ----------*/
+	
+	
+	
+	/*----------- AVAILABILITY ----------*/
+	
+	
+	
+	
+	/*----------- COURSE ----------*/
+	
+	@Test
+	public void testCreateCourse() throws Exception {
+		
+		
+		String courseID = "TEST101";
+		String name = "Intro to Testing Engineering";
+		String level = "University";
+		String subject = "Engineering";
+		
+		Level courseLevel = Level.valueOf(level.toUpperCase());
+		
+		when(service.createCourse(anyString(), anyString(), anyString(), anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+			if(invocation.getArgument(3).equals(courseID)) {
+				Course course = new Course();
+				course.setCourseID(courseID);
+				course.setName(name);
+				course.setLevel(courseLevel);
+				course.setSubject(subject);
+				return course;
+			} else {
+				return null;
+			}
+		});
+		
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(
+				"/courses/createCourse?courseID="+courseID+"&courseName="+name+"&level="+level+"&subject="+subject
+				).accept(
+				MediaType.APPLICATION_JSON);
+		
+		
+		MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+		String expected = "{\"courseID\":\"TEST101\",\"courseName\":\"Intro to Testing Engineering\",\"level\":\"UNIVERSITY\","
+				+ "\"subject\":\"Engineering\",\"specificCourses\":null}";
+		assertEquals(expected, result.getResponse().getContentAsString());
+	}
+	
+	
+	/*----------- SPECIFIC COURSE ----------*/
+	
+	
+	
+	
+	/*----------- REVIEW ----------*/
+	
+	
+	
+	
+	/*----------- ROOM ----------*/
 }
