@@ -1262,15 +1262,6 @@ public class TestProjectGroup17Service {
 	@Test
 	public void testCreateReview() {					
 
-		specificCourseRepository.deleteAll();
-		courseRepository.deleteAll();;
-		availabilityRepository.deleteAll();
-		reviewRepository.deleteAll();
-		appointmentRepository.deleteAll();
-		roomRepository.deleteAll();
-		personRepository.deleteAll();
-		
-
 
 		assertEquals(0, service.getAllReviews().size());
 
@@ -1302,12 +1293,7 @@ public class TestProjectGroup17Service {
 		String password3 = "pass123";
 		String email3 = "alex.jones@mail.ca";
 
-		Person reviewer = new Person();
-		reviewer.setFirstName(firstName3);
-		reviewer.setLastName(lastName3);
-		reviewer.setUsername(username3);
-		reviewer.setPassword(password3);
-		reviewer.setEmail(email3);
+
 
 		// creating the Appointment tied to the review 
 
