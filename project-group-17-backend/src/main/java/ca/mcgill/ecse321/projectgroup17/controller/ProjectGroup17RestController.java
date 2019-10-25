@@ -341,6 +341,14 @@ public class ProjectGroup17RestController {
 	/*----------- ROOM ----------*/
 	
 	
+	@GetMapping(value = { "/room/getByRoomId", "/availabilities/getByRoom/" })
+	public Room getRoomById(@RequestParam("roomId")long roomId) {
+		Room room = new Room();
+		room = service.getRoomByRoomID(roomId);
+		return room;
+	}
+	
+	@GetMapping(value = {"/room/getAllRooms", "/availabilities/getAllRooms/"})
 	
 	
 	
