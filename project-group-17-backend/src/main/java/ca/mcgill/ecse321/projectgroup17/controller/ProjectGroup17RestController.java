@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,8 +33,8 @@ public class ProjectGroup17RestController {
 	@PostMapping(value = { "/persons/createPerson", "/persons/createPerson/" })
 	public PersonDto createPerson(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, 
 			@RequestParam("username") String username, @RequestParam("personType") String personType, 
-			@RequestParam("password") String password, @RequestParam("email") String email, @RequestParam("sexe") String sexe, 
-			@RequestParam("age") long age) throws IllegalArgumentException {
+			@RequestParam("password") String password, @RequestParam("email") String email, @RequestParam(value="sexe", required=false, 
+			defaultValue="salmon") String sexe, @RequestParam(value="age", required=false, defaultValue="69") long age) throws IllegalArgumentException {
 		Person person = service.createPerson(personType, firstName, lastName, username, password, email, sexe, age);
 		return convertToDto(person);
 	}
@@ -82,14 +83,19 @@ public class ProjectGroup17RestController {
 	@PostMapping(value = { "/appointments/createAppointment", "/appointments/createAppointment/" })
 	public AppointmentDto createAppointment(@RequestParam("date") long date, @RequestParam("startTime") long startTime, 
 			@RequestParam("endTime") long endTime, @RequestParam("tutorUsername") String tutorUsername, 
-			@RequestParam("roomId") long roomId, @RequestParam("status") String status) {
+			@RequestParam("roomId") long roomId, @RequestParam("status") String status, @RequestParam("students") List<String> students) throws IllegalArgumentException {
 		
 		Date realDate = new Date(date);
 		Time realStartTime = new Time(startTime);
 		Time realEndTime = new Time(endTime);
 		Room room = service.getRoomByRoomID(roomId);
 		Tutor tutor = (Tutor) service.getPersonByUsername(tutorUsername);
-		Appointment appt = service.createAppointment(realDate, realEndTime, realStartTime, room, tutor, status);
+		Set<Student> student = new HashSet<Student>();
+		for(int i=0; i < students.size(); i++) {
+			Student s = (Student) service.getPersonByUsername(students.get(i));
+			student.add(s);
+		}
+		Appointment appt = service.createAppointment(realDate, realEndTime, realStartTime, room, tutor, status, student);
 		return convertToDto(appt);
 	}
 	
@@ -410,7 +416,13 @@ public class ProjectGroup17RestController {
 				throw new IllegalArgumentException("There is no such Appointment!");
 		}
 		PersonDto tutor = convertToDto(appt.getTutor());
-		AppointmentDto apptDto = new AppointmentDto(appt.getDate(), appt.getStartTime(), appt.getEndTime(), appt.getStatus(), tutor);
+		RoomDto room = convertToDto(appt.getRoom());
+		Set<PersonDto> st = new HashSet<PersonDto>();
+		for(int i=0; i<appt.getStudent().size(); i++) {
+			PersonDto s = convertToDto((Person) appt.getStudent().toArray()[i]);
+			st.add(s);
+		}
+		AppointmentDto apptDto = new AppointmentDto(appt.getDate(), appt.getStartTime(), appt.getEndTime(), appt.getStatus(), tutor, room, st);
 		return apptDto;
 		
 	}
@@ -445,6 +457,14 @@ public class ProjectGroup17RestController {
 		}
 		SpecificCourseDto specificCourseDto = new SpecificCourseDto(sc.getHourlyRate(), sc.getTutor().getUsername(), sc.getCourse().getCourseID(), sc.getSpecificCourseID());
 		return specificCourseDto;
+	}
+	
+	private RoomDto convertToDto(Room room) {
+		if(room == null) {
+			throw new IllegalArgumentException("There is no such Room!");
+		}
+		RoomDto roomDto = new RoomDto(room.getRoomID(), room.isBig());
+		return roomDto;
 	}
 	
 }
