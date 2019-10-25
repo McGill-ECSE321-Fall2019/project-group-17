@@ -157,8 +157,6 @@ public class ProjectGroup17RestController {
 	 * Creates a review object using the service method createReview.
 	 * @param reviewText
 	 * @param rating
-	 * @param longCreatedTime
-	 * @param longCreatedDate
 	 * @param name_reviewee
 	 * @param name_reviewer
 	 * @param appointmentID
@@ -167,12 +165,11 @@ public class ProjectGroup17RestController {
 	 */
 	@PostMapping(value = { "/reviews/createReview", "/reviews/createReview/" })
 	public ReviewDto createReview(@RequestParam("reviewText") String reviewText, @RequestParam("rating") int rating,
-			@RequestParam("createdTime") long longCreatedTime, @RequestParam("createdDate") long longCreatedDate,
-			@RequestParam("reviewee") String name_reviewee, @RequestParam("reviewer") String name_reviewer,
-			@RequestParam("appointment") long appointmentID) throws IllegalArgumentException {
+			@RequestParam("name_reviewee") String name_reviewee, @RequestParam("name_reviewer") String name_reviewer,
+			@RequestParam("appointmentID") long appointmentID) throws IllegalArgumentException {
 		// formatter : on 
-		Time createdTime = new java.sql.Time(longCreatedTime);
-		Date createdDate = new java.sql.Date(longCreatedDate);
+		Time createdTime = new Time(Calendar.getInstance().getTimeInMillis());
+		Date createdDate = new Date(Calendar.getInstance().getTimeInMillis());
 		Person reviewee = service.getPersonByUsername(name_reviewee);
 		Person reviewer = service.getPersonByUsername(name_reviewer);
 		Appointment appointment = service.getAppointmentByAppointmentID(appointmentID);
@@ -216,7 +213,7 @@ public class ProjectGroup17RestController {
 	 * @return An ArrayList of ReviewDto objects.
 	 */
 	@GetMapping(value = {"/reviews/reviewsByReviewee","/reviews/reviewsByReviewee/"})
-	public List<ReviewDto> getReviewsByReviewee(@RequestParam("reviewee") String name_reviewee){
+	public List<ReviewDto> getReviewsByReviewee(@RequestParam("name_reviewee") String name_reviewee){
 		Person reviewee = service.getPersonByUsername(name_reviewee);
 		List<Review> reviews = service.getReviewsByReviewee(reviewee);
 		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
@@ -233,7 +230,7 @@ public class ProjectGroup17RestController {
 	 * @return An ArrayList of ReviewDto objects.
 	 */
 	@GetMapping(value = {"/reviews/reviewsByReviewer","/reviews/reviewsByReviewer/"})
-	public List<ReviewDto> getReviewsByReviewer(@RequestParam("reviewer") String name_reviewer){
+	public List<ReviewDto> getReviewsByReviewer(@RequestParam("name_reviewer") String name_reviewer){
 		Person reviewer = service.getPersonByUsername(name_reviewer);
 		List<Review> reviews = service.getReviewsByReviewer(reviewer);
 		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
@@ -250,7 +247,7 @@ public class ProjectGroup17RestController {
 	 * @return An ArrayList of ReviewDto objects.
 	 */
 	@GetMapping(value = {"/reviews/reviewsByAppointment","/reviews/reviewsByAppointment/"})
-	public List<ReviewDto> getReviewsByAppointment(@RequestParam("appointment") long appointmentID){
+	public List<ReviewDto> getReviewsByAppointment(@RequestParam("appointmentID") long appointmentID){
 		Appointment appointment = service.getAppointmentByAppointmentID(appointmentID);
 		List<Review> reviews = service.getReviewsByAppointment(appointment);
 		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
