@@ -14,7 +14,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -97,6 +99,10 @@ public class TestProjectGroup17Service {
 		roomRepository.deleteAll();
 		personRepository.deleteAll();
 		
+		tutorRepository.deleteAll();
+		studentRepository.deleteAll();
+		personAvailabilitiesRepository.deleteAll();
+		
 
 
 
@@ -104,7 +110,6 @@ public class TestProjectGroup17Service {
 	}
 
 	/*-----------------------------------------*/
-
 	@Test
 	public void testCreateCourse() {
 		assertEquals(0, service.getAllCourses().size());
@@ -117,7 +122,6 @@ public class TestProjectGroup17Service {
 		try {
 			service.createCourse(courseID, name, level, subject);
 		} catch(IllegalArgumentException e) {
-			System.out.println(e.getMessage());
 			fail();
 		}
 
@@ -126,7 +130,7 @@ public class TestProjectGroup17Service {
 		assertEquals(1, allCourses.size());
 		assertEquals(courseID, allCourses.get(0).getCourseID());
 		assertEquals(subject, allCourses.get(0).getSubject());
-		assertEquals(level, allCourses.get(0).getLevel());
+		assertEquals(Level.valueOf(level.toUpperCase()), allCourses.get(0).getLevel());
 		assertEquals(name, allCourses.get(0).getName());
 
 	}
@@ -149,7 +153,7 @@ public class TestProjectGroup17Service {
 		}
 
 		// check error
-		assertEquals("Course ID must be specified (ie: ECSE321)!Course name must be specified!Course level must be specified!Invalid course level specified (Highschool, Cegep, University)!The course name must be specified!", 
+		assertEquals("Course ID must be specified (ie: ECSE321)!Course name must be specified!Course level must be specified!The course name must be specified!", 
 				error);
 
 		// check no change in memory
@@ -167,7 +171,7 @@ public class TestProjectGroup17Service {
 		String level = "University";
 		String name = "Intro to the Software Engineering Profession";
 
-		String courseID2 = "ECSE321";
+		String courseID2 = "MATH240";
 		String subject2 = "Mathematic";
 		String level2 = "University";
 		String name2 = "Probability";
@@ -188,23 +192,23 @@ public class TestProjectGroup17Service {
 		}
 
 
-		Course course = service.getCourseByID(subject);
-		Course course2 = service.getCourseByID(subject2);
-		Course course3 = service.getCourseByID(subject3);
-
+		Course course = service.getCourseByID(courseID);
+		Course course2 = service.getCourseByID(courseID2);
+		Course course3 = service.getCourseByID(courseID3);
+		
 		assertEquals(courseID, course.getCourseID());
 		assertEquals(subject, course.getSubject());
-		assertEquals(level, course.getLevel());
+		assertEquals(Level.valueOf(level.toUpperCase()),course.getLevel());
 		assertEquals(name, course.getName());
 
 		assertEquals(courseID2, course2.getCourseID());
 		assertEquals(subject2, course2.getSubject());
-		assertEquals(level2, course2.getLevel());
+		assertEquals(Level.valueOf(level2.toUpperCase()), course2.getLevel());
 		assertEquals(name2, course2.getName());
 
 		assertEquals(courseID3, course3.getCourseID());
 		assertEquals(subject3, course3.getSubject());
-		assertEquals(level3, course3.getLevel());
+		assertEquals(Level.valueOf(level3.toUpperCase()), course3.getLevel());
 		assertEquals(name3, course3.getName());
 	}
 
@@ -241,7 +245,7 @@ public class TestProjectGroup17Service {
 		String level = "University";
 		String name = "Intro to the Software Engineering Profession";
 
-		String courseID2 = "ECSE321";
+		String courseID2 = "MATH240";
 		String subject2 = "Mathematic";
 		String level2 = "University";
 		String name2 = "Probability";
@@ -268,17 +272,17 @@ public class TestProjectGroup17Service {
 
 		assertEquals(courseID, course.get(0).getCourseID());
 		assertEquals(subject, course.get(0).getSubject());
-		assertEquals(level, course.get(0).getLevel());
+		assertEquals(Level.valueOf(level.toUpperCase()), course.get(0).getLevel());
 		assertEquals(name, course.get(0).getName());
 
 		assertEquals(courseID2, course2.get(0).getCourseID());
 		assertEquals(subject2, course2.get(0).getSubject());
-		assertEquals(level2, course2.get(0).getLevel());
+		assertEquals(Level.valueOf(level2.toUpperCase()), course2.get(0).getLevel());
 		assertEquals(name2, course2.get(0).getName());
 
 		assertEquals(courseID3, course3.get(0).getCourseID());
 		assertEquals(subject3, course3.get(0).getSubject());
-		assertEquals(level3, course3.get(0).getLevel());
+		assertEquals(Level.valueOf(level3.toUpperCase()), course3.get(0).getLevel());
 		assertEquals(name3, course3.get(0).getName());
 	}
 
@@ -697,47 +701,55 @@ public class TestProjectGroup17Service {
 	@Test
 	public void testCreateAppointment() {
 
-		//assertEquals(0, service.getAllAppointments().size());
+		assertEquals(0, service.getAllAppointments().size());
 
 		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
-		String username = "johnsmith123";
+		String tutorUsername = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
-//
-//		Tutor tutor = new Tutor();
-//		tutor.setFirstName(firstName);
-//		tutor.setLastName(lastName);
-//		tutor.setUsername(username);
-//		tutor.setPassword(password);
-//		tutor.setEmail(email);
-		
-		String tutorUsername = "johnsmith123";
 
-		Date date = new Date(Calendar.getInstance().getTime().getTime());
-		Time endTime = new Time(11, 0, 0);
-		Time startTime = new Time(10, 0, 0);
+		
+		String personType2 = "Student";
+		String firstName2 = "Tim";
+		String lastName2 = "Tom";
+		String studentUsername = "timtom123";
+		String studentUsername2 = "larryHolmes";
+		String password2 = "pass123";
+		String email2 = "tim.tom@mail.ca";
+		
+		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "17:05:00" );
+		java.sql.Time endTime = java.sql.Time.valueOf( "18:05:00" );
+		
+		Set<Student> students = new HashSet<>();
+
 		long roomId = 1000L;
 		String status = "Requested";
 
 		try {
 			Room room = service.createRoom(roomId, false);
+			
 			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, tutorUsername, password, email, "male", 69L);
-			service.createAppointment(date, endTime, startTime, room, tutor, status);
+			Student student1 = (Student) service.createPerson(personType2, firstName2, lastName2, studentUsername, password2, email2, "male", 69L);
+			Student student2 = (Student) service.createPerson(personType2, firstName2, lastName2, studentUsername2, password2, email2, "male", 69L);
+			students.add(student1);
+			students.add(student2);
+			service.createAppointment(date, endTime, startTime, room, tutor, status, students);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
 
 		List<Appointment> allAppointments = service.getAllAppointments();
 
-		//assertEquals(1, allAppointments.size());
+		assertEquals(1, allAppointments.size());
 		assertEquals(date, allAppointments.get(0).getDate());
 		assertEquals(endTime, allAppointments.get(0).getEndTime());
 		assertEquals(startTime, allAppointments.get(0).getStartTime());
 		assertEquals(roomId, allAppointments.get(0).getRoom().getRoomID());
 		assertEquals(tutorUsername, allAppointments.get(0).getTutor().getUsername());
-		assertEquals(status, allAppointments.get(0).getStatus());
+		assertEquals(AppointmentStatus.valueOf(status.toUpperCase()), allAppointments.get(0).getStatus());
 
 	}
 
@@ -745,69 +757,70 @@ public class TestProjectGroup17Service {
 	public void testCreateAppointmentNull() {
 		assertEquals(0, service.getAllAppointments().size());
 		
-		String personType = "Tutor";
-		String firstName = "John";
-		String lastName = "Smith";
-		String username = "johnsmith123";
-		String password = "pass123";
-		String email = "john.smith@mail.ca";
-		String sexe = "male";
-		long age = 20;
 		
 		String error = "";
-		String tutorUsername = null;
 		Date date = null;
 		Time endTime = null;
 		Time startTime = null;
-		long roomId = 1000L;
+		Room room = null;
+		Tutor tutor = null;
 		String status = null;
 
+		Set<Student> students = null;
 		try {
-			Room room = service.createRoom(roomId, true);
-			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, tutorUsername, password, email, sexe, age);
-			service.createAppointment(date, startTime, endTime, room, tutor, status);
+			service.createAppointment(date, startTime, endTime, room, tutor, status,students);
 		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
 			error = e.getMessage();
 		}	
 
 		// make sure no appointment were created
-		assertEquals(error, "Appointment date cannot be empty! Appointment start time cannot be empty! Appointment end time cannot be empty! Appointment tutor cannot be null! Appointment status cannot be empty and must be 'Requested'! Appointment room cannot be null! ");
+		assertEquals(error, "Appointment date cannot be empty! Appointment start time cannot be empty! Appointment end time cannot be empty! Appointment tutor cannot be null! Appointment status cannot be empty and must be 'Requested'! Appointment room cannot be null! Appointment students cannot be null! ");
 		assertEquals(0, service.getAllAppointments().size());
-
 
 	}
 
 	@Test
 	public void testCreateAppointmentEndTimeBeforeStartTime() {
 		assertEquals(0, service.getAllAppointments().size());
-
-		String error = "";
 		
+		String error = "";
 		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
-		String username = "johnsmith123";
+		String tutorUsername = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
-		String sex = "male";
-		long age = 20;
-		boolean big = false;
-		String status = "Requested";
-		long roomId = 1000L;
 
-		java.sql.Date date = java.sql.Date.valueOf( "2019-10-31" );
-		java.sql.Time startTime = java.sql.Time.valueOf( "18:05:00" );
-		java.sql.Time endTime = java.sql.Time.valueOf( "19:05:00" );
+		
+		String personType2 = "Student";
+		String firstName2 = "Tim";
+		String lastName2 = "Tom";
+		String studentUsername = "timtom123";
+		String studentUsername2 = "larryHolmes";
+		String password2 = "pass123";
+		String email2 = "tim.tom@mail.ca";
+		
+		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "17:05:00" );
+		java.sql.Time endTime = java.sql.Time.valueOf( "16:05:00" );
+		
+		
+		Set<Student> students = new HashSet<>();
+
+		long roomId = 1000L;
+		String status = "Requested";
 
 		try {
-			Room room = service.createRoom(roomId, big);
-			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, sex, age);
-			service.createAppointment(date, startTime, endTime, room, tutor, status);
+			Room room = service.createRoom(roomId, false);
+			
+			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, tutorUsername, password, email, "male", 69L);
+			Student student1 = (Student) service.createPerson(personType2, firstName2, lastName2, studentUsername, password2, email2, "male", 69L);
+			Student student2 = (Student) service.createPerson(personType2, firstName2, lastName2, studentUsername2, password2, email2, "male", 69L);
+			students.add(student1);
+			students.add(student2);
+			service.createAppointment(date, endTime, startTime, room, tutor, status, students);
 		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
 			error = e.getMessage();
-			//System.out.println(error);
 		}
 		
 		assertEquals(error, "Appointment end time cannot be before appointment start time! ");
@@ -817,31 +830,45 @@ public class TestProjectGroup17Service {
 
 	@Test
 	public void testGetAppointmentByDate() {
-
+		assertEquals(0, service.getAllAppointments().size());
+		
 		List<Appointment> appointments;
-
+		
 		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
-		String username = "johnsmith123";
+		String tutorUsername = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
-		long roomId = 1000L;
 
 		
-		Date date = new Date(Calendar.getInstance().getTime().getTime());
-		Time endTime = new Time(9, 0, 0);
-		Time startTime = new Time(10, 0, 0);
+		String personType2 = "Student";
+		String firstName2 = "Tim";
+		String lastName2 = "Tom";
+		String studentUsername = "timtom123";
+		String studentUsername2 = "larryHolmes";
+		String password2 = "pass123";
+		String email2 = "tim.tom@mail.ca";
 		
+		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "17:05:00" );
+		java.sql.Time endTime = java.sql.Time.valueOf( "18:05:00" );
+		
+		Set<Student> students = new HashSet<>();
+
+		long roomId = 1000L;
 		String status = "Requested";
 
 		try {
 			Room room = service.createRoom(roomId, false);
-			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
-			service.createAppointment(date, startTime, endTime, room, tutor, status);
+			
+			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, tutorUsername, password, email, "male", 69L);
+			Student student1 = (Student) service.createPerson(personType2, firstName2, lastName2, studentUsername, password2, email2, "male", 69L);
+			Student student2 = (Student) service.createPerson(personType2, firstName2, lastName2, studentUsername2, password2, email2, "male", 69L);
+			students.add(student1);
+			students.add(student2);
+			service.createAppointment(date, endTime, startTime, room, tutor, status, students);
 		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
-			//System.out.println(e);
 			fail();
 		}
 
@@ -851,41 +878,161 @@ public class TestProjectGroup17Service {
 			assertEquals(date, appointments.get(i).getDate());
 		}
 
-	
-
 	}
 	
 	@Test
 	public void testGetAppointmentByStartTimeAndEndTime() {
+		assertEquals(0, service.getAllAppointments().size());
 		
 		List<Appointment> appointments;
 		
 		String personType = "Tutor";
 		String firstName = "John";
 		String lastName = "Smith";
-		String username = "johnsmith123";
+		String tutorUsername = "johnsmith123";
 		String password = "pass123";
 		String email = "john.smith@mail.ca";
+
 		
+		String personType2 = "Student";
+		String firstName2 = "Tim";
+		String lastName2 = "Tom";
+		String studentUsername = "timtom123";
+		String studentUsername2 = "larryHolmes";
+		String password2 = "pass123";
+		String email2 = "tim.tom@mail.ca";
+		
+		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "17:05:00" );
+		java.sql.Time endTime = java.sql.Time.valueOf( "18:05:00" );
+		
+		Set<Student> students = new HashSet<>();
+
 		long roomId = 1000L;
-
-		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, username, password, email, null, 0L);
-
-		Date date = new Date(Calendar.getInstance().getTime().getTime());
-		Time endTime = new Time(9, 0, 0);
-		Time startTime = new Time(10, 0, 0);
-		Room room = service.createRoom(roomId, false);
 		String status = "Requested";
-		
+
 		try {
-			service.createAppointment(date, startTime, endTime, room, tutor, status);
+			Room room = service.createRoom(roomId, false);
+			
+			Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, tutorUsername, password, email, "male", 69L);
+			Student student1 = (Student) service.createPerson(personType2, firstName2, lastName2, studentUsername, password2, email2, "male", 69L);
+			Student student2 = (Student) service.createPerson(personType2, firstName2, lastName2, studentUsername2, password2, email2, "male", 69L);
+			students.add(student1);
+			students.add(student2);
+			service.createAppointment(date, endTime, startTime, room, tutor, status, students);
 		} catch (IllegalArgumentException e) {
-			// Check that no error occurred
 			fail();
 		}
 		
-		appointments = appointmentRepository.findByStartTimeAndEndTime(startTime, endTime);
+		appointments = service.getAppointmentsByStartTimeAndEndTime(startTime, endTime);
 		
+		for(int i=0; i<appointments.size(); i++) {
+			assertEquals(startTime, appointments.get(i).getStartTime());
+			assertEquals(endTime, appointments.get(i).getEndTime());
+		}
+		
+	}
+	
+	@Test
+	public void testGetAppointmentByStudent() {
+		assertEquals(0, service.getAllAppointments().size());
+		
+		List<Appointment> appointments;
+		
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String tutorUsername = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		
+		String personType2 = "Student";
+		String firstName2 = "Tim";
+		String lastName2 = "Tom";
+		String studentUsername = "timtom123";
+		String studentUsername2 = "larryHolmes";
+		String password2 = "pass123";
+		String email2 = "tim.tom@mail.ca";
+		
+		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "17:05:00" );
+		java.sql.Time endTime = java.sql.Time.valueOf( "18:05:00" );
+		
+		Set<Student> students = new HashSet<>();
+
+		long roomId = 1000L;
+		String status = "Requested";
+		
+		Room room = service.createRoom(roomId, false);
+		
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, tutorUsername, password, email, "male", 69L);
+		Student student1 = (Student) service.createPerson(personType2, firstName2, lastName2, studentUsername, password2, email2, "male", 69L);
+		Student student2 = (Student) service.createPerson(personType2, firstName2, lastName2, studentUsername2, password2, email2, "male", 69L);
+		students.add(student1);
+		students.add(student2);
+		try {
+			service.createAppointment(date, endTime, startTime, room, tutor, status, students);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		
+		appointments = service.getAppointmentsByStudent(student1);
+		
+		assertEquals(1, service.getAllAppointments().size());
+		for(int i=0; i<appointments.size(); i++) {
+			assertEquals(startTime, appointments.get(i).getStartTime());
+			assertEquals(endTime, appointments.get(i).getEndTime());
+		}
+	}
+	
+	@Test
+	public void testGetAppointmentByTutor() {
+		assertEquals(0, service.getAllAppointments().size());
+		
+		List<Appointment> appointments;
+		
+		String personType = "Tutor";
+		String firstName = "John";
+		String lastName = "Smith";
+		String tutorUsername = "johnsmith123";
+		String password = "pass123";
+		String email = "john.smith@mail.ca";
+
+		
+		String personType2 = "Student";
+		String firstName2 = "Tim";
+		String lastName2 = "Tom";
+		String studentUsername = "timtom123";
+		String studentUsername2 = "larryHolmes";
+		String password2 = "pass123";
+		String email2 = "tim.tom@mail.ca";
+		
+		java.sql.Date date = java.sql.Date.valueOf( "2019-10-03" );
+		java.sql.Time startTime = java.sql.Time.valueOf( "17:05:00" );
+		java.sql.Time endTime = java.sql.Time.valueOf( "18:05:00" );
+		
+		Set<Student> students = new HashSet<>();
+
+		long roomId = 1000L;
+		String status = "Requested";
+		
+		Room room = service.createRoom(roomId, false);
+		
+		Tutor tutor = (Tutor) service.createPerson(personType, firstName, lastName, tutorUsername, password, email, "male", 69L);
+		Student student1 = (Student) service.createPerson(personType2, firstName2, lastName2, studentUsername, password2, email2, "male", 69L);
+		Student student2 = (Student) service.createPerson(personType2, firstName2, lastName2, studentUsername2, password2, email2, "male", 69L);
+		students.add(student1);
+		students.add(student2);
+		try {
+			service.createAppointment(date, endTime, startTime, room, tutor, status, students);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		
+		appointments = service.getAppointmentsByTutor(tutor);
+		
+		assertEquals(1, service.getAllAppointments().size());
 		for(int i=0; i<appointments.size(); i++) {
 			assertEquals(startTime, appointments.get(i).getStartTime());
 			assertEquals(endTime, appointments.get(i).getEndTime());
@@ -910,7 +1057,6 @@ public class TestProjectGroup17Service {
 			service.createAvailability(tutor, date, createdDate, startTime, endTime);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage().toString();
-			System.out.println(error);
 		}
 		assertEquals(error, "Must specify a tutor! Date cannot be empty! Created date cannot be empty! Start time cannot be empty! End time cannot be empty!");
 
@@ -940,7 +1086,6 @@ public class TestProjectGroup17Service {
 		try {
 			service.createAvailability(tutor, date, createdDate, startTime, endTime);
 		} catch (IllegalArgumentException e) {
-			System.out.println(e.getMessage());
 			fail();
 		}
 		
@@ -1130,7 +1275,6 @@ public class TestProjectGroup17Service {
 		try {
 			service.createSpecificCourse(tutor, course, hourlyRate);
 		} catch (IllegalArgumentException e) {
-			System.out.println(e.getMessage());
 			error = e.getMessage();
 		}
 
@@ -1161,7 +1305,7 @@ public class TestProjectGroup17Service {
 		String sex2 = "male";
 		long age2 = 20;
 		Tutor tutor2 = (Tutor) service.createPerson(personType2, firstName2, lastName2, username2, password2, email2, sex2, age2);
-
+	
 		//Make course
 		String courseID = "MATH240";
 		String name = "DiscreteStructures";
@@ -1170,17 +1314,17 @@ public class TestProjectGroup17Service {
 		Double hourlyRate = 13.0;
 		Double hourlyRate2 = 14.0;
 		Course course = service.createCourse(courseID, name, level, subject);
-
+	
 		service.createSpecificCourse(tutor, course, hourlyRate);
-
+	
 		service.createSpecificCourse(tutor2, course, hourlyRate2);
-
+	
 		try {
-			service.getSpecificCourseByCourse(courseID);
+			service.getSpecificCourseByCourse(service.getCourseByID(courseID));
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
-
+	
 	}
 
 	@Test
@@ -1291,7 +1435,10 @@ public class TestProjectGroup17Service {
 		
 		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "male", 25);
 		
-
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
 		
 
 		// creating the Appointment tied to the review 
@@ -1302,7 +1449,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 		//			appointment.setTutor(reviewee);
 		//			Set<Student> students = new HashSet<Student>();
@@ -1360,6 +1507,11 @@ public class TestProjectGroup17Service {
 
 		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "Male", 20);
 
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
+		
 		// creating the Appointment tied to the review 
 
 		Time startTime = Time.valueOf("10:00:00");
@@ -1368,7 +1520,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 		
 		String error = null;
@@ -1411,6 +1563,11 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "Male", 25);
+		
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
 
 		// creating the Appointment tied to the review 
 
@@ -1420,7 +1577,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 
 		String error = null;
@@ -1467,6 +1624,11 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "Male", 25);
+		
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
 
 		// creating the Appointment tied to the review 
 
@@ -1476,7 +1638,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 		
 		String error = null;
@@ -1523,7 +1685,6 @@ public class TestProjectGroup17Service {
 
 		Person reviewee = service.createPerson("Tutor", firstName, lastName, username, password, email, "Male", 15);
 
-
 		// creating a second person to be the reviewer
 
 		String firstName3 = "Alex";
@@ -1534,6 +1695,12 @@ public class TestProjectGroup17Service {
 
 		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "Male", 25);
 
+		
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
+		
 		// creating the Appointment tied to the review 
 
 		Time startTime = Time.valueOf("10:00:00");
@@ -1543,7 +1710,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 		String error = null;
 		try {
@@ -1584,9 +1751,14 @@ public class TestProjectGroup17Service {
 		String password3 = "pass123";
 		String email3 = "alex.jones@mail.ca";
 
-		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "Male", 25);
-
-		// creating the Appointment tied to the review 
+		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "Male", 25); 
+		
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
+		
+		// creating the Appointment tied to the review
 
 		Time startTime = Time.valueOf("10:00:00");
 		Time endTime = Time.valueOf("11:00:00");
@@ -1595,7 +1767,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 
 		String error = null;
@@ -1633,6 +1805,11 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		Person reviewer = service.createPerson("Tutor", firstName3, lastName3, username3, password3, email3, "Male", 25);
+		
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewee);
 
 		// creating the Appointment tied to the review 
 
@@ -1642,7 +1819,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewer, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewer, "REQUESTED", students);
 
 		
 		String error = null;
@@ -1681,6 +1858,11 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 
 		Person reviewee = service.createPerson("Tutor", firstName3, lastName3, username3, password3, email3, "Male", 15);
+		
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
 
 
 		// creating the Appointment tied to the review 
@@ -1691,7 +1873,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 		String error = null;
 		try {
@@ -1801,6 +1983,11 @@ public class TestProjectGroup17Service {
 		
 		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "male", 25);
 				
+		
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
 
 		// creating the Appointment tied to the review 
 
@@ -1810,7 +1997,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 		Review review = null;
 
@@ -1856,7 +2043,11 @@ public class TestProjectGroup17Service {
 		
 		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "male", 25);
 				
-
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
+		
 		// creating the Appointment tied to the review 
 
 		Time startTime = Time.valueOf("10:00:00");
@@ -1865,7 +2056,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 		Review review = null;
 
@@ -1909,6 +2100,10 @@ public class TestProjectGroup17Service {
 		
 		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "male", 25);
 				
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
 
 		// creating the Appointment tied to the review 
 
@@ -1918,7 +2113,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 		Review review = null;
 
@@ -1962,7 +2157,12 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 		
 		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "male", 25);
-				
+		
+		
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
 
 		// creating the Appointment tied to the review 
 
@@ -1972,7 +2172,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 		Review review = null;
 
@@ -2016,7 +2216,11 @@ public class TestProjectGroup17Service {
 		
 		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "male", 25);
 				
-
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
+		
 		// creating the Appointment tied to the review 
 
 		Time startTime = Time.valueOf("10:00:00");
@@ -2025,7 +2229,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 		Review review1 = null;
 		Review review2 = null;
@@ -2078,7 +2282,11 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 		
 		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "male", 25);
-				
+	
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
 
 		// creating the Appointment tied to the review 
 
@@ -2088,7 +2296,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 		Review review = null;
 
@@ -2138,7 +2346,11 @@ public class TestProjectGroup17Service {
 		String email3 = "alex.jones@mail.ca";
 		
 		Person reviewer = service.createPerson("Student", firstName3, lastName3, username3, password3, email3, "male", 25);
-				
+		
+		// create a set of students to pass to appointment
+		
+		Set<Student> students = new HashSet<>();
+		students.add((Student) reviewer);
 
 		// creating the Appointment tied to the review 
 
@@ -2148,7 +2360,7 @@ public class TestProjectGroup17Service {
 
 		Room room = service.createRoom(reviewRoomID++, false);
 
-		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED");
+		Appointment appointment = service.createAppointment(appointmentDate, endTime, startTime, room, (Tutor) reviewee, "REQUESTED", students);
 
 		Review review1 = null;
 		Review review2 = null;
@@ -2187,7 +2399,6 @@ public class TestProjectGroup17Service {
 		}
 		
 		Room room = service.getRoomByRoomID(1060L);
-		System.out.println(room.getRoomID());
 		
 		
 	}

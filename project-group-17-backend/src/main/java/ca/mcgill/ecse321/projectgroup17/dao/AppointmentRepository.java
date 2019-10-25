@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.projectgroup17.model.Appointment;
+import ca.mcgill.ecse321.projectgroup17.model.Student;
 import ca.mcgill.ecse321.projectgroup17.model.Tutor;
 
 public interface AppointmentRepository extends CrudRepository<Appointment, Long>{
@@ -26,6 +27,8 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Long>
 	Appointment findByTutorAndDateAndStartTime(Tutor tutor, Date date, Time startTime);
 	
 	List<Appointment> findByTutor(Tutor tutor);
+	
+	List<Appointment> findByStudent(Student student);
 	
 	//List<Appointment> findByAppointmentStatus(String appointmentStatus);
 	

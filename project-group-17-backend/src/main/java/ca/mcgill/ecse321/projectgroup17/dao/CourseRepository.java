@@ -9,15 +9,13 @@ import ca.mcgill.ecse321.projectgroup17.model.Course.Level;
 
 public interface CourseRepository extends CrudRepository<Course, String> {
 	
-	Course findCourseByCourseID(String courseID);
+	Course findByCourseID(String courseID);
 	
-	List<Course> findCourseBySubject(String subject);
+	List<Course> findBySubject(String subject);
 	
 	void deleteByCourseID(String courseID);
-
-	List<Course> findCoursesBySubject(String subject);
 	
-	List<Course> findCourseByLevel(String level);
+	List<Course> findByLevel(String level);
 	
 	boolean existsByCourseID(String courseID);
 }

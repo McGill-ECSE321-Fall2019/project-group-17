@@ -93,8 +93,8 @@ public class ProjectGroup17Service {
 		return specificCourses;
 	}
 	@Transactional
-	public List<SpecificCourse> getSpecificCourseByCourse(String courseName) {
-		List<SpecificCourse> specificCourses = specificCourseRepository.findByCourse(courseName);
+	public List<SpecificCourse> getSpecificCourseByCourse(Course course) {
+		List<SpecificCourse> specificCourses = specificCourseRepository.findByCourse(course);
 		return specificCourses;
 	}
 	@Transactional
@@ -114,16 +114,26 @@ public class ProjectGroup17Service {
 		if(courseID == null || courseID.equals("") || courseID.trim().length() == 0) {
 			error += "Course ID must be specified (ie: ECSE321)!";
 		}
-		if(name == null || name.equals("")) {
+		if(name == null) {
 			error += "Course name must be specified!";
 		}
-		if(level == null || level.equals("")) {
+		else if (name.equals("")) {
+			error += "Course name must be specified!";
+		}
+		if(level == null) {
 			error += "Course level must be specified!";
 		}
-		if ((level.toLowerCase().equals("university")) && (level.toLowerCase().equals("cegep")) && (level.toLowerCase().equals("highschool"))) {
-			error += "Invalid course level specified (Highschool, Cegep, University)!";
+		else if (level.equals("")) {
+			error += "Course level must be specified!";
 		}
-		if(subject == null || subject.equals("")) {
+//Don't think this makes any sense -Adrian
+//		if ((level.toLowerCase().equals("university")) && (level.toLowerCase().equals("cegep")) && (level.toLowerCase().equals("highschool"))) {
+//			error += "Invalid course level specified (Highschool, Cegep, University)!";
+//		}
+		if(subject == null) {
+			error += "The course name must be specified!";
+		}
+		else if (subject.equals("")) {
 			error += "The course name must be specified!";
 		}
 		error = error.trim();
@@ -143,19 +153,26 @@ public class ProjectGroup17Service {
 
 	@Transactional
 	public Course getCourseByID(String courseID) {
-		if(courseID == null || courseID.equals("") || courseID.trim().length() == 0) {
+		if (courseID == null) {
 			throw new IllegalArgumentException("Course ID must be specified (ie: ECSE321)!");
 		}
-		Course course = courseRepository.findCourseByCourseID(courseID);
+		else if (courseID.equals("") || courseID.trim().length() == 0) {
+			throw new IllegalArgumentException("Course ID must be specified (ie: ECSE321)!");
+		}
+		
+		Course course = courseRepository.findByCourseID(courseID);
 		return course;
 	}
 
 	@Transactional
 	public List<Course> getCoursesBySubject(String subject) {
-		if(subject == null || subject.equals("") || subject.trim().length() == 0) {
+		if (subject == null) {
 			throw new IllegalArgumentException("Course ID must be specified (ie: Science)!");
 		}
-		List<Course> course = courseRepository.findCourseBySubject(subject);
+		else if (subject.equals("") || subject.trim().length() == 0) {
+			throw new IllegalArgumentException("Course ID must be specified (ie: Science)!");
+		}
+		List<Course> course = courseRepository.findBySubject(subject);
 		return course;
 	}
 
@@ -488,7 +505,6 @@ public class ProjectGroup17Service {
 		//SHOULD'NT THERE BE A SET OF STUDENTS AS INPUT ????
 		//
 		
-		
 		String error = "";
 		
 		if (date == null) {
@@ -512,10 +528,13 @@ public class ProjectGroup17Service {
 		if(room == null) {
 			error = error + "Appointment room cannot be null! ";
 		}
-		if(students.size() < 0) {
+		if(students == null) {
+			error = error + "Appointment students cannot be null! ";
+		}
+		if ((students != null) && (students.size() < 0)) {
 			error = error + "Appointment students cannot be empty";
 		}
-		System.out.println("Here is error string: " + error);
+		
 		if (error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
@@ -534,7 +553,7 @@ public class ProjectGroup17Service {
 		return appt;
 
 	}
-
+	
 	@Transactional
 	public List<Appointment> getAllAppointments() {
 		return toList(appointmentRepository.findAll());
@@ -548,6 +567,11 @@ public class ProjectGroup17Service {
 	@Transactional
 	public List<Appointment> getAppointmentsByStudent(Student student) {
 		return toList(appointmentRepository.findByStudent(student));
+	}
+	
+	@Transactional
+	public List<Appointment> getAppointmentsByStartTimeAndEndTime(Time startTime, Time endTime) {
+		return toList(appointmentRepository.findByStartTimeAndEndTime(startTime, endTime));
 	}
 	
 	/*----------------------------*/

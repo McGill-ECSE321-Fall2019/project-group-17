@@ -14,7 +14,7 @@ import javax.persistence.Id;
 @Entity
 public class Appointment{
 	public enum AppointmentStatus {
-		REQUESTED, ACCEPTED, REFUSED, PAID, CANCELLED;
+		REQUESTED, ACCEPTED, REFUSED, PAID, CANCELLED, COMPLETED;
 	}
  
 	private Date date;
