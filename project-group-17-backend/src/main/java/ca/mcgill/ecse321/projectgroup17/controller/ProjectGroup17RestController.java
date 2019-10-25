@@ -341,10 +341,14 @@ public class ProjectGroup17RestController {
 	/*----------- ROOM ----------*/
 	
 	@GetMapping(value = { "/room/getByRoomId", "/availabilities/getByRoom/" })
-	public RoomDto createRoom(@RequestParam("roomId")long)
+	public RoomDto createRoom(@RequestParam("roomId") long roomId, @RequestParam("isBig") boolean isBig) {
+		Room room = service.createRoom(roomId, isBig);
+		return convertToDto(room);
+		
+	}
 	
 	@GetMapping(value = { "/room/getByRoomId", "/availabilities/getByRoom/" })
-	public RoomDto getRoomById(@RequestParam("roomId")long roomId) {
+	public RoomDto getRoomById(@RequestParam("roomId") long roomId) {
 		Room room = new Room();
 		room = service.getRoomByRoomID(roomId);
 		return convertToDto(room);
