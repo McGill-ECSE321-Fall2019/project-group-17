@@ -360,7 +360,13 @@ public class ProjectGroup17RestController {
 	
 	@GetMapping(value = {"/room/getAllBigRooms", "/availabilities/getAllBigRooms/"})
 	public List<RoomDto> getAllBigRooms(@RequestParam("isBig") boolean isBig){
-		
+		List<RoomDto> allBigRoomDtos = new ArrayList<>();
+		for(Room room : service.getAllRooms()) {
+			if(room.isBig()==true) {
+				
+			}
+		}
+
 	}
 
 	
