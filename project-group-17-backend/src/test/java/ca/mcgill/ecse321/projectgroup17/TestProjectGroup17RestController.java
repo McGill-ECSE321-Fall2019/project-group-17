@@ -90,6 +90,7 @@ public class TestProjectGroup17RestController {
 	}
 
 
+	/*
 	@Test
 	public void testCreateSpecificCourse() throws Exception {
 
@@ -144,6 +145,7 @@ public class TestProjectGroup17RestController {
 		//assertEquals(true, result.getResponse().getContentAsString().contains("tutorUsername"));
 		//assertEquals(true, result.getResponse().getContentAsString().contains("courseID"));
 	}
+	*/
 
 
 	@Test
