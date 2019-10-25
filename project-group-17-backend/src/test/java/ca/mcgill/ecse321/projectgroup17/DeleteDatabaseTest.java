@@ -76,9 +76,6 @@ public class DeleteDatabaseTest {
 		courseRepository.deleteAll();
 		roomRepository.deleteAll();
 		personRepository.deleteAll();
-		
-
-
 
 
 	}
@@ -87,6 +84,7 @@ public class DeleteDatabaseTest {
 
 	@Test
 	public void test() { 
+		/* Below was used for testing purposes only.
 		Tutor t = (Tutor) service.createPerson("Tutor", "charles", "poulin", "cb", "h", "4@mail.ca", "undecided", 69);
 		Student s = (Student) service.createPerson("Student", "ty", "poulin", "ty", "h", "4@mail.ca", "undecided", 69);
 		Availability a = service.createAvailability(t, new Date(Calendar.getInstance().getTime().getTime()), new Date(Calendar.getInstance().getTime().getTime())
@@ -98,5 +96,6 @@ public class DeleteDatabaseTest {
 		Course course = service.createCourse("ECSE123", "HELLO", "University", "Engineering");
 		SpecificCourse sc = service.createSpecificCourse(t, course, 5D);
 		
+		*/
 	}
 }

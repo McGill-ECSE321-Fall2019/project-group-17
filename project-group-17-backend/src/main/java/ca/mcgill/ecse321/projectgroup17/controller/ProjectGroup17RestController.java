@@ -341,10 +341,30 @@ public class ProjectGroup17RestController {
 	/*----------- ROOM ----------*/
 	
 	
+	@PostMapping(value = { "/rooms/createRoom", "/rooms/createRoom/" })
+	public RoomDto createRoom(@RequestParam("roomID") String roomID, @RequestParam("isBig") String isBig) throws IllegalArgumentException {
+		long room_id = Long.parseLong(roomID);
+		boolean is_big = Boolean.parseBoolean(isBig);
+		Room room = service.createRoom(room_id, is_big);
+		return convertToDto(room);
+	}
 	
+	@GetMapping(value = { "/rooms/roomID", "/rooms/roomID/" })
+	public RoomDto getRoomByRoomID(@RequestParam("roomID") String roomID) {
+		long room_id = Long.parseLong(roomID);
+		Room room = service.getRoomByRoomID(room_id);
+		RoomDto roomDto = convertToDto(room);
+		return roomDto;
+	}
 	
-	
-	
+	@GetMapping(value = { "/rooms", "/rooms/" })
+	public List<RoomDto> getAllRooms() {
+		List<RoomDto> roomDto = new ArrayList<>();
+		for (Room room : service.getAllRooms()) {
+			roomDto.add(convertToDto(room));
+		}
+		return roomDto;
+	}
 	
 	
 	/*----------- SPECIFIC COURSE ----------*/
