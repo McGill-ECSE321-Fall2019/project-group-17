@@ -340,6 +340,8 @@ public class ProjectGroup17RestController {
 	
 	/*----------- ROOM ----------*/
 	
+	@GetMapping(value = { "/room/getByRoomId", "/availabilities/getByRoom/" })
+	public RoomDto createRoom(@RequestParam("roomId")long)
 	
 	@GetMapping(value = { "/room/getByRoomId", "/availabilities/getByRoom/" })
 	public RoomDto getRoomById(@RequestParam("roomId")long roomId) {
@@ -367,6 +369,18 @@ public class ProjectGroup17RestController {
 			}
 		}
 		return allBigRoomDtos;
+
+	}
+	
+	@GetMapping(value = {"/room/getAllSmallRooms", "/availabilities/getAllSmallRooms/"})
+	public List<RoomDto> getAllSmallRooms(@RequestParam("isBig") boolean isBig){
+		List<RoomDto> allSmallRoomDtos = new ArrayList<>();
+		for(Room room : service.getAllRooms()) {
+			if(room.isBig()==false) {
+				allSmallRoomDtos.add(convertToDto(room));
+			}
+		}
+		return allSmallRoomDtos;
 
 	}
 
