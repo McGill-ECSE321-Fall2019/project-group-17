@@ -10,9 +10,9 @@ public class ReviewDto {
 	
 	private String reviewText;
 	private int rating;
-	private Person reviewee;
-	private Person reviewer;
-	private Appointment appointment;
+	private String reviewee;
+	private String reviewer;
+	private Long appointment;
 	private Date createdDate;
 	private Time createdTime;
 	
@@ -23,14 +23,14 @@ public class ReviewDto {
 		this(reviewText, rating, null, null, null);
 	}
 	
-	public ReviewDto(String reviewText, int rating, Person reviewee, Person reviewer,
-			Appointment appointment) {		
+	public ReviewDto(String reviewText, int rating, String reviewee, String reviewer,
+			Long appointment) {		
 		this(reviewText, rating, reviewee, reviewer, appointment, 
 				new java.sql.Date(2019, 11, 11), new java.sql.Time(18, 0, 0));	
 	}
 		
-	public ReviewDto(String reviewText, int rating, Person reviewee, Person reviewer,
-			Appointment appointment, Date createdDate, Time createdTime) {
+	public ReviewDto(String reviewText, int rating, String reviewee, String reviewer,
+			Long appointment, Date createdDate, Time createdTime) {
 		
 		this.reviewText = reviewText;
 		this.rating = rating;
@@ -49,15 +49,15 @@ public class ReviewDto {
 		return rating;
 	}
 
-	public Person getReviewee() {
+	public String getReviewee() {
 		return reviewee;
 	}
 
-	public Person getReviewer() {
+	public String getReviewer() {
 		return reviewer;
 	}
 
-	public Appointment getAppointment() {
+	public Long getAppointment() {
 		return appointment;
 	}
 

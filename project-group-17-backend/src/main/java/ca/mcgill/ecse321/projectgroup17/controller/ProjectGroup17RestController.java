@@ -407,9 +407,9 @@ public class ProjectGroup17RestController {
 		if(rev.getReviewee() == null || rev.getReviewer() == null || rev.getAppointment() == null) {
 			reviewDto = new ReviewDto(rev.getReviewText(), rev.getRating());
 		}else if(rev.getCreatedDate() == null || rev.getCreatedTime() == null) {
-			reviewDto = new ReviewDto(rev.getReviewText(), rev.getRating(), rev.getReviewee(), rev.getReviewer(), rev.getAppointment());
+			reviewDto = new ReviewDto(rev.getReviewText(), rev.getRating(), rev.getReviewee().getUsername(), rev.getReviewer().getUsername(), rev.getAppointment().getAppointmentID());
 		}else {
-			reviewDto = new ReviewDto(rev.getReviewText(), rev.getRating(), rev.getReviewee(), rev.getReviewer(), rev.getAppointment(),
+			reviewDto = new ReviewDto(rev.getReviewText(), rev.getRating(), rev.getReviewee().getUsername(), rev.getReviewer().getUsername(), rev.getAppointment().getAppointmentID(),
 					rev.getCreatedDate(), rev.getCreatedTime());
 		}
 		return reviewDto;
