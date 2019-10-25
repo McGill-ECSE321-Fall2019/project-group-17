@@ -14,6 +14,8 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Long>
 
 	List<Appointment> findAll();
 	
+	Appointment findByAppointmentID(long appointmentID);
+	
 	List<Appointment> findByDate(Date date);
 	
 	List<Appointment> findByTutorAndDate(Date date, Tutor tutor);

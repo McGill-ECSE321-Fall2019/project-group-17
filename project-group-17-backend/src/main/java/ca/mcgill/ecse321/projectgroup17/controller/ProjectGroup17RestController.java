@@ -157,21 +157,25 @@ public class ProjectGroup17RestController {
 	 * Creates a review object using the service method createReview.
 	 * @param reviewText
 	 * @param rating
-	 * @param createdTime
-	 * @param createdDate
-	 * @param reviewee
-	 * @param reviewer
-	 * @param appointment
+	 * @param longCreatedTime
+	 * @param longCreatedDate
+	 * @param name_reviewee
+	 * @param name_reviewer
+	 * @param appointmentID
 	 * @return	The review object as a ReviewDto.
 	 * @throws IllegalArgumentException
 	 */
 	@PostMapping(value = { "/reviews/createReview", "/reviews/createReview/" })
 	public ReviewDto createReview(@RequestParam("reviewText") String reviewText, @RequestParam("rating") int rating,
-			@RequestParam("createdTime") Time createdTime, @RequestParam("createdDate") Date createdDate,
-			@RequestParam("reviewee") Person reviewee, @RequestParam("reviewer") Person reviewer,
-			@RequestParam("appointment") Appointment appointment) throws IllegalArgumentException {
-		
+			@RequestParam("createdTime") long longCreatedTime, @RequestParam("createdDate") long longCreatedDate,
+			@RequestParam("reviewee") String name_reviewee, @RequestParam("reviewer") String name_reviewer,
+			@RequestParam("appointment") long appointmentID) throws IllegalArgumentException {
 		// formatter : on 
+		Time createdTime = new java.sql.Time(longCreatedTime);
+		Date createdDate = new java.sql.Date(longCreatedDate);
+		Person reviewee = service.getPersonByUsername(name_reviewee);
+		Person reviewer = service.getPersonByUsername(name_reviewer);
+		Appointment appointment = service.getAppointmentByAppointmentID(appointmentID);
 		Review review = service.createReview(reviewText, rating, createdTime, createdDate, reviewee, reviewer, appointment);
 		return convertToDto(review);
 		
@@ -208,11 +212,12 @@ public class ProjectGroup17RestController {
 	/**
 	 * Get a list of review transfer objects based on a specific reviewee, i.e. the object of a review.
 	 * 
-	 * @param reviewee
+	 * @param name_reviewee
 	 * @return An ArrayList of ReviewDto objects.
 	 */
 	@GetMapping(value = {"/reviews/reviewsByReviewee","/reviews/reviewsByReviewee/"})
-	public List<ReviewDto> getReviewsByReviewee(@RequestParam("reviewee") Person reviewee){
+	public List<ReviewDto> getReviewsByReviewee(@RequestParam("reviewee") String name_reviewee){
+		Person reviewee = service.getPersonByUsername(name_reviewee);
 		List<Review> reviews = service.getReviewsByReviewee(reviewee);
 		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
 		for (Review review : reviews) {
@@ -224,11 +229,12 @@ public class ProjectGroup17RestController {
 	/**
 	 * Get a list of review transfer objects based on a specific reviewer, i.e. the author of a review.
 	 * 
-	 * @param reviewer
+	 * @param name_reviewer
 	 * @return An ArrayList of ReviewDto objects.
 	 */
 	@GetMapping(value = {"/reviews/reviewsByReviewer","/reviews/reviewsByReviewer/"})
-	public List<ReviewDto> getReviewsByReviewer(@RequestParam("reviewer") Person reviewer){
+	public List<ReviewDto> getReviewsByReviewer(@RequestParam("reviewer") String name_reviewer){
+		Person reviewer = service.getPersonByUsername(name_reviewer);
 		List<Review> reviews = service.getReviewsByReviewer(reviewer);
 		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
 		for (Review review : reviews) {
@@ -240,11 +246,12 @@ public class ProjectGroup17RestController {
 	/**
 	 * Get a list of review transfer objects based on a specific appointment.
 	 * 
-	 * @param appointment
+	 * @param appointmentID
 	 * @return An ArrayList of ReviewDto objects.
 	 */
 	@GetMapping(value = {"/reviews/reviewsByAppointment","/reviews/reviewsByAppointment/"})
-	public List<ReviewDto> getReviewsByAppointment(@RequestParam("appointment") Appointment appointment){
+	public List<ReviewDto> getReviewsByAppointment(@RequestParam("appointment") long appointmentID){
+		Appointment appointment = service.getAppointmentByAppointmentID(appointmentID);
 		List<Review> reviews = service.getReviewsByAppointment(appointment);
 		List<ReviewDto> reviewsDto = new ArrayList<ReviewDto>();
 		for (Review review : reviews) {

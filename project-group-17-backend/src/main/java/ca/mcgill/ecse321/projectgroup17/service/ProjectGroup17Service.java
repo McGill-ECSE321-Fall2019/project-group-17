@@ -555,6 +555,11 @@ public class ProjectGroup17Service {
 	}
 	
 	@Transactional
+	public Appointment getAppointmentByAppointmentID(long appointmentID) {
+		return appointmentRepository.findByAppointmentID(appointmentID);
+	}
+	
+	@Transactional
 	public List<Appointment> getAllAppointments() {
 		return toList(appointmentRepository.findAll());
 	} 
