@@ -363,9 +363,10 @@ public class ProjectGroup17RestController {
 		List<RoomDto> allBigRoomDtos = new ArrayList<>();
 		for(Room room : service.getAllRooms()) {
 			if(room.isBig()==true) {
-				
+				allBigRoomDtos.add(convertToDto(room));
 			}
 		}
+		return allBigRoomDtos;
 
 	}
 
