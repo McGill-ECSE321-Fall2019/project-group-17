@@ -366,6 +366,22 @@ public class ProjectGroup17RestController {
 		return roomDto;
 	}
 	
+	@GetMapping(value = { "/rooms/big", "/rooms/big/" })
+	public List<RoomDto> getAllBigRooms() {
+		List<RoomDto> roomDto = new ArrayList<>();
+		for (Room room : service.getRoomByRoomBig(true)) {
+			roomDto.add(convertToDto(room));
+		}
+		return roomDto;
+	}
+	@GetMapping(value = { "/rooms/big", "/rooms/big/" })
+	public List<RoomDto> getAllSmallRooms() {
+		List<RoomDto> roomDto = new ArrayList<>();
+		for (Room room : service.getRoomByRoomBig(false)) {
+			roomDto.add(convertToDto(room));
+		}
+		return roomDto;
+	}
 	
 	/*----------- SPECIFIC COURSE ----------*/
 	
