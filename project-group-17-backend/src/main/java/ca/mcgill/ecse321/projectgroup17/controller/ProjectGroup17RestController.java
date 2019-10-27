@@ -374,7 +374,7 @@ public class ProjectGroup17RestController {
 		}
 		return roomDto;
 	}
-	@GetMapping(value = { "/rooms/big", "/rooms/big/" })
+	@GetMapping(value = { "/rooms/small", "/rooms/small/" })
 	public List<RoomDto> getAllSmallRooms() {
 		List<RoomDto> roomDto = new ArrayList<>();
 		for (Room room : service.getRoomByRoomBig(false)) {
