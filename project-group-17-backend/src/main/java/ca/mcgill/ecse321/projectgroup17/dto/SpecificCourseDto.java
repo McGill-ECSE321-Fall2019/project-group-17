@@ -29,6 +29,8 @@ public class SpecificCourseDto {
 		this.specificCourseID = specificCourseID;
 	}
 	
+	//Getters and Setters for DTO
+	
 	public double getHourlyRate() {
 		return hourlyRate;
 	}

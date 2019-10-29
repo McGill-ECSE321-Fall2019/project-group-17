@@ -29,16 +29,31 @@ public class ProjectGroup17RestController {
 	
 	
 	/*----------- PERSON ----------*/
-	
+	/**
+	 * Creates Person using service method createPerson with fields provided by request
+	 * @param firstName
+	 * @param lastName
+	 * @param username
+	 * @param personType
+	 * @param password
+	 * @param email
+	 * @param sexe
+	 * @param age
+	 * @return PersonDto object
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/persons/createPerson", "/persons/createPerson/" })
 	public PersonDto createPerson(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName, 
 			@RequestParam("username") String username, @RequestParam("personType") String personType, 
 			@RequestParam("password") String password, @RequestParam("email") String email, @RequestParam(value="sexe", required=false, 
-			defaultValue="salmon") String sexe, @RequestParam(value="age", required=false, defaultValue="69") long age) throws IllegalArgumentException {
-		Person person = service.createPerson(personType, firstName, lastName, username, password, email, sexe, age);
+			defaultValue="none") String sexe, @RequestParam(value="age", required=false, defaultValue="18") long age) throws IllegalArgumentException {
+		Person person = service.createPerson(personType, firstName, lastName, username, password, email, sexe, age);	//Create person using provided parameters
 		return convertToDto(person);
 	}
-	
+	/**
+	 * Get list of PersonDtos
+	 * @return list of PersonDto objects
+	 */
 	@GetMapping(value = { "/persons", "/persons/" })
 	public List<PersonDto> getAllPersons() {
 		List<PersonDto> personDtos = new ArrayList<>();
@@ -47,19 +62,34 @@ public class ProjectGroup17RestController {
 		}
 		return personDtos;
 	}
-	
+	/**
+	 * Get Person by username and convert to PersonDto
+	 * @param username
+	 * @return PersonDto object
+	 */
 	@GetMapping(value = { "/persons/getByUsername", "/persons/getByUsername/" })
 	public PersonDto getPersonByUsername(@RequestParam("username") String username) {
 		Person p = service.getPersonByUsername(username);
 		return convertToDto(p);
 	}
 	
+	/**
+	 * Get Person by email and convert to PersonDto
+	 * @param email
+	 * @return PersonDto object
+	 */
 	@GetMapping(value = { "/persons/getByEmail", "/persons/getByEmail/" })
 	public PersonDto getPersonByEmail(@RequestParam("email") String email) {
 		Person p = service.getPersonByEmail(email);
 		return convertToDto(p);
 	}
 	
+	/**
+	 * Get Person by first and last name and convert to PersonDto
+	 * @param firstName
+	 * @param lastName
+	 * @return PersonDto objects
+	 */
 	@GetMapping(value = { "/persons/getByFirstNameAndLastName", "/persons/getByFirstNameAndLastName/" })
 	public List<PersonDto> getPersonByFirstNameAndLastName(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
 		List<PersonDto> result = new ArrayList<PersonDto>();
@@ -74,28 +104,44 @@ public class ProjectGroup17RestController {
 
 	/*----------- APPOINTMENT --------------*/
 	
+	/**
+	 * Get Appointment of a particular tutor
+	 * @param username
+	 * @return AppointmentDtos
+	 */
 	@GetMapping(value = { "/appointments/tutor", "/appointments/tutor/" })
 	public List<AppointmentDto> getAppointmentsOfTutor(@RequestParam("username") String username) {
 		Tutor t = (Tutor) service.getPersonByUsername(username);
 		return createAppointmentDtosForTutor(t);
 	}
-	
+	/**
+	 * Create Appointment using service method and convert to AppointmentDto
+	 * @param date
+	 * @param startTime
+	 * @param endTime
+	 * @param tutorUsername
+	 * @param roomId
+	 * @param status
+	 * @param students
+	 * @return AppointmentDto object
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/appointments/createAppointment", "/appointments/createAppointment/" })
 	public AppointmentDto createAppointment(@RequestParam("date") long date, @RequestParam("startTime") long startTime, 
 			@RequestParam("endTime") long endTime, @RequestParam("tutorUsername") String tutorUsername, 
 			@RequestParam("roomId") long roomId, @RequestParam("status") String status, @RequestParam("students") List<String> students) throws IllegalArgumentException {
 		
-		Date realDate = new Date(date);
-		Time realStartTime = new Time(startTime);
-		Time realEndTime = new Time(endTime);
-		Room room = service.getRoomByRoomID(roomId);
-		Tutor tutor = (Tutor) service.getPersonByUsername(tutorUsername);
-		Set<Student> student = new HashSet<Student>();
-		for(int i=0; i < students.size(); i++) {
+		Date realDate = new Date(date);					//Convert long param to date
+		Time realStartTime = new Time(startTime);		//Convert long param to time
+		Time realEndTime = new Time(endTime);			//Convert long param to time
+		Room room = service.getRoomByRoomID(roomId);	//Get Room using provided param roomId
+		Tutor tutor = (Tutor) service.getPersonByUsername(tutorUsername);	//Get Tutor using provided param tutorUsername
+		Set<Student> student = new HashSet<Student>();						
+		for(int i=0; i < students.size(); i++) {							//Create set of students using given student usernames
 			Student s = (Student) service.getPersonByUsername(students.get(i));
 			student.add(s);
 		}
-		Appointment appt = service.createAppointment(realDate, realEndTime, realStartTime, room, tutor, status, student);
+		Appointment appt = service.createAppointment(realDate, realEndTime, realStartTime, room, tutor, status, student); //Create Appontment using service method
 		return convertToDto(appt);
 	}
 	
@@ -110,7 +156,15 @@ public class ProjectGroup17RestController {
 	
 	
 	/*----------- COURSE ----------*/
-	
+	/**
+	 * Create Course using service method and convert to CourseDto
+	 * @param courseID
+	 * @param courseName
+	 * @param level
+	 * @param subject
+	 * @return CourseDto object
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/courses/createCourse", "/courses/createCourse/" })
 	public CourseDto createCourse(@RequestParam("courseID") String courseID, @RequestParam("courseName") String courseName, 
 			@RequestParam("level") String level, @RequestParam("subject") String subject) throws IllegalArgumentException {
@@ -118,6 +172,11 @@ public class ProjectGroup17RestController {
 		return convertToDto(course);
 	}
 	
+	/**
+	 * Get Course by course ID and convert to DTO
+	 * @param courseID
+	 * @return CourseDto object
+	 */
 	@GetMapping(value = { "/courses/courseID", "/courses/courseID/" })
 	public List<CourseDto> getCourseByCourseID(@RequestParam("courseID") String courseID) {
 		Course c = (Course) service.getCourseByID(courseID);
@@ -125,7 +184,11 @@ public class ProjectGroup17RestController {
 		coursesDto.add(convertToDto(c));
 		return coursesDto;
 	}
-	
+	/**
+	 * Get Courses by subject
+	 * @param subject
+	 * @return List of CourseDto objects
+	 */
 	@GetMapping(value = { "/courses/subject", "/courses/subject/" })
 	public List<CourseDto> getCoursesBySubject(@RequestParam("subject") String subject) {
 		List<Course> courses = service.getCoursesBySubject(subject);
@@ -146,7 +209,10 @@ public class ProjectGroup17RestController {
 		}
 		
 	 */
-	
+	/**
+	 * Get all courses
+	 * @return List of CourseDto objects
+	 */
 	@GetMapping(value = { "/courses", "/courses/" })
 	public List<CourseDto> getAllCourses() {
 		List<CourseDto> coursesDto = new ArrayList<>();
@@ -340,7 +406,13 @@ public class ProjectGroup17RestController {
 	
 	/*----------- ROOM ----------*/
 	
-	
+	/**
+	 * Create Room using service method and convert to RoomDto
+	 * @param roomID
+	 * @param isBig
+	 * @return RoomDto
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/rooms/createRoom", "/rooms/createRoom/" })
 	public RoomDto createRoom(@RequestParam("roomID") String roomID, @RequestParam("isBig") String isBig) throws IllegalArgumentException {
 		long room_id = Long.parseLong(roomID);
@@ -384,8 +456,14 @@ public class ProjectGroup17RestController {
 	}
 	
 	/*----------- SPECIFIC COURSE ----------*/
-	
-	
+	/**
+	 * Create SpecificCourse from service method and convert to SpecificCourseDto
+	 * @param hourlyRate
+	 * @param tutorUsername
+	 * @param courseID
+	 * @return SpecificCourseDto object
+	 * @throws IllegalArgumentException
+	 */
 	@PostMapping(value = { "/specificCourses/create", "/specificCourses/create/" })
 	public SpecificCourseDto createSpecificCourse(@RequestParam("hourlyRate") String hourlyRate, @RequestParam("tutorUsername") String tutorUsername, 
 			@RequestParam("courseID") String courseID) throws IllegalArgumentException {

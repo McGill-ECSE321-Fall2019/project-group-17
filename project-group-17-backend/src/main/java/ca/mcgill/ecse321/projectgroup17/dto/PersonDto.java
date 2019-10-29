@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.projectgroup17.dto;
 
+import java.util.ArrayList;
+
 public class PersonDto {
 	
 	private String firstName;
@@ -10,6 +12,9 @@ public class PersonDto {
 	private String sexe;
 	private long age;
 	private String personType;
+	private ArrayList<Long> receivedReviewsIds;
+	private ArrayList<Long> givenReviewsIds;
+	
 		
 	// Now, we define different constructors depending on the possibilities of inputs 
 	// we can receive when asked to create a person.
@@ -31,7 +36,7 @@ public class PersonDto {
 		this.age = age;
 	}
 	
-	//
+	//Getters and Setters for DTO
 
 	public String getFirstName() {
 		return firstName;
@@ -69,9 +74,24 @@ public class PersonDto {
 		return personType;
 	}
 	
+	public ArrayList<Long> getReceivedReviews() {
+		return receivedReviewsIds;
+	}
 	
-	// define other getters and setters for everything we can reach from a Person object
-	// (look at Domain Model)
+	public void setReceivedReviews(ArrayList<Long> receivedReviewsIds) {
+		this.receivedReviewsIds = receivedReviewsIds;
+	}
+	
+	public ArrayList<Long> getGivenReviews() {
+		return givenReviewsIds;
+	}
+	
+	public void setGivenReviews(ArrayList<Long> givenReviewsIds) {
+		this.givenReviewsIds = givenReviewsIds;
+	}
+	
+
+	
 	
 
 	

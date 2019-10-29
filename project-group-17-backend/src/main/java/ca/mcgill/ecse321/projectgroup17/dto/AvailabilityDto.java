@@ -25,6 +25,8 @@ public class AvailabilityDto {
 		this.endTime=endTime;
 	}
 	
+	//Getters and Setters for the DTO
+	
 	public Tutor getTutor() {
 		return this.tutor;
 	}

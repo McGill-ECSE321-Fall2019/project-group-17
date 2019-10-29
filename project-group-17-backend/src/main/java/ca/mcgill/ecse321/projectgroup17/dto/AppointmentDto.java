@@ -9,6 +9,7 @@ import ca.mcgill.ecse321.projectgroup17.model.Appointment.AppointmentStatus;
 
 public class AppointmentDto {
 
+	//define attributes
 	private Date date;
 	private Time startTime;
 	private Time endTime;
@@ -23,6 +24,7 @@ public class AppointmentDto {
 	}
 	
 	public AppointmentDto(Date date, Time startTime) {
+		//most basic constructor of appointment without Tutor
 		this(date, startTime, new Time(startTime.getTime() + 3600000L));
 	}
 	
@@ -48,6 +50,8 @@ public class AppointmentDto {
 
 	
 	public AppointmentDto(Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor, RoomDto room, Set<PersonDto> student, Date createdDate) {
+		//Ultimate constructor filling in undefined values as necessary
+		
 		this.date = date;
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -57,6 +61,8 @@ public class AppointmentDto {
 		this.student = student;
 		this.room = room;
 	}
+	
+	//Getters and Setters for the DTO
 	
 	public Date getDate() {
 		return date;

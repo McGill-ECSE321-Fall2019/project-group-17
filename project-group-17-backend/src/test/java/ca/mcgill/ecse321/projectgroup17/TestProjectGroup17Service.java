@@ -111,6 +111,9 @@ public class TestProjectGroup17Service {
 
 	/*-----------------------------------------*/
 	@Test
+	/**
+	 * Create course with valid inputs
+	 */
 	public void testCreateCourse() {
 		assertEquals(0, service.getAllCourses().size());
 
@@ -291,6 +294,9 @@ public class TestProjectGroup17Service {
 
 
 	@Test
+	/**
+	 * Create Tutor with valid inputs
+	 */
 	public void testCreateTutor() {
 
 		assertEquals(0, service.getAllPersons().size());
@@ -321,6 +327,9 @@ public class TestProjectGroup17Service {
 	}
 
 	@Test
+	/**
+	 * Create Student with valid inputs
+	 */
 	public void testCreateStudent() {
 		assertEquals(0, service.getAllPersons().size());
 
@@ -351,6 +360,9 @@ public class TestProjectGroup17Service {
 	}
 
 	@Test
+	/**
+	 * Create Person with null inputs
+	 */
 	public void testCreatePersonNull() {
 		assertEquals(0, service.getAllPersons().size());
 
@@ -378,6 +390,9 @@ public class TestProjectGroup17Service {
 	}
 
 	@Test
+	/**
+	 * Create person with empty inputs
+	 */
 	public void testCreatePersonEmpty() {
 		assertEquals(0, service.getAllPersons().size());
 
@@ -405,6 +420,9 @@ public class TestProjectGroup17Service {
 	}
 
 	@Test
+	/**
+	 * Create person with spaces
+	 */
 	public void testCreatePersonSpaces() {
 		assertEquals(0, service.getAllPersons().size());
 
@@ -431,6 +449,9 @@ public class TestProjectGroup17Service {
 	}
 
 	@Test
+	/**
+	 * Test Get person using username asserts that details are consistent with created person
+	 */
 	public void testGetPersonByUsername() {
 
 		assertEquals(0, service.getAllPersons().size());
@@ -699,6 +720,9 @@ public class TestProjectGroup17Service {
 	}
 
 	@Test
+	/**
+	 * Create appointment with valid inputs
+	 */
 	public void testCreateAppointment() {
 
 		assertEquals(0, service.getAllAppointments().size());
@@ -754,6 +778,9 @@ public class TestProjectGroup17Service {
 	}
 
 	@Test
+	/**
+	 * Create appointment with null inputs
+	 */
 	public void testCreateAppointmentNull() {
 		assertEquals(0, service.getAllAppointments().size());
 		
@@ -1043,6 +1070,9 @@ public class TestProjectGroup17Service {
 	/*------------------------------------------*/
 
 	@Test
+	/**
+	 * Create availability with null inputs
+	 */
 	public void testCreateAvailabilityNull() {
 		assertEquals(0, service.getAllAvailabilities().size());
 
@@ -1065,6 +1095,9 @@ public class TestProjectGroup17Service {
 	}	
 
 	@Test
+	/**
+	 * Create availability with valid inputs
+	 */
 	public void testCreateAvailability() {
 		assertEquals(0, service.getAllAvailabilities().size());
 
@@ -1237,6 +1270,9 @@ public class TestProjectGroup17Service {
 
 	//SpecificCourse Tests
 	@Test
+	/**
+	 * Create SpecificCourse with valid inputs
+	 */
 	public void testCreateSpecificCourse() {
 		//Make a tutor
 		String personType = "Tutor";
@@ -1405,6 +1441,9 @@ public class TestProjectGroup17Service {
 	int reviewRoomID = 600;
 
 	@Test
+	/**
+	 * Create Review with valid inputs
+	 */
 	public void testCreateReview() {					
 
 
@@ -2388,6 +2427,9 @@ public class TestProjectGroup17Service {
 	}
 	
 	@Test
+	/**
+	 * Create room with valid inputs
+	 */
 	public void testCreateRoom() {
 		long roomId = 1060L;
 		boolean isBig = false;

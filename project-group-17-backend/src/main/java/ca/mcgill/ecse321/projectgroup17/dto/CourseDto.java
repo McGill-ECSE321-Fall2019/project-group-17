@@ -37,6 +37,8 @@ public class CourseDto {
 		this.specificCourses = specificCourses;
 	}
 	
+	//Getters and Setters for the DTO
+	
 	public Level getLevel() {
 		return level;
 	}

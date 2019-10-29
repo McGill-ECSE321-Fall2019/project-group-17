@@ -23,6 +23,8 @@ import ca.mcgill.ecse321.projectgroup17.model.Course.Level;
 public class ProjectGroup17Service {
 
 
+	//Autowired repositories
+	
 	@Autowired
 	PersonRepository personRepository;
 
@@ -34,7 +36,6 @@ public class ProjectGroup17Service {
 	
 	@Autowired
 	AppointmentRepository appointmentRepository;
-
 
 	@Autowired
 	AvailabilityRepository availabilityRepository;
@@ -48,9 +49,16 @@ public class ProjectGroup17Service {
 
 	/*------------------------------*/
 
-	
+	/**
+	 * Creates SpecificCourse and persists it in the database
+	 * @param tutor
+	 * @param course
+	 * @param hourlyRate
+	 * @return SpecificCourse
+	 */
 	@Transactional
 	public SpecificCourse createSpecificCourse(Tutor tutor, Course course, Double hourlyRate) {
+		
 		
 		SpecificCourse specificCourse;
 		
@@ -107,9 +115,18 @@ public class ProjectGroup17Service {
 
 
 	/*--------------FELIX------------------*/
-
+	/**
+	 * Creates Course and persists it to database
+	 * @param courseID
+	 * @param name
+	 * @param level
+	 * @param subject
+	 * @return Course object
+	 */
 	@Transactional
 	public Course createCourse(String courseID, String name, String level, String subject) {
+		
+		
 		String error = "";
 		if(courseID == null || courseID.equals("") || courseID.trim().length() == 0) {
 			error += "Course ID must be specified (ie: ECSE321)!";
@@ -213,10 +230,21 @@ public class ProjectGroup17Service {
 
 	/*--------------------------------------*/
 
-
+	/**
+	 * Creates a person and persists it in the database
+	 * @param personType
+	 * @param firstName
+	 * @param lastName
+	 * @param username
+	 * @param password
+	 * @param email
+	 * @param sexe
+	 * @param age
+	 * @return Person object
+	 */
 	@Transactional
 	public Person createPerson(String personType, String firstName, String lastName, String username, String password, String email, String sexe, long age) {
-
+		
 		Person person;
 
 		String error = "";
@@ -345,9 +373,23 @@ public class ProjectGroup17Service {
 		return reviews;
 	}
 
+	
+	/**
+	 * Creates Review and persists it to the database
+	 * @param reviewText
+	 * @param rating
+	 * @param createdTime
+	 * @param createdDate
+	 * @param reviewee
+	 * @param reviewer
+	 * @param appointment
+	 * @return  Review object
+	 */
 	@Transactional
 	public Review createReview(String reviewText, Integer rating, Time createdTime, Date createdDate, 
 			Person reviewee, Person reviewer, Appointment appointment) {
+		
+		
 
 		String error = "";
 		if (reviewText == null || reviewText.trim().length() == 0 ) {
@@ -428,10 +470,20 @@ public class ProjectGroup17Service {
 	}
 
 	/*----------------------------*/
-
+	/**
+	 * Create Availability and persist it in the database
+	 * @param tutor
+	 * @param date
+	 * @param createdDate
+	 * @param startTime
+	 * @param endTime
+	 * @return Availability object
+	 */
 	@Transactional
 	public Availability createAvailability(Tutor tutor, Date date, Date createdDate, Time startTime, Time endTime) {
-
+		
+		
+		
 		String error = "";
 
 		Availability availability;
@@ -492,19 +544,22 @@ public class ProjectGroup17Service {
 	}
 
 	/*----------------------------*/
-	
+	/**
+	 * Creates appointment and persists it to database
+	 * @param date
+	 * @param endTime
+	 * @param startTime
+	 * @param room
+	 * @param tutor
+	 * @param status 
+	 * @param students
+	 * @return Appointment object
+	 */
 	@Transactional 
 	public Appointment createAppointment(Date date, Time endTime, Time startTime, 
 			Room room, Tutor tutor, String status, Set<Student> students) {
-		// Input validation
 		
-		//Room room = getRoomByRoomID(roomId);
-		//Person tutor = getPersonByUsername(tutorUsername);
-		
-		//****
-		//SHOULD'NT THERE BE A SET OF STUDENTS AS INPUT ????
-		//
-		
+				
 		String error = "";
 		
 		if (date == null) {
@@ -583,6 +638,13 @@ public class ProjectGroup17Service {
 	
 	@Transactional
 	public Room createRoom(long roomID, boolean big) {
+		/**
+		 * Creates room and persists it in the database
+		 * @param roomId
+		 * @param big
+		 * @return Room object
+		 */
+		
 		String error = "";
 		
 		if(roomID == 0) {

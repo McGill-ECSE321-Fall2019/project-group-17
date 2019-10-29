@@ -41,6 +41,8 @@ public class ReviewDto {
 		this.createdTime = createdTime;			
 	}
 	
+	//Getters and Setters for DTO
+	
 	public String getReviewText() {
 		return this.reviewText;
 	}

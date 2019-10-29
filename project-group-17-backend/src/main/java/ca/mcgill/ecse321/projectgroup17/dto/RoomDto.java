@@ -18,6 +18,8 @@ public class RoomDto {
 		this.isBig = isBig;
 	}
 	
+	//Getters and Setters for DTO
+	
 	public long getRoomId() {
 		return roomId;
 	}
