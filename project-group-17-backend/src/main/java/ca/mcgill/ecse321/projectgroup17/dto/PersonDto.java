@@ -12,8 +12,6 @@ public class PersonDto {
 	private String sexe;
 	private long age;
 	private String personType;
-	private ArrayList<Long> receivedReviewsIds;
-	private ArrayList<Long> givenReviewsIds;
 	
 		
 	// Now, we define different constructors depending on the possibilities of inputs 
@@ -74,21 +72,6 @@ public class PersonDto {
 		return personType;
 	}
 	
-	public ArrayList<Long> getReceivedReviews() {
-		return receivedReviewsIds;
-	}
-	
-	public void setReceivedReviews(ArrayList<Long> receivedReviewsIds) {
-		this.receivedReviewsIds = receivedReviewsIds;
-	}
-	
-	public ArrayList<Long> getGivenReviews() {
-		return givenReviewsIds;
-	}
-	
-	public void setGivenReviews(ArrayList<Long> givenReviewsIds) {
-		this.givenReviewsIds = givenReviewsIds;
-	}
 	
 
 	
