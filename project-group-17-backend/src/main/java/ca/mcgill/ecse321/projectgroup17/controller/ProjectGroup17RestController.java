@@ -548,6 +548,11 @@ public class ProjectGroup17RestController {
 	
 	//CONVERT TO DTO METHODS
 	
+	/**
+	 * Converts a Review object into a DTO for the user to view
+	 * @param rev
+	 * @return
+	 */
 	private ReviewDto convertToDto(Review rev) {
 		if(rev == null) {
 			throw new IllegalArgumentException("There is no such review");
