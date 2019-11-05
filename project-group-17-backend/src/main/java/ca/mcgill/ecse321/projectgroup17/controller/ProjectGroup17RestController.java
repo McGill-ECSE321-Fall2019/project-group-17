@@ -489,7 +489,10 @@ public class ProjectGroup17RestController {
 		return scDto;
 	}
 
-	
+	/**
+	 * Will go retrieve all specific courses that are taught
+	 * @return scDto
+	 */
 	@GetMapping(value = { "/specificCourses", "/specificCourses/" })
 	public List<SpecificCourseDto> getAllSpecificCourses() {
 		List<SpecificCourseDto> scDto = new ArrayList<>();
