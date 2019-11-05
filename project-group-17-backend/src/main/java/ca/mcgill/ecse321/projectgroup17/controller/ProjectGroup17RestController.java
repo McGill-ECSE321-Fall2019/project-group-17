@@ -613,6 +613,12 @@ public class ProjectGroup17RestController {
 		AvailabilityDto availabilityDto = new AvailabilityDto(a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
 		return availabilityDto;
 	}
+	
+	/**
+	 * Converts a Course object into a DTO for the user to view
+	 * @param c
+	 * @return courseDto
+	 */
 	private CourseDto convertToDto(Course c) {
 		if(c == null) {
 			throw new IllegalArgumentException("There is no such Course!");
