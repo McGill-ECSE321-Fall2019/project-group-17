@@ -640,6 +640,11 @@ public class ProjectGroup17RestController {
 		return specificCourseDto;
 	}
 	
+	/**
+	 * Converts a Room object into a DTO for the user to view
+	 * @param room
+	 * @return croomDto
+	 */
 	private RoomDto convertToDto(Room room) {
 		if(room == null) {
 			throw new IllegalArgumentException("There is no such Room!");
