@@ -474,6 +474,11 @@ public class ProjectGroup17RestController {
 		return convertToDto(sc);
 	}
 	
+	/**
+	 * Will go retrieve a list of courses that a specific tutor teaches
+	 * @param tutorUsername
+	 * @return scDto
+	 */
 	@GetMapping(value = { "/specificCourses/tutor", "/specificCourses/tutor/" })
 	public List<SpecificCourseDto> getSpecificCoursesOfTutor(@RequestParam("username") String tutorUsername) {
 		List<SpecificCourse> scourses = service.getSpecificCourseByTutor(tutorUsername);
