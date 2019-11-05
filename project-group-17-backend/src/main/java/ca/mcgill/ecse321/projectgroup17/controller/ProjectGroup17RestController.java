@@ -438,6 +438,10 @@ public class ProjectGroup17RestController {
 		return roomDto;
 	}
 	
+	/**
+	 * Returns all rooms
+	 * @return
+	 */
 	@GetMapping(value = { "/rooms", "/rooms/" })
 	public List<RoomDto> getAllRooms() {
 		List<RoomDto> roomDto = new ArrayList<>();
