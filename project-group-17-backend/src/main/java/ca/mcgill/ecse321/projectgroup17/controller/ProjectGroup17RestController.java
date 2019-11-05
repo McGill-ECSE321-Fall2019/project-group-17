@@ -144,7 +144,11 @@ public class ProjectGroup17RestController {
 		Appointment appt = service.createAppointment(realDate, realEndTime, realStartTime, room, tutor, status, student); //Create Appontment using service method
 		return convertToDto(appt);
 	}
-	
+	/**
+	 * Creates appointment data transfer objects for a tutor
+	 * @param t
+	 * @return
+	 */
 	private List<AppointmentDto> createAppointmentDtosForTutor(Tutor t) {
 		List<Appointment> apptsForTutor = service.getAppointmentsByTutor(t);
 		List<AppointmentDto> appts = new ArrayList<>();
