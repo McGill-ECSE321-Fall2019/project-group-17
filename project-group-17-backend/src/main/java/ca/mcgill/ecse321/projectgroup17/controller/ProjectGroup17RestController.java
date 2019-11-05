@@ -425,6 +425,11 @@ public class ProjectGroup17RestController {
 		return convertToDto(room);
 	}
 	
+	/**
+	 * Returns a specific room from a given room ID
+	 * @param roomID
+	 * @return
+	 */
 	@GetMapping(value = { "/rooms/roomID", "/rooms/roomID/" })
 	public RoomDto getRoomByRoomID(@RequestParam("roomID") String roomID) {
 		long room_id = Long.parseLong(roomID);
