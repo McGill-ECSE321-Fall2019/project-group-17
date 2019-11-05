@@ -601,7 +601,11 @@ public class ProjectGroup17RestController {
 		return personDto;
 	}
 	
-
+	/**
+	 * Converts a Availability object into a DTO for the user to view
+	 * @param a
+	 * @return availabilityDto
+	 */
 	private AvailabilityDto convertToDto(Availability a) {
 		if(a == null) {
 			throw new IllegalArgumentException("There is no such Person!");
