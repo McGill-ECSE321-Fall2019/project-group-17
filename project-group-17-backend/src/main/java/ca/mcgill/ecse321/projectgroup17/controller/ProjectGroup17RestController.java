@@ -551,7 +551,7 @@ public class ProjectGroup17RestController {
 	/**
 	 * Converts a Review object into a DTO for the user to view
 	 * @param rev
-	 * @return
+	 * @return reviewDto
 	 */
 	private ReviewDto convertToDto(Review rev) {
 		if(rev == null) {
@@ -568,7 +568,11 @@ public class ProjectGroup17RestController {
 		}
 		return reviewDto;
 	}
-	
+	/**
+	 * Converts a Appointment object into a DTO for the user to view
+	 * @param rev
+	 * @return apptDto
+	 */
 	private AppointmentDto convertToDto(Appointment appt) {
 		if (appt == null) {
 				throw new IllegalArgumentException("There is no such Appointment!");
