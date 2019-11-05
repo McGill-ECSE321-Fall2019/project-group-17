@@ -530,6 +530,11 @@ public class ProjectGroup17RestController {
 	
 	//CONVERT TO DOMAIN OBJECT METHODS
 	
+	/**
+	 * Converts a DTO into a domain object
+	 * @param pDto
+	 * @return
+	 */
 	private Person convertToDomainObject(PersonDto pDto) {
 		List<Person> allPersons = service.getAllPersons();
 		for (Person person : allPersons) {
