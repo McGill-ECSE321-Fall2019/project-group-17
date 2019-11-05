@@ -463,6 +463,11 @@ public class ProjectGroup17RestController {
 		}
 		return roomDto;
 	}
+	
+	/**
+	 * Returns all rooms with the Big attribute being FALSE
+	 * @return
+	 */
 	@GetMapping(value = { "/rooms/small", "/rooms/small/" })
 	public List<RoomDto> getAllSmallRooms() {
 		List<RoomDto> roomDto = new ArrayList<>();
