@@ -627,6 +627,11 @@ public class ProjectGroup17RestController {
 		return courseDto;
 	}
 	
+	/**
+	 * Converts a SpecificCourse object into a DTO for the user to view
+	 * @param sc
+	 * @return specificCourseDto
+	 */
 	private SpecificCourseDto convertToDto(SpecificCourse sc) {
 		if(sc == null) {
 			throw new IllegalArgumentException("There is no such Specific Course!");
