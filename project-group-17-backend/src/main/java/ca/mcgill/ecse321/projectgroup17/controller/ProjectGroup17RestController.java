@@ -570,7 +570,7 @@ public class ProjectGroup17RestController {
 	}
 	/**
 	 * Converts a Appointment object into a DTO for the user to view
-	 * @param rev
+	 * @param appt
 	 * @return apptDto
 	 */
 	private AppointmentDto convertToDto(Appointment appt) {
@@ -588,7 +588,11 @@ public class ProjectGroup17RestController {
 		return apptDto;
 		
 	}
-	
+	/**
+	 * Converts a Person object into a DTO for the user to view
+	 * @param p
+	 * @return personDto
+	 */
 	private PersonDto convertToDto(Person p) {
 		if(p == null) {
 			throw new IllegalArgumentException("There is no such Person!");
