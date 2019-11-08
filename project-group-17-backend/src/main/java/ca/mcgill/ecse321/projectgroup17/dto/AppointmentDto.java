@@ -19,7 +19,7 @@ public class AppointmentDto {
 	private Set<PersonDto> student;
 	private RoomDto room;
 	
-	
+	//All constructor for AppointmentDto:
 	public AppointmentDto() {
 	}
 	

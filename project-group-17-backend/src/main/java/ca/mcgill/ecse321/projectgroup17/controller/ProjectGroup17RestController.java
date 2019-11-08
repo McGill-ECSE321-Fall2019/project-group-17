@@ -144,7 +144,11 @@ public class ProjectGroup17RestController {
 		Appointment appt = service.createAppointment(realDate, realEndTime, realStartTime, room, tutor, status, student); //Create Appontment using service method
 		return convertToDto(appt);
 	}
-	
+	/**
+	 * Creates appointment data transfer objects for a tutor
+	 * @param t
+	 * @return
+	 */
 	private List<AppointmentDto> createAppointmentDtosForTutor(Tutor t) {
 		List<Appointment> apptsForTutor = service.getAppointmentsByTutor(t);
 		List<AppointmentDto> appts = new ArrayList<>();
@@ -421,6 +425,11 @@ public class ProjectGroup17RestController {
 		return convertToDto(room);
 	}
 	
+	/**
+	 * Returns a specific room from a given room ID
+	 * @param roomID
+	 * @return
+	 */
 	@GetMapping(value = { "/rooms/roomID", "/rooms/roomID/" })
 	public RoomDto getRoomByRoomID(@RequestParam("roomID") String roomID) {
 		long room_id = Long.parseLong(roomID);
@@ -429,6 +438,10 @@ public class ProjectGroup17RestController {
 		return roomDto;
 	}
 	
+	/**
+	 * Returns all rooms
+	 * @return
+	 */
 	@GetMapping(value = { "/rooms", "/rooms/" })
 	public List<RoomDto> getAllRooms() {
 		List<RoomDto> roomDto = new ArrayList<>();
@@ -438,6 +451,10 @@ public class ProjectGroup17RestController {
 		return roomDto;
 	}
 	
+	/**
+	 * Returns all rooms with the BIG attribute
+	 * @return
+	 */
 	@GetMapping(value = { "/rooms/big", "/rooms/big/" })
 	public List<RoomDto> getAllBigRooms() {
 		List<RoomDto> roomDto = new ArrayList<>();
@@ -446,6 +463,11 @@ public class ProjectGroup17RestController {
 		}
 		return roomDto;
 	}
+	
+	/**
+	 * Returns all rooms with the Big attribute being FALSE
+	 * @return
+	 */
 	@GetMapping(value = { "/rooms/small", "/rooms/small/" })
 	public List<RoomDto> getAllSmallRooms() {
 		List<RoomDto> roomDto = new ArrayList<>();
@@ -474,6 +496,11 @@ public class ProjectGroup17RestController {
 		return convertToDto(sc);
 	}
 	
+	/**
+	 * Will go retrieve a list of courses that a specific tutor teaches
+	 * @param tutorUsername
+	 * @return scDto
+	 */
 	@GetMapping(value = { "/specificCourses/tutor", "/specificCourses/tutor/" })
 	public List<SpecificCourseDto> getSpecificCoursesOfTutor(@RequestParam("username") String tutorUsername) {
 		List<SpecificCourse> scourses = service.getSpecificCourseByTutor(tutorUsername);
@@ -484,7 +511,10 @@ public class ProjectGroup17RestController {
 		return scDto;
 	}
 
-	
+	/**
+	 * Will go retrieve all specific courses that are taught
+	 * @return scDto
+	 */
 	@GetMapping(value = { "/specificCourses", "/specificCourses/" })
 	public List<SpecificCourseDto> getAllSpecificCourses() {
 		List<SpecificCourseDto> scDto = new ArrayList<>();
@@ -500,6 +530,11 @@ public class ProjectGroup17RestController {
 	
 	//CONVERT TO DOMAIN OBJECT METHODS
 	
+	/**
+	 * Converts a DTO into a domain object
+	 * @param pDto
+	 * @return
+	 */
 	private Person convertToDomainObject(PersonDto pDto) {
 		List<Person> allPersons = service.getAllPersons();
 		for (Person person : allPersons) {
@@ -513,6 +548,11 @@ public class ProjectGroup17RestController {
 	
 	//CONVERT TO DTO METHODS
 	
+	/**
+	 * Converts a Review object into a DTO for the user to view
+	 * @param rev
+	 * @return reviewDto
+	 */
 	private ReviewDto convertToDto(Review rev) {
 		if(rev == null) {
 			throw new IllegalArgumentException("There is no such review");
@@ -528,7 +568,11 @@ public class ProjectGroup17RestController {
 		}
 		return reviewDto;
 	}
-	
+	/**
+	 * Converts a Appointment object into a DTO for the user to view
+	 * @param appt
+	 * @return apptDto
+	 */
 	private AppointmentDto convertToDto(Appointment appt) {
 		if (appt == null) {
 				throw new IllegalArgumentException("There is no such Appointment!");
@@ -544,7 +588,11 @@ public class ProjectGroup17RestController {
 		return apptDto;
 		
 	}
-	
+	/**
+	 * Converts a Person object into a DTO for the user to view
+	 * @param p
+	 * @return personDto
+	 */
 	private PersonDto convertToDto(Person p) {
 		if(p == null) {
 			throw new IllegalArgumentException("There is no such Person!");
@@ -553,7 +601,11 @@ public class ProjectGroup17RestController {
 		return personDto;
 	}
 	
-
+	/**
+	 * Converts a Availability object into a DTO for the user to view
+	 * @param a
+	 * @return availabilityDto
+	 */
 	private AvailabilityDto convertToDto(Availability a) {
 		if(a == null) {
 			throw new IllegalArgumentException("There is no such Person!");
@@ -561,6 +613,12 @@ public class ProjectGroup17RestController {
 		AvailabilityDto availabilityDto = new AvailabilityDto(a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
 		return availabilityDto;
 	}
+	
+	/**
+	 * Converts a Course object into a DTO for the user to view
+	 * @param c
+	 * @return courseDto
+	 */
 	private CourseDto convertToDto(Course c) {
 		if(c == null) {
 			throw new IllegalArgumentException("There is no such Course!");
@@ -569,6 +627,11 @@ public class ProjectGroup17RestController {
 		return courseDto;
 	}
 	
+	/**
+	 * Converts a SpecificCourse object into a DTO for the user to view
+	 * @param sc
+	 * @return specificCourseDto
+	 */
 	private SpecificCourseDto convertToDto(SpecificCourse sc) {
 		if(sc == null) {
 			throw new IllegalArgumentException("There is no such Specific Course!");
@@ -577,6 +640,11 @@ public class ProjectGroup17RestController {
 		return specificCourseDto;
 	}
 	
+	/**
+	 * Converts a Room object into a DTO for the user to view
+	 * @param room
+	 * @return croomDto
+	 */
 	private RoomDto convertToDto(Room room) {
 		if(room == null) {
 			throw new IllegalArgumentException("There is no such Room!");
