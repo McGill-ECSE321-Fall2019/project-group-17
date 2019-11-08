@@ -5,7 +5,10 @@ module.exports = {
   build: {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
-    port: 8087,
+    host: 'project-group-17.herokuapp.com',
+    port: 443,
+    backendHost: 'project-group-17.herokuapp.com',
+    backendPort: 443,
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
@@ -24,7 +27,10 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
+    host: '127.0.0.1',
     port: 8087,
+    backendHost: '127.0.0.1',
+    backendPort: 8080,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
