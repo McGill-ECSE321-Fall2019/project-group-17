@@ -1,51 +1,64 @@
 <template>
   <div id="app">
-    <div class="login_container shadow">
 
-      <div class="img_container"><!-- <img class="img_media" src=""> --></div>
-      <div class="medium_text center_text brand_color_text">Online Tutoring System</div>
+    <nav class="nav_links">
+      <router-link to="/">Home</router-link>
+      <router-link to="/login">Login</router-link>
+      <router-link to="/signup">Signup</router-link>
+      <router-link to="/createCourse">CreateCourse</router-link>
 
-      <div class="input_container">
-        <input type="text" class="input" placeholder="Username">
-        <input type="password" class="input" placeholder="Password">
-
-        <button class="button brand_color">Continue</button>
-      </div>
-
-      <div class="small_text center_text">Don't have an account?</div>
-      <div class="small_text center_text brand_color_text"><a href="">Create an account</a></div>
-    </div>
+      <router-view />
+    </nav>
 
   </div>
 </template>
 
 <script>
+
+import Login from './components/Login.vue'
+import Signup from './components/Signup.vue'
+import CreateCourse from './components/CreateCourse.vue'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    Login, Signup, CreateCourse
+  }
 }
+
+
 </script>
 
 <style>
 #app {
-  position: absolute;
-  top: 0px;
-  width: 100%;
-  height: 1000px;
   margin: 0px 0px;
-  padding: 0px;
-  background: rgba(255, 140, 26, 0.3);
+  padding: 20px;
+  background: rgba(245, 245, 245, 0.5);
   font-family: 'Verdana';
 }
-.brand_color {
-  background: rgba(255, 140, 26, 1);
+.nav_links > a {
+  padding: 10px;
+  text-decoration: none;
+  background: white;
+  border-radius: 3px;
+  font-weight: 600;
 }
-.login_container {
+.container {
+  width: 100%;
+  margin: 0px 0px;
+  padding: 0px;
+  margin: 0px auto;
+  margin-top: 25px;
+  background: rgba(255, 140, 26, 0);
+  font-family: 'Verdana';
+}
+.inner_container {
   width: 65%;
   min-height: 100px;
   overflow-y: auto;
   margin: 0px auto;
   padding: 40px 75px;
-  margin-top: 5%;
+  margin-top: 0%;
   background: white;
   border-radius: 10px;
 }
@@ -53,11 +66,10 @@ export default {
   margin: 30px auto;
 }
 .input {
-  width: 100%;
   padding: 10px 8px;
-  margin: 5px auto;
+  margin: 5px 0px;
   background: rgba(240, 240, 240, 0.3);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   border-radius: 0px;
   border: none;
@@ -66,8 +78,19 @@ export default {
 	-moz-transition: all 0.2s ease;
 	transition: all 0.2s ease;
 }
+.wide {
+  width: 100%;
+}
+.half {
+  display: inline-block;
+  width: 48%;
+}
 .input:focus {
   border-left: 2px rgba(255, 140, 26, 1) solid;
+}
+.input_label {
+  font-size: 12px;
+  margin: 2px 0px;
 }
 .button {
   width: 100%;
@@ -96,6 +119,9 @@ export default {
   height: 100%;
   margin: 0px auto;
 }
+.brand_color {
+  background: rgba(255, 140, 26, 1);
+}
 .brand_color_text {
   color: rgb(255, 140, 26);
 }
@@ -108,6 +134,11 @@ export default {
   font-weight: 700;
   padding: 15px 0px;
 }
+.large_text {
+  font-size: 30px;
+  font-weight: 600;
+  padding: 10px 0px;
+}
 .center_text {
   text-align: center;
 }
@@ -116,6 +147,23 @@ export default {
 }
 input:focus {
    outline: none;
+}
+input::placeholder {
+	color: #d6d6d6;
+	font-size: 14px;
+	font-weight: 400;
+}
+textarea:focus {
+   outline: none;
+}
+button:focus {
+    outline: 0;
+}
+select {
+	cursor: pointer;
+}
+select:focus {
+    outline: 0;
 }
 a {
     text-decoration: none;
