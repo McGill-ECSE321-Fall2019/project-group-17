@@ -5,6 +5,7 @@ import Hello from '@/components/Hello.vue'
 import Login from '@/components/Login.vue'
 import Signup from '@/components/Signup.vue'
 import CreateCourse from '@/components/CreateCourse.vue'
+import Availability from '@/components/Availability.vue'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/createCourse',
       name: 'CreateCourse',
       component: CreateCourse
+    },
+    {
+      path: '/availability',
+      name: 'Availability',
+      component: Availability
     }
 
   ]

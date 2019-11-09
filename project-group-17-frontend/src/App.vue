@@ -6,6 +6,7 @@
       <router-link to="/login">Login</router-link>
       <router-link to="/signup">Signup</router-link>
       <router-link to="/createCourse">CreateCourse</router-link>
+      <router-link to="/availability">Availability</router-link>
 
       <router-view />
     </nav>
@@ -18,11 +19,12 @@
 import Login from './components/Login.vue'
 import Signup from './components/Signup.vue'
 import CreateCourse from './components/CreateCourse.vue'
+import Availability from './components/Availability.vue'
 
 export default {
   name: 'app',
   components: {
-    Login, Signup, CreateCourse
+    Login, Signup, CreateCourse, Availability
   }
 }
 
