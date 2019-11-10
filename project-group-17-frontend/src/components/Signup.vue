@@ -8,13 +8,13 @@
 
     <div class="input_container">
 
-      <input type="text" class="input half" placeholder="First name">
-      <input type="text" class="input half " placeholder="Last name">
+      <input type="text" class="input half" v-model="first" placeholder="First name">
+      <input type="text" class="input half " v-model="last" placeholder="Last name">
 
       <hr>
 
-      <input type="text" class="input wide" placeholder="Username">
-      <input type="email" class="input wide" placeholder="Email address">
+      <input type="text" class="input wide" v-model="username" placeholder="Username">
+      <input type="email" class="input wide" v-model="email" placeholder="Email address">
 
       <hr>
 
@@ -26,25 +26,26 @@
       <hr>
       -->
 
-      <input type="password" class="input wide" placeholder="Password">
-      <input type="password" class="input wide" placeholder="Confirm Password">
+      <input type="password" class="input wide" v-model="password" placeholder="Password">
+      <input type="password" class="input wide" v-model="password_confirm" placeholder="Confirm Password">
       <hr>
 
-      <button class="button brand_color">Signup</button>
+      <button class="button brand_color" @click="createPerson(first,last,username,email,password)">Signup</button>
     </div>
 
     <div class="small_text center_text">Already have an account?</div>
-    <div class="small_text center_text brand_color_text"> <router-link to="/login">Log In</router-link> </div>
+    <div class="small_text center_text brand_color_text"> <router-link to="/login">Log In</router-link> 
+          <p>
+            <span v-if="errorPerson" style="color:red">{{errorPerson}} </span>
+          </p>
+    </div>
 
     </div>
   </div>
 
 </template>
 
-<script>
-export default {
-  name: 'Signup'
-}
+<script src='./signup.js'>
 </script>
 
 <style scoped>

@@ -18,13 +18,13 @@
 
 
 <!-- Link Java Script -->
-<script src='./login.js'>
+<script>
 </script>
 
 
 <!-- CSS code -->
 <style>
-  #eventregistration {
+  #main {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;
     background: #f2ece8;

@@ -47,22 +47,24 @@ export default {
       },
     
     methods: {
+        createPerson: function (first,last,username,email,password) {
 
-        login: function(username,password){
-            AXIOS.get(backendUrl+'/persons/getByUsername/?username='+username)
-            
+            AXIOS.post(backendUrl+`/persons/createPerson/?firstName=`+first+'&lastName='+last
+            +'&username='+username+'&email='+email+'&password='+password+'&personType=Tutor', {}, {})
             .then(response => {
-                // JSON responses are automatically parsed.
-                this.people = response.data
-                this.errorPerson = ''
-                
-              })
-              .catch(e => {
-                this.errorPerson = e.response;
-                console.log(e)
+              // JSON responses are automatically parsed.
+              this.people.push(response.data)
+              this.newPerson = ''
+              this.errorPerson = ''
+              
+            })
+            .catch(e => {
+              console.log(e.message)
+              this.errorPerson = e.response
             });
+        },
             
-        }
+        
     }
 
 }

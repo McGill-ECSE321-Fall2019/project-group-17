@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import Login from '@/components/Login.vue'
 import Signup from '@/components/Signup.vue'
 import CreateCourse from '@/components/CreateCourse.vue'
-import Main from '@/components/Main.vue'
+//import Main from '@/components/Main.vue'
 
 Vue.use(Router)
 
@@ -30,11 +30,11 @@ export default new Router({
       name: 'CreateCourse',
       component: CreateCourse
     },
-    {
-      path: '/main',
-      name: 'Main',
-      component: Main
-    },
+    // {
+    //   path: '/main',
+    //   name: 'Main',
+    //   component: Main
+    // },
 
   ]
 })
