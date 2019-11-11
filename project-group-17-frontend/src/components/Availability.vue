@@ -3,7 +3,7 @@
 <template>
   <div id="avail">
     <div class="inner_container shadow">
-      
+
       <div class="large_text left_text">Create Availability</div>
       <div class="small_text left_text brand_color_text">Date: </div>
       <datepicker name="createDatePicker" v-model="createDate" font-family="Helvetica" placeholder="Click to select date" :highlighted="highlighted"></datepicker>
@@ -40,7 +40,7 @@
     </select>
     </div>
       <div class="small_text left_text brand_color_text">End Time: </div>
-      
+
   <div>
   <select v-model="createEndTime" class="input half">
     <option value="08:30">08:30 AM</option>
@@ -78,7 +78,7 @@
     <div class="small_text left_text brand_color_text">Choose Date: </div>
     <datepicker font-family="Helvetica" placeholder="Click to select date" :highlighted="highlighted"></datepicker>
     <div class="small_text left_text brand_color_text">Start Time: </div>
-    
+
     <div>
       <select class="input half">
       <option value="08:00">08:00 AM</option>
@@ -110,7 +110,7 @@
     </select>
     </div>
       <div class="small_text left_text brand_color_text">End Time: </div>
-      
+
   <div>
   <select class="input half">
     <option value="08:30">08:30 AM</option>
@@ -143,7 +143,7 @@
     </div>
     <button class="button brand_color">Remove</button>
     </div>
-  
+
 
   </div>
 </template>
@@ -157,7 +157,7 @@ export default {
     createStartTime: '',
     createEndTime: '',
   }
-  
+
 }
 </script>
 

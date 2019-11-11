@@ -1,15 +1,14 @@
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 
-
 import Datepicker from 'vuejs-datepicker'
-     
+
 export default {
   name: 'availability',
   components: {
     Datepicker
   },
-  
+
 }
 // methods {
 //   createAvailability: function (createDate, createStartTime, createEndTime) {
@@ -34,6 +33,3 @@ export default {
 //     // });
 //   }
 // }
-
-
-
