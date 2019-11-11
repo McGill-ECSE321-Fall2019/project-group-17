@@ -18,6 +18,8 @@ public interface AvailabilityRepository extends CrudRepository<Availability, Lon
 	
 	List<Availability> findByTutorUsername(String tutorUsername);
 	
+	Availability findByAvailabilityID(long availabilityId);
+	
 	@Modifying
 	@Query("DELETE FROM Availability")
 	void deleteAvailabilities();

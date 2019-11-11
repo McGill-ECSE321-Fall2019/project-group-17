@@ -5,10 +5,9 @@
     <div class="inner_container shadow">
       
       <div class="large_text left_text">Create Availability</div>
-      <div class="small_text left_text brand_color_text">Date: </div>
+      <div class="small_text left_text brand_color_text">Date:</div>
       <datepicker name="createDatePicker" v-model="createDate" font-family="Helvetica" placeholder="Click to select date" :highlighted="highlighted"></datepicker>
-      <div class="small_text left_text brand_color_text">Start Time: </div>
-
+      <div class="small_text left_text brand_color_text">Start Time:</div>
       <div>
       <select v-model="createStartTime" class="input half">
         <option value="08:00">08:00 AM</option>
@@ -39,9 +38,8 @@
         <option value="20:30">08:30 PM</option>
     </select>
     </div>
-      <div class="small_text left_text brand_color_text">End Time: </div>
-      
-  <div>
+      <div class="small_text left_text brand_color_text">End Time:</div>
+      <div>
   <select v-model="createEndTime" class="input half">
     <option value="08:30">08:30 AM</option>
     <option value="09:00">09:00 AM</option>
@@ -73,20 +71,14 @@
     </div>
   <button @click="createAvailability(createDate, createStartTime, createEndTime)" class="button brand_color">Create</button>
 
-
-
-    <div class="medium_text left_text">Remove Availability</div>
-    <div class="small_text left_text brand_color_text">Choose Date: </div>
-    <datepicker font-family="Helvetica" placeholder="Click to select date" :highlighted="highlighted"></datepicker>
-    <div class="small_text left_text brand_color_text">Start Time: </div>
-    
-    
-    <table id="firstTable">
+  <div class="large_text left_text">Availabilities</div>
+    <table id="availabilities">
   <thead>
     <tr>
       <th>Date</th>
       <th>Start Time</th>
       <th>End Time</th>
+      <th>Delete</th>
     </tr>
   </thead>
   <tbody>
@@ -94,11 +86,11 @@
       <td>{{avail.date}}</td>
       <td>{{avail.startTime}}</td>
       <td>{{avail.endTime}}</td>
+      <td><button @click="deleteAvailability(avail.availabilityId)" class="button_small brand_color">Delete</button></td>
     </tr>
   </tbody>
 </table>
 
-    <button class="button brand_color">Remove</button>
     </div>
   
 
@@ -113,14 +105,19 @@ export default {
     return {
         availabilities: [],
         errorAvailability: '',
-        response: []
+        response: [],
+        createDate: '',
+        createStartTime: '',
+        createEndTime: '',
+
+
     }
 },
   
 }
 </script>
 
-<style>
+<style scoped>
 
 
 </style>

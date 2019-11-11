@@ -41,15 +41,15 @@ export default {
     
   },
   created: function () {
-    // Initializing people from backend
-      AXIOS.get(`/persons`)
+    // Initializing availabilities from backend
+      AXIOS.get(`/availabilities`)
       .then(response => {
         // JSON responses are automatically parsed.
-        this.people = response.data
+        this.availabilities = response.data
         
       })
       .catch(e => {
-        this.errorPerson = e;
+        this.errorAvailability = e;
       });
   },
   methods: {
@@ -72,16 +72,36 @@ export default {
                 if(a.date < b.date) return -1;
                 return 0;
               });
-              this.errorPerson = ''
+              this.errorAvailability = ''
               
             })
             .catch(e => {
               console.log(e.message)
-              this.errorPerson = e.response
+              this.errorAvailability = e.response
             });
     },
 
-    // removeAvailability: function (availability)
+    deleteAvailability: function (availId) {
+      console.log(availId);
+      AXIOS.post(backendUrl+'/availabilities/deleteById?availabilityId='+availId, {}, {})
+            .then(response => {
+              // JSON responses are automatically parsed.
+              for (var i = 0; i < this.availabilities.length; i++) {
+                if (this.availabilities[i].availabilityId==availId) this.availabilities.splice(i, 1); 
+              }
+              this.availabilities.sort(function (a,b) {
+                if(a.date > b.date) return 1;
+                if(a.date < b.date) return -1;
+                return 0;
+              });
+              this.errorAvailability = ''
+              
+            })
+            .catch(e => {
+              console.log(e.message)
+              this.errorAvailability = e.response
+            });
+    }
   }
   
 }

@@ -104,6 +104,16 @@ export default {
   margin: 20px auto;
   color: white;
 }
+.button_small {
+  width: 100%;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: none;
+  font-size: 15px;
+  font-weight: 400;
+  margin: 20px auto;
+  color: white;
+}
 .button_dark {
   background: rgba(0, 0, 0, 0.7);
 }
@@ -146,6 +156,29 @@ export default {
 }
 .shadow {
 	box-shadow: 1px 2px 10px -2px rgba(0,0,0,0.2);
+}
+#availabilities {
+  font-family: Helvetica;
+  font-size: 20px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#availabilities td, #availabilities th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#availabilities tr:nth-child(even){background-color: #f2f2f2;}
+
+#availabilities tr:hover {background-color: rgba(255, 140, 26, 0.5);}
+
+#availabilities th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: rgba(255, 140, 26, 1);
+  color: white;
 }
 input:focus {
    outline: none;

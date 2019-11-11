@@ -12,17 +12,20 @@ public class AvailabilityDto {
 	Date createdDate;
 	Time startTime;
 	Time endTime;
+	long availabilityId;
 	
 	public AvailabilityDto(){
 		
 	}
 	
-	public AvailabilityDto(Tutor tutor, Date date, Date createdDate, Time startTime, Time endTime){
+	public AvailabilityDto(long availabilityId, Tutor tutor, Date date, Date createdDate, Time startTime, Time endTime){
+		this.availabilityId=availabilityId;
 		this.tutor=tutor;
 		this.date=date;
 		this.createdDate=createdDate;
 		this.startTime=startTime;
 		this.endTime=endTime;
+		
 	}
 	
 	//Getters and Setters for the DTO
@@ -60,6 +63,13 @@ public class AvailabilityDto {
 	}
 	public void setEndTime(Time time) {
 		this.endTime = time;
+	}
+	
+	public long getAvailabilityId() {
+		return this.availabilityId;
+	}
+	public void setAvailabilityId(long id) {
+		this.availabilityId = id;
 	}
 	
 	

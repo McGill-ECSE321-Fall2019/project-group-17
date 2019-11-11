@@ -536,6 +536,18 @@ public class ProjectGroup17Service {
 		List<Availability> availabilities = availabilityRepository.findByTutorUsername(tutorUsername);
 		return availabilities;
 	}
+	
+	@Transactional
+	public Availability getAvailabilityById(long availabilityId) {
+		Availability avail = availabilityRepository.findByAvailabilityID(availabilityId);
+		return avail;
+	}
+	@Transactional
+	public Availability deleteAvailabilityById(long availabilityId) {
+		Availability avail = availabilityRepository.findByAvailabilityID(availabilityId);
+		availabilityRepository.delete(avail);
+		return avail;
+	}
 
 	@Transactional
 	public List<Availability> getAllAvailabilities() {
