@@ -1,6 +1,6 @@
 <template>
 
-  <div id="createCourse" class="container">
+  <div id="specificCourse" class="container">
     <div class="inner_container shadow">
 
     <div class="large_text">Become a tutor for a course.</div>
@@ -48,7 +48,7 @@
 <script>
 
 export default {
-  name: 'CreateSpecificCourse',
+  name: 'SpecificCourse',
   data () {
     return {
       courses: [],

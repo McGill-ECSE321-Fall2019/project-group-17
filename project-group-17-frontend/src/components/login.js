@@ -1,6 +1,7 @@
 
 import axios from 'axios'
 import { runInThisContext } from 'vm'
+
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -28,42 +29,58 @@ export default {
     data() {
         return {
             people: [],
-            newPerson: '',
+            username: '',
+            password: '',
             errorPerson: '',
             response: []
         }
     },
     created: function () {
-        // Initializing people from backend
+
+          // Initializing people from backend
           AXIOS.get(`/persons`)
           .then(response => {
             // JSON responses are automatically parsed.
             this.people = response.data
-            
           })
           .catch(e => {
             this.errorPerson = e;
           });
       },
-    
+
     methods: {
 
         login: function(username,password){
-            AXIOS.get(backendUrl+'/persons/getByUsername/?username='+username)
-            
-            .then(response => {
-                // JSON responses are automatically parsed.
-                this.people = response.data
-                this.errorPerson = ''
-                
-              })
-              .catch(e => {
-                this.errorPerson = e.response;
-                console.log(e)
-            });
-            
+
+            if(username == "" || password == "") {
+              this.errorPerson = 'Missing input fields.'
+              return false
+            } else {
+
+                AXIOS.get(backendUrl+'/persons/getByUsername/?username='+username)
+
+                .then(response => {
+                    // JSON responses are automatically parsed.
+                    this.people = response.data
+                    this.username = ''
+                    this.password = ''
+                    this.errorPerson = ''
+
+                    // Set logged in tutor to the username specified
+                    this.$parent.logged_in_tutor = username
+                    //window.location = 'Main.vue';
+
+                  })
+                  .catch(e => {
+                    // Set logged in tutor to empty
+                    this.$parent.logged_in_tutor = ""
+                    this.errorPerson = e.response.data.message
+
+                });
+
+            }
+
         }
     }
 
 }
-

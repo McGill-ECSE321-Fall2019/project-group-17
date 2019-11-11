@@ -1,12 +1,14 @@
 <template>
   <div id="app">
 
+    <div class="large_text">Logged in: {{ logged_in_tutor }}</div>
     <nav class="nav_links">
       <router-link to="/">Home</router-link>
       <router-link to="/login">Login</router-link>
       <router-link to="/signup">Signup</router-link>
-      <router-link to="/createSpecificCourse">CreateSpecificCourse</router-link>
+      <router-link to="/specificCourse">SpecificCourse</router-link>
       <router-link to="/availability">Availability</router-link>
+      <router-link to="/tutorView">TutorView</router-link>
 
       <router-view />
     </nav>
@@ -14,17 +16,24 @@
   </div>
 </template>
 
+<script src="./main.js"></script>
 <script>
 
 import Login from './components/Login.vue'
 import Signup from './components/Signup.vue'
-import CreateSpecificCourse from './components/CreateSpecificCourse.vue'
+import SpecificCourse from './components/SpecificCourse.vue'
 import Availability from './components/Availability.vue'
+import TutorView from './components/TutorView.vue'
 
 export default {
   name: 'app',
+  data() {
+    return {
+      logged_in_tutor: ''
+    }
+  },
   components: {
-    Login, Signup, CreateSpecificCourse, Availability
+    Login, Signup, SpecificCourse, Availability, TutorView
   }
 }
 
