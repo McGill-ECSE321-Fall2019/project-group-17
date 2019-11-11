@@ -14,7 +14,7 @@ public interface SpecificCourseRepository extends CrudRepository<SpecificCourse,
 	List<SpecificCourse> findByTutorUsername(String tutorUsername);
 	
 	List<SpecificCourse> findByCourse(Course course);
-	
+		
 	List<SpecificCourse> findAll();
 
 }

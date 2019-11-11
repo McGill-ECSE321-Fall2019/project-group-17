@@ -1,5 +1,13 @@
-/* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
+import axios from 'axios'
+var config = require('../../config')
+
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+
+var AXIOS = axios.create({
+  baseURL: backendUrl,
+  headers: { 'Access-Control-Allow-Origin': frontendUrl }
+})
 
 import Datepicker from 'vuejs-datepicker'
 
@@ -14,45 +22,75 @@ export default {
         errorAvailability: '',
         response: []
     }
-},
+  },
   components: {
     Datepicker
-
   },
   created: function () {
-    // Initializing people from backend
-      AXIOS.get(`/persons`)
+    // Initializing availabilities from backend
+      AXIOS.get(`/availabilities`)
       .then(response => {
         // JSON responses are automatically parsed.
         this.people = response.data
-
+        this.availabilities = response.data
       })
       .catch(e => {
-        this.errorPerson = e;
+        this.errorAvailability = e;
       });
   },
 
+  methods: {
+    createAvailability: function (createDate, createStartTime, createEndTime) {
+      var date = new Date(createDate);
+      var startTime = new Time(createStartTime);
+      var currentDate = new Date().getTime();
+      var endTime = new Time(createEndTime);
+      var realStartTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), startTime.hour, startTime.minutes, 0, 0).getTime();
+      var realEndTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), endTime.hour, endTime.minutes, 0, 0).getTime();
+      //var tutor = "timtom67";
+
+      // Below we use the logged in tutor
+      var tutor = this.$parent.logged_in_tutor
+
+      console.log(realStartTime, realEndTime);
+      AXIOS.post(backendUrl+'/availabilities/createAvailability?tutorUsername='+tutor+'&date='+date.getTime()+'&createdDate='+currentDate
+            +'&startTime='+realStartTime+'&endTime='+realEndTime, {}, {})
+            .then(response => {
+              // JSON responses are automatically parsed.
+              this.availabilities.push(response.data)
+              this.availabilities.sort(function (a,b) {
+                if(a.date > b.date) return 1;
+                if(a.date < b.date) return -1;
+                return 0;
+              });
+              this.errorAvailability = ''
+
+            })
+            .catch(e => {
+              this.errorAvailability = e.response.data.message
+            });
+    },
+
+    deleteAvailability: function (availId) {
+
+      AXIOS.post(backendUrl+'/availabilities/deleteById?availabilityId='+availId, {}, {})
+            .then(response => {
+              // JSON responses are automatically parsed.
+              for (var i = 0; i < this.availabilities.length; i++) {
+                if (this.availabilities[i].availabilityId==availId) this.availabilities.splice(i, 1);
+              }
+              this.availabilities.sort(function (a,b) {
+                if(a.date > b.date) return 1;
+                if(a.date < b.date) return -1;
+                return 0;
+              });
+              this.errorAvailability = ''
+
+            })
+            .catch(e => {
+              this.errorAvailability = e.response.data.message
+            });
+    }
+  }
+
 }
-// methods {
-//   createAvailability: function (createDate, createStartTime, createEndTime) {
-//     var date = new Date(createDate);
-//     var startTime = new Time(createStartTime);
-//     var endTime = new Time(createEndTime);
-//
-//     console.log(date);
-//     console.log(startTime);
-//     console.log(endTime);
-//     AXIOS.post(`/createAvailability/`+, {}, {})
-//     .then(response => {
-//       // JSON responses are automatically parsed.
-//       this.people.push(response.data)
-//       this.newPerson = ''
-//       this.errorPerson = ''
-//     })
-//     .catch(e => {
-//       var errorMsg = e.message
-//       console.log(errorMsg)
-//       this.errorPerson = errorMsg
-//     });
-//   }
-// }

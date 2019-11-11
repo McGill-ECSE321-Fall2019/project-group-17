@@ -1,23 +1,32 @@
 <template>
-  <div id="main">
-    <h1>Tutor Homepage</h1>
-    <h2>People</h2>
-    <table>
-    <tr v-for="person in people" >
-        <td>{{ "Name: " + person.name }}</td>
+  <div id="tutorView" class="container">
 
-    </tr>
-    <tr v-for="person in people" >
-        <td>{{ "Username: " + person.username }}</td>
-        <td>{{ "Password: " + person.password }}</td>
+    <div class="inner_container shadow">
 
-    </tr>
-    </table>
+      <div class="large_text">Hey, {{ this.$parent.logged_in_tutor }}</div>
+
+      <hr>
+      <table>
+        <tr>
+          <td><button class="button_small brand_color"><router-link to="/specificCourse" class="styled_router_link">View Courses</router-link></button></td>
+          <td>&nbsp;</td>
+          <td><button  class="button_small brand_color"><router-link to="/availability" class="styled_router_link">Modify Availabilities</router-link></button></td>
+          <td>&nbsp;</td>
+          <td><button  class="button_small brand_color"><router-link to="/review" class="styled_router_link">See Reviews</router-link></button></td>
+        </tr>
+      </table>
+      <hr>
+
+    </div>
+
+
+
   </div>
 </template>
 
 
 <script>
+
 </script>
 
 

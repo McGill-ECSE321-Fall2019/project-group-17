@@ -405,6 +405,20 @@ public class ProjectGroup17RestController {
 		return availabilityDtos;
 	}
 	
+	@GetMapping(value = {"/availabilities/getById", "/availabilities/getById/"})
+	public AvailabilityDto getAvailabilityById(@RequestParam("availabilityId") long availabilityId) {
+		Availability avail;
+		avail = service.getAvailabilityById(availabilityId);
+		return convertToDto(avail);
+	}
+	
+	@PostMapping(value = {"/availabilities/deleteById", "/availabilities/deleteById/"})
+	public AvailabilityDto deleteAvailabilityById(@RequestParam("availabilityId") long availabilityId) {
+		Availability avail;
+		avail = service.deleteAvailabilityById(availabilityId);
+		return convertToDto(avail);
+	}
+	
 
 
 	
@@ -510,6 +524,15 @@ public class ProjectGroup17RestController {
 		}
 		return scDto;
 	}
+	
+	@PostMapping(value = {"/specificCourses/delete", "/specificCourses/delete/"})
+	public SpecificCourseDto deleteSpecificCourse(@RequestParam("specificCourseID") long specificCourseID) {
+		SpecificCourse sc;
+		sc = service.deleteSpecificCourse(specificCourseID);
+		return convertToDto(sc);
+	}
+	
+	
 
 	/**
 	 * Will go retrieve all specific courses that are taught
@@ -610,7 +633,7 @@ public class ProjectGroup17RestController {
 		if(a == null) {
 			throw new IllegalArgumentException("There is no such Person!");
 		}
-		AvailabilityDto availabilityDto = new AvailabilityDto(a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
+		AvailabilityDto availabilityDto = new AvailabilityDto(a.getAvailabilityID(), a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
 		return availabilityDto;
 	}
 	

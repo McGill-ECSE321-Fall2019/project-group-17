@@ -68,7 +68,8 @@ export default {
 
                     // Set logged in tutor to the username specified
                     this.$parent.logged_in_tutor = username
-                    //window.location = 'Main.vue';
+                    //window.location.href = "./TutorView.vue"
+                    this.$router.push("./tutorView")
 
                   })
                   .catch(e => {

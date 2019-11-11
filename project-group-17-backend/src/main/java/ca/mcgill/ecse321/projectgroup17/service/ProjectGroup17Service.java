@@ -110,6 +110,14 @@ public class ProjectGroup17Service {
 		List<SpecificCourse> specificCourses = toList(specificCourseRepository.findAll());
 		return specificCourses;
 	}
+	
+	@Transactional
+	public SpecificCourse deleteSpecificCourse(long specificCourseID) {
+		SpecificCourse sc = specificCourseRepository.findBySpecificCourseID(specificCourseID);
+		specificCourseRepository.delete(sc);
+		return sc;
+		
+	}
 
 	/*-------------------------------------*/
 
@@ -535,6 +543,18 @@ public class ProjectGroup17Service {
 	public List<Availability> getAvailabilityByTutorUsername(String tutorUsername) {
 		List<Availability> availabilities = availabilityRepository.findByTutorUsername(tutorUsername);
 		return availabilities;
+	}
+	
+	@Transactional
+	public Availability getAvailabilityById(long availabilityId) {
+		Availability avail = availabilityRepository.findByAvailabilityID(availabilityId);
+		return avail;
+	}
+	@Transactional
+	public Availability deleteAvailabilityById(long availabilityId) {
+		Availability avail = availabilityRepository.findByAvailabilityID(availabilityId);
+		availabilityRepository.delete(avail);
+		return avail;
 	}
 
 	@Transactional
