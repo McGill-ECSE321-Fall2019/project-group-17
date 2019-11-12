@@ -110,6 +110,14 @@ public class ProjectGroup17Service {
 		List<SpecificCourse> specificCourses = toList(specificCourseRepository.findAll());
 		return specificCourses;
 	}
+	
+	@Transactional
+	public SpecificCourse deleteSpecificCourse(long specificCourseID) {
+		SpecificCourse sc = specificCourseRepository.findBySpecificCourseID(specificCourseID);
+		specificCourseRepository.delete(sc);
+		return sc;
+		
+	}
 
 	/*-------------------------------------*/
 

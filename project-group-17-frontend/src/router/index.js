@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Login from '@/components/Login.vue'
 import Signup from '@/components/Signup.vue'
-import CreateCourse from '@/components/CreateCourse.vue'
-//import Main from '@/components/Main.vue'
+import SpecificCourse from '@/components/SpecificCourse.vue'
+import TutorView from '@/components/TutorView.vue'
 import Availability from '@/components/Availability.vue'
 
 
@@ -27,16 +28,15 @@ export default new Router({
       component: Signup
     },
     {
-      path: '/createCourse',
-      name: 'CreateCourse',
-      component: CreateCourse
+      path: '/specificCourse',
+      name: 'SpecificCourse',
+      component: SpecificCourse
     },
-    // {
-    //   path: '/main',
-    //   name: 'Main',
-    //   component: Main
-    // },
-
+    {
+      path: '/tutorView',
+      name: 'TutorView',
+      component: TutorView
+    },
     {
       path: '/availability',
       name: 'Availability',

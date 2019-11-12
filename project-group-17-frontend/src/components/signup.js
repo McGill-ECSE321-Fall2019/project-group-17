@@ -12,7 +12,7 @@ var AXIOS = axios.create({
 })
 
 function PersonDto(first,last,username,email,
-    password,sexe,age,personType,) {
+    password,sexe,age,personType) {
     this.first = first
     this.last = last
     this.username = username
@@ -28,7 +28,12 @@ export default {
     data() {
         return {
             people: [],
-            newPerson: '',
+            first: '',
+            last: '',
+            username: '',
+            email: '',
+            password: '',
+            password_confirm: '',
             errorPerson: '',
             response: []
         }
@@ -39,33 +44,43 @@ export default {
           .then(response => {
             // JSON responses are automatically parsed.
             this.people = response.data
-            
+
           })
           .catch(e => {
-            this.errorPerson = e;
+            console.log(e);
+            this.errorPerson = e
           });
       },
-    
+
     methods: {
-        createPerson: function (first,last,username,email,password) {
+        createPerson: function (first,last,username,email,password,password_confirm) {
+            if(first == "" || last == "" || username == "" || email == "" || password == "" || password_confirm == "") {
+              this.errorPerson = 'Missing input fields.'
+              return false
+            } else if(password != password_confirm) {
+              this.errorPerson = 'Passwords do not match.'
+              return false
+            } else {
 
-            AXIOS.post(backendUrl+`/persons/createPerson/?firstName=`+first+'&lastName='+last
-            +'&username='+username+'&email='+email+'&password='+password+'&personType=Tutor', {}, {})
-            .then(response => {
-              // JSON responses are automatically parsed.
-              this.people.push(response.data)
-              this.newPerson = ''
-              this.errorPerson = ''
-              
-            })
-            .catch(e => {
-              console.log(e.message)
-              this.errorPerson = e.response
-            });
+                AXIOS.post(backendUrl+`/persons/createPerson/?firstName=`+first+'&lastName='+last
+                +'&username='+username+'&email='+email+'&password='+password+'&personType=Tutor', {}, {})
+                .then(response => {
+                  // JSON responses are automatically parsed.
+                  this.people.push(response.data)
+                  this.first =  ''
+                  this.last = ''
+                  this.username = ''
+                  this.email = ''
+                  this.password = ''
+                  this.password_confirm = ''
+                  this.errorPerson = ''
+
+                })
+                .catch(e => {
+                  console.log(e.message)
+                  this.errorPerson = e.response
+                });
+            }
         },
-            
-        
     }
-
 }
-

@@ -1,12 +1,14 @@
 <template>
   <div id="app">
 
+    <div class="medium_text">Logged in as: {{ logged_in_tutor }}</div>
     <nav class="nav_links">
       <router-link to="/">Home</router-link>
       <router-link to="/login">Login</router-link>
       <router-link to="/signup">Signup</router-link>
-      <router-link to="/createCourse">CreateCourse</router-link>
+      <router-link to="/specificCourse">SpecificCourse</router-link>
       <router-link to="/availability">Availability</router-link>
+      <router-link to="/tutorView">TutorView</router-link>
 
       <router-view />
     </nav>
@@ -14,17 +16,24 @@
   </div>
 </template>
 
+<script src="./main.js"></script>
 <script>
 
 import Login from './components/Login.vue'
 import Signup from './components/Signup.vue'
-import CreateCourse from './components/CreateCourse.vue'
+import SpecificCourse from './components/SpecificCourse.vue'
 import Availability from './components/Availability.vue'
+import TutorView from './components/TutorView.vue'
 
 export default {
   name: 'app',
+  data() {
+    return {
+      logged_in_tutor: ''
+    }
+  },
   components: {
-    Login, Signup, CreateCourse, Availability
+    Login, Signup, SpecificCourse, Availability, TutorView
   }
 }
 
@@ -35,7 +44,7 @@ export default {
 #app {
   margin: 0px 0px;
   padding: 20px;
-  background: rgba(245, 245, 245, 0.5);
+  background: rgba(245, 245, 245, 0.1);
   font-family: 'Verdana';
 }
 .nav_links > a {
@@ -44,6 +53,9 @@ export default {
   background: white;
   border-radius: 3px;
   font-weight: 600;
+}
+.styled_router_link, .styled_router_link:active, .styled_router_link:focus, .styled_router_link:hover {
+  color: white;
 }
 .container {
   width: 100%;
@@ -55,7 +67,7 @@ export default {
   font-family: 'Verdana';
 }
 .inner_container {
-  width: 65%;
+  width: 100%;
   min-height: 100px;
   overflow-y: auto;
   margin: 0px auto;
@@ -68,7 +80,7 @@ export default {
   margin: 30px auto;
 }
 .input {
-  padding: 10px 8px;
+  padding: 15px 10px;
   margin: 5px 0px;
   background: rgba(240, 240, 240, 0.3);
   font-size: 16px;
@@ -95,7 +107,6 @@ export default {
   margin: 2px 0px;
 }
 .button {
-  width: 100%;
   padding: 15px 10px;
   border-radius: 3px;
   border: none;
@@ -105,7 +116,6 @@ export default {
   color: white;
 }
 .button_small {
-  width: 100%;
   padding: 5px 10px;
   border-radius: 3px;
   border: none;
@@ -116,6 +126,9 @@ export default {
 }
 .button_dark {
   background: rgba(0, 0, 0, 0.7);
+}
+.button_red {
+  background: rgba(255, 51, 51, 1);
 }
 .img_container {
   background: rgba(240, 240, 240, 0.7);
@@ -138,8 +151,9 @@ export default {
   color: rgb(255, 140, 26);
 }
 .small_text {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 400;
+  margin: 5px 0px;
 }
 .medium_text {
   font-size: 25px;
@@ -157,29 +171,26 @@ export default {
 .shadow {
 	box-shadow: 1px 2px 10px -2px rgba(0,0,0,0.2);
 }
-#availabilities {
-  font-family: Helvetica;
-  font-size: 20px;
-  border-collapse: collapse;
+.table {
+  margin: 20px auto;
+  font-size: 16px;
   width: 100%;
+  border-collapse: collapse;
 }
-
-#availabilities td, #availabilities th {
-  border: 1px solid #ddd;
-  padding: 8px;
+.table td, .table th {
+  border: 1px #e6e6e6 solid;
+  padding: 10px 10px;
 }
-
-#availabilities tr:nth-child(even){background-color: #f2f2f2;}
-
-#availabilities tr:hover {background-color: rgba(255, 140, 26, 0.5);}
-
-#availabilities th {
+.table tr:nth-child(even){background-color: #f2f2f2;}
+.table tr:hover {background-color: rgba(255, 140, 26, 0.5);}
+.table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
   background-color: rgba(255, 140, 26, 1);
   color: white;
 }
+
 input:focus {
    outline: none;
 }
@@ -195,7 +206,13 @@ button:focus {
     outline: 0;
 }
 select {
-	cursor: pointer;
+  cursor: pointer;
+  width: 150px;
+  padding: 5px 35px 5px 5px;
+  font-size: 16px;
+  border: 1px solid #CCC;
+  border-radius: 0px;
+  height: 40px;
 }
 select:focus {
     outline: 0;

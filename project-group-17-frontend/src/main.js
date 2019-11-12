@@ -10,6 +10,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
+function linkPage(endpoint) {
+  this.$router.push("./"+endpoint)
+}
+
 /* eslint-disable no-new */
 var app = new Vue({
   el: '#app',

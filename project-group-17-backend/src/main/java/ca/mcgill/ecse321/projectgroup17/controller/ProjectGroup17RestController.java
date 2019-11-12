@@ -524,6 +524,15 @@ public class ProjectGroup17RestController {
 		}
 		return scDto;
 	}
+	
+	@PostMapping(value = {"/specificCourses/delete", "/specificCourses/delete/"})
+	public SpecificCourseDto deleteSpecificCourse(@RequestParam("specificCourseID") long specificCourseID) {
+		SpecificCourse sc;
+		sc = service.deleteSpecificCourse(specificCourseID);
+		return convertToDto(sc);
+	}
+	
+	
 
 	/**
 	 * Will go retrieve all specific courses that are taught
@@ -598,7 +607,7 @@ public class ProjectGroup17RestController {
 			PersonDto s = convertToDto((Person) appt.getStudent().toArray()[i]);
 			st.add(s);
 		}
-		AppointmentDto apptDto = new AppointmentDto(appt.getDate(), appt.getStartTime(), appt.getEndTime(), appt.getStatus(), tutor, room, st);
+		AppointmentDto apptDto = new AppointmentDto(appt.getDate(), appt.getStartTime(), appt.getEndTime(), appt.getStatus(), tutor, room, st); 
 		return apptDto;
 		
 	}
