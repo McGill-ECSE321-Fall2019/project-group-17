@@ -1,1 +1,1 @@
-web: node -jar project-group-17-frontend/build/libs/project-group-17-frontend-0.0.1-SNAPSHOT.jar
+web: node project-group-17-frontend/build/libs/project-group-17-frontend-0.0.1-SNAPSHOT.jar
