@@ -1,1 +1,1 @@
-web: node project-group-17-frontend/src/main.js
+web: npm start
