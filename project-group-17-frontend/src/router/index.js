@@ -6,6 +6,7 @@ import Signup from '@/components/Signup.vue'
 import SpecificCourse from '@/components/SpecificCourse.vue'
 import TutorView from '@/components/TutorView.vue'
 import Availability from '@/components/Availability.vue'
+import Review from '@/components/Review.vue'
 
 
 Vue.use(Router)
@@ -41,7 +42,11 @@ export default new Router({
       path: '/availability',
       name: 'Availability',
       component: Availability
+    },
+    {
+      path:'/review',
+      name:'Review',
+      component: Review
     }
-
   ]
 })
