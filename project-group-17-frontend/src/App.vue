@@ -216,8 +216,12 @@ select {
   border-radius: 0px;
   height: 40px;
 }
-select:focus {
-    outline: 0;
+input:focus, textarea:focus {
+    outline: none !important;
+}
+textarea {
+  resize: none;
+  border: none;
 }
 a {
     text-decoration: none;
