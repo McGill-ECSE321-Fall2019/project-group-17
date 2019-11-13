@@ -10,6 +10,7 @@ import ca.mcgill.ecse321.projectgroup17.model.Appointment.AppointmentStatus;
 public class AppointmentDto {
 
 	//define attributes
+	private long appointmentId;
 	private Date date;
 	private Time startTime;
 	private Time endTime;
@@ -106,6 +107,13 @@ public class AppointmentDto {
 	
 	public void setRoom(RoomDto room) {
 		this.room = room;
+	}
+	
+	public long getAppointmentId() {
+		return this.appointmentId;
+	}
+	public void setAppointmentId(long id) {
+		this.appointmentId = id;
 	}
 	
 	
