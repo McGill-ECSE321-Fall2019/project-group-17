@@ -550,6 +550,7 @@ public class ProjectGroup17Service {
 		Availability avail = availabilityRepository.findByAvailabilityID(availabilityId);
 		return avail;
 	}
+	
 	@Transactional
 	public Availability deleteAvailabilityById(long availabilityId) {
 		Availability avail = availabilityRepository.findByAvailabilityID(availabilityId);
@@ -640,8 +641,20 @@ public class ProjectGroup17Service {
 	} 
 	
 	@Transactional
+	public Appointment getAppointmentById(long appointmentId) {
+		Appointment appt = appointmentRepository.findByAppointmentID(appointmentId);
+		return appt;
+	}
+	
+	@Transactional
 	public List<Appointment> getAppointmentsByTutor(Tutor tutor) {
 		return toList(appointmentRepository.findByTutor(tutor));
+	}
+	
+	@Transactional
+	public Appointment changeAppointmentStatus(Appointment appt, String status) {
+		appt.setStatus(AppointmentStatus.valueOf(status.toUpperCase()));
+		return appt;
 	}
 	
 	@Transactional

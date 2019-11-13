@@ -10,6 +10,7 @@ import ca.mcgill.ecse321.projectgroup17.model.Appointment.AppointmentStatus;
 public class AppointmentDto {
 
 	//define attributes
+	private long appointmentId;
 	private Date date;
 	private Time startTime;
 	private Time endTime;
@@ -23,35 +24,35 @@ public class AppointmentDto {
 	public AppointmentDto() {
 	}
 	
-	public AppointmentDto(Date date, Time startTime) {
+	public AppointmentDto(long appointmentId, Date date, Time startTime) {
 		//most basic constructor of appointment without Tutor
-		this(date, startTime, new Time(startTime.getTime() + 3600000L));
+		this(appointmentId, date, startTime, new Time(startTime.getTime() + 3600000L));
 	}
 	
-	public AppointmentDto(Date date, Time startTime, Time endTime) {
-		this(date, startTime, endTime, AppointmentStatus.REQUESTED);
+	public AppointmentDto(long appointmentId, Date date, Time startTime, Time endTime) {
+		this(appointmentId, date, startTime, endTime, AppointmentStatus.REQUESTED);
 	}
 	
-	public AppointmentDto(Date date, Time startTime, Time endTime, AppointmentStatus status) {
-		this(date, startTime, endTime, status, null);
+	public AppointmentDto(long appointmentId, Date date, Time startTime, Time endTime, AppointmentStatus status) {
+		this(appointmentId, date, startTime, endTime, status, null);
 	}
 	
-	public AppointmentDto(Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor) {
-		this(date, startTime, endTime, status, tutor, null);
+	public AppointmentDto(long appointmentId, Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor) {
+		this(appointmentId, date, startTime, endTime, status, tutor, null);
 	}
 	
-	public AppointmentDto(Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor, RoomDto room) {
-		this(date, startTime, endTime, status, tutor, room, null);
+	public AppointmentDto(long appointmentId, Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor, RoomDto room) {
+		this(appointmentId, date, startTime, endTime, status, tutor, room, null);
 	}
 	
-	public AppointmentDto(Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor, RoomDto room, Set<PersonDto> student) {
-		this(date, startTime, endTime, status, tutor, room, student, new Date(Calendar.getInstance().getTime().getTime()));
+	public AppointmentDto(long appointmentId, Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor, RoomDto room, Set<PersonDto> student) {
+		this(appointmentId, date, startTime, endTime, status, tutor, room, student, new Date(Calendar.getInstance().getTime().getTime()));
 	}
 
 	
-	public AppointmentDto(Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor, RoomDto room, Set<PersonDto> student, Date createdDate) {
+	public AppointmentDto(long appointmentId, Date date, Time startTime, Time endTime, AppointmentStatus status, PersonDto tutor, RoomDto room, Set<PersonDto> student, Date createdDate) {
 		//Ultimate constructor filling in undefined values as necessary
-		
+		this.appointmentId = appointmentId;
 		this.date = date;
 		this.startTime = startTime;
 		this.endTime = endTime;
@@ -106,6 +107,13 @@ public class AppointmentDto {
 	
 	public void setRoom(RoomDto room) {
 		this.room = room;
+	}
+	
+	public long getAppointmentId() {
+		return this.appointmentId;
+	}
+	public void setAppointmentId(long id) {
+		this.appointmentId = id;
 	}
 	
 	

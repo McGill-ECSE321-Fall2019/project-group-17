@@ -58,7 +58,7 @@ export default {
             .then(response => {
               // JSON responses are automatically parsed.
               this.availabilities.push(response.data)
-              this.availabilities.sort(function (a,b) {
+              this.availabilities.sort(function (a,b) {   //function to sort availabilities by date
                 if(a.date > b.date) return 1;
                 if(a.date < b.date) return -1;
                 return 0;

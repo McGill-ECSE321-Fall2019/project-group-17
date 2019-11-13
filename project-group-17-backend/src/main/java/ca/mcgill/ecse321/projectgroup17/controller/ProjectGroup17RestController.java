@@ -114,6 +114,19 @@ public class ProjectGroup17RestController {
 		Tutor t = (Tutor) service.getPersonByUsername(username);
 		return createAppointmentDtosForTutor(t);
 	}
+	
+	@GetMapping(value = { "/appointments/status", "/appointments/status/" })
+	public List<AppointmentDto> getAppointmentsOfTutorByStatus(@RequestParam("username") String username, @RequestParam("status") String status) {
+		Tutor t = (Tutor) service.getPersonByUsername(username);
+		return createAppointmentDtosForTutorByStatus(t, status);
+	}
+	
+	@PostMapping(value = { "/appointments/changeStatus", "/appointments/changeStatus/" })
+	public AppointmentDto changeAppointmentStatus(@RequestParam("appointmentId") long appointmentId, @RequestParam("newStatus") String newStatus) {
+		Appointment appt = service.getAppointmentById(appointmentId);
+		appt = service.changeAppointmentStatus(appt, newStatus);
+		return convertToDto(appt);
+	}
 	/**
 	 * Create Appointment using service method and convert to AppointmentDto
 	 * @param date
@@ -154,6 +167,16 @@ public class ProjectGroup17RestController {
 		List<AppointmentDto> appts = new ArrayList<>();
 		for (Appointment appt : apptsForTutor) {
 			appts.add(convertToDto(appt));
+		}
+		return appts;
+	}
+	private List<AppointmentDto> createAppointmentDtosForTutorByStatus(Tutor t, String status) {
+		List<Appointment> apptsForTutor = service.getAppointmentsByTutor(t);
+		List<AppointmentDto> appts = new ArrayList<>();
+		for (Appointment appt : apptsForTutor) {
+			if(appt.getStatus().toString().equals(status)) {
+				appts.add(convertToDto(appt));
+			}
 		}
 		return appts;
 	}
@@ -607,7 +630,7 @@ public class ProjectGroup17RestController {
 			PersonDto s = convertToDto((Person) appt.getStudent().toArray()[i]);
 			st.add(s);
 		}
-		AppointmentDto apptDto = new AppointmentDto(appt.getDate(), appt.getStartTime(), appt.getEndTime(), appt.getStatus(), tutor, room, st); 
+		AppointmentDto apptDto = new AppointmentDto(appt.getAppointmentID(), appt.getDate(), appt.getStartTime(), appt.getEndTime(), appt.getStatus(), tutor, room, st); 
 		return apptDto;
 		
 	}

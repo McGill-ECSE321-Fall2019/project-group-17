@@ -10,6 +10,7 @@
       <router-link to="/availability">Availability</router-link>
       <router-link to="/tutorView">TutorView</router-link>
       <router-link to="/review">Review</router-link>
+      <router-link to="/review">Appointment</router-link>
 
       <router-view />
     </nav>
@@ -26,6 +27,7 @@ import SpecificCourse from './components/SpecificCourse.vue'
 import Availability from './components/Availability.vue'
 import TutorView from './components/TutorView.vue'
 import Review from './components/Review.vue'
+import Appointment from './components/Appointment.vue'
 
 export default {
   name: 'app',
@@ -35,7 +37,7 @@ export default {
     }
   },
   components: {
-    Login, Signup, SpecificCourse, Availability, TutorView, Review
+    Login, Signup, SpecificCourse, Availability, TutorView, Review, Appointment
   }
 }
 
