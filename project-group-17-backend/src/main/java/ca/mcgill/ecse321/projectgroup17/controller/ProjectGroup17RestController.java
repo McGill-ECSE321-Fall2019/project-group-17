@@ -630,7 +630,7 @@ public class ProjectGroup17RestController {
 			PersonDto s = convertToDto((Person) appt.getStudent().toArray()[i]);
 			st.add(s);
 		}
-		AppointmentDto apptDto = new AppointmentDto(appt.getDate(), appt.getStartTime(), appt.getEndTime(), appt.getStatus(), tutor, room, st); 
+		AppointmentDto apptDto = new AppointmentDto(appt.getAppointmentID(), appt.getDate(), appt.getStartTime(), appt.getEndTime(), appt.getStatus(), tutor, room, st); 
 		return apptDto;
 		
 	}
