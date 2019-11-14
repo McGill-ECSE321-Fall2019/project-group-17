@@ -1,4 +1,18 @@
+import Datepicker from 'vuejs-datepicker'
 import axios from 'axios'
+
+function Time(time) {
+  var splitTime = time.split(":");
+    this.hour = splitTime[0];
+    this.minutes = splitTime[1];
+}
+
+function AvailabilityDto (name) {
+  this.name = name
+  this.events = []
+}
+
+
 var config = require('../../config')
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -9,7 +23,7 @@ var AXIOS = axios.create({
   headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
-import Datepicker from 'vuejs-datepicker'
+
 
 export default {
   name: 'availability',
@@ -28,7 +42,7 @@ export default {
   },
   created: function () {
     // Initializing availabilities from backend
-      AXIOS.get(`/availabilities`)
+      AXIOS.get(`/availabilities/`)
       .then(response => {
         // JSON responses are automatically parsed.
         this.people = response.data

@@ -17,7 +17,7 @@ public class AppointmentDto {
 	private Date createdDate;
 	private AppointmentStatus status;
 	private PersonDto tutor;
-	private Set<PersonDto> student;
+	private PersonDto[] student;
 	private RoomDto room;
 	
 	//All constructor for AppointmentDto:
@@ -59,7 +59,9 @@ public class AppointmentDto {
 		this.createdDate = createdDate;
 		this.status = status;
 		this.tutor = tutor;
-		this.student = student;
+		PersonDto[] temp = new PersonDto[student.size()];
+		student.toArray(temp);
+		this.student = temp;
 		this.room = room;
 	}
 	
@@ -93,11 +95,11 @@ public class AppointmentDto {
 		this.tutor = tutor;
 	}
 	
-	public Set<PersonDto> getStudent() {
+	public PersonDto[] getStudent() {
 		return student;
 	}
 	
-	public void setStudent(Set<PersonDto> student) {
+	public void setStudent(PersonDto[] student) {
 		this.student = student;
 	}
 	

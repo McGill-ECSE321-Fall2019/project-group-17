@@ -122,9 +122,15 @@ public class ProjectGroup17RestController {
 	}
 	
 	@PostMapping(value = { "/appointments/changeStatus", "/appointments/changeStatus/" })
-	public AppointmentDto changeAppointmentStatus(@RequestParam("n") long appointmentId, @RequestParam("newStatus") String newStatus) {
+	public AppointmentDto changeAppointmentStatus(@RequestParam("appointmentId") long appointmentId, @RequestParam("newStatus") String newStatus) {
 		Appointment appt = service.getAppointmentById(appointmentId);
 		appt = service.changeAppointmentStatus(appt, newStatus);
+		return convertToDto(appt);
+	}
+	
+	@GetMapping(value = { "/appointments/getAppointmentById", "/appointments/getAppointmentById/" })
+	public AppointmentDto getAppointmentById(@RequestParam("appointmentId") long appointmentId) {
+		Appointment appt = service.getAppointmentById(appointmentId);
 		return convertToDto(appt);
 	}
 	/**

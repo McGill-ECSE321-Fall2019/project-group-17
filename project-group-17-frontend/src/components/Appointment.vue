@@ -24,7 +24,7 @@
         <td>{{ appt.date }}</td>
         <td>{{ appt.startTime }}</td>
         <td>{{ appt.endTime }}</td>
-        <td><button@click="getStudentUsername(appt.appointmentId)">See students</button>{{ students }}</td>
+        <td><button@click="getStudents(appt.appointmentId)">See students</button>{{ students }}</td>
         <td><button @click="editAppointment(appt.appointmentId, 'ACCEPTED')" class="button_small button_green wide">Accept</button>
               <button @click="editAppointment(appt.appointmentId, 'REFUSED')" class="button_small button_red wide">Refuse</button></td>
       </tr>
@@ -49,7 +49,7 @@
         <td>{{ appt.date }}</td>
         <td>{{ appt.startTime }}</td>
         <td>{{ appt.endTime }}</td>
-        <td><button@click="getStudentUsername(appt.appointmentId)">See students</button>{{ students }}</td>
+        <td><button@click="getStudents(appt.appointmentId)">See students</button>{{ students }}</td>
         <td><button @click="editAppointment(appt.appointmentId, 'CANCELLED')" class="button_small button_red wide">Cancel</button>
         </td>
       </tr>
@@ -73,7 +73,7 @@
         <td>{{ appt.date }}</td>
         <td>{{ appt.startTime }}</td>
         <td>{{ appt.endTime }}</td>
-        <td><button@click="getStudentUsername(appt.appointmentId)">See students</button>{{ students }}</td>
+        <td><button@click="getStudents(appt.appointmentId)">Students</button>{{ this.students }}</td>
       </tr>
     </tbody>
   </table>
