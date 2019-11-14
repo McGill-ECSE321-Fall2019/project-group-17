@@ -25,8 +25,7 @@
 </template>
 
 
-<script>
-
+<script src='./tutorView.js'>
 </script>
 
 

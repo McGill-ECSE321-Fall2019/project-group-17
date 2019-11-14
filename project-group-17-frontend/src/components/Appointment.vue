@@ -4,11 +4,11 @@
   <div id="appt" class="container">
     <div class="inner_container shadow">
 
-      <div class="large_text center_text">Your appointments:</div>
-      <hr noshade>
-      
+      <div class="large_text">Your Appointments</div>
+      <hr>
+
       <div class="medium_text left_text brand_color_text" >Requested Appointments with you:</div>
-<!--Requested Appoinments Table-->
+    <!--Requested Appoinments Table-->
     <table id="requested_appointments" class="table shadow">
     <thead>
       <tr>
@@ -30,7 +30,7 @@
       </tr>
     </tbody>
   </table>
-  <hr noshade>
+  <hr>
   <!--Upcoming Appoinments Table-->
       <div class="medium_text left_text brand_color_text">Upcoming Appointments:</div>
 
@@ -55,10 +55,10 @@
       </tr>
     </tbody>
   </table>
-  <hr noshade>
+  <hr>
 <!--Previous Appoinments Table-->
       <div class="medium_text left_text brand_color_text">Your Previous Appointments:</div>
-      
+
   <table id="requested_appointments" class="table shadow">
     <thead>
       <tr>
@@ -77,7 +77,7 @@
       </tr>
     </tbody>
   </table>
-<hr noshade>
+<hr>
 
     </div>
 

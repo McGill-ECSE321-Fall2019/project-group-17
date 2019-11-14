@@ -42,6 +42,12 @@ export default {
           .then(response => {
             // JSON responses are automatically parsed.
             this.people = response.data
+
+            // If a user is already logged in, redirect them to their user page
+            var currently_logged_in = this.$parent.logged_in_tutor
+            if(currently_logged_in != "") {
+              this.$router.push("./tutorView")
+            }
           })
           .catch(e => {
             this.errorPerson = e;
@@ -68,7 +74,6 @@ export default {
 
                     // Set logged in tutor to the username specified
                     this.$parent.logged_in_tutor = username
-                    //window.location.href = "./TutorView.vue"
                     this.$router.push("./tutorView")
 
                   })

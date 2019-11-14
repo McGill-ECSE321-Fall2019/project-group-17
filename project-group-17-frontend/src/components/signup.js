@@ -45,10 +45,15 @@ export default {
             // JSON responses are automatically parsed.
             this.people = response.data
 
+            // If a user is already logged in, redirect them to their user page
+            var currently_logged_in = this.$parent.logged_in_tutor
+            if(currently_logged_in != "") {
+              this.$router.push("./tutorView")
+            }
+
           })
           .catch(e => {
-            console.log(e);
-            this.errorPerson = e
+            this.errorPerson = e.response.data.message
           });
       },
 
@@ -75,10 +80,14 @@ export default {
                   this.password_confirm = ''
                   this.errorPerson = ''
 
+                  // The user has been created successfully
+                  // Set logged in tutor to the username specified
+                  this.$parent.logged_in_tutor = username
+                  this.$router.push("./tutorView")
+
                 })
                 .catch(e => {
-                  console.log(e.message)
-                  this.errorPerson = e.response
+                  this.errorPerson = e.response.data.message
                 });
             }
         },

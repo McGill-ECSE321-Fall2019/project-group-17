@@ -163,7 +163,7 @@ export default {
   margin: 5px 0px;
 }
 .medium_text {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 700;
   padding: 15px 0px;
 }
