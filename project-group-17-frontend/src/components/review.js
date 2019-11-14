@@ -36,8 +36,7 @@ export default {
 			createdDate: '',
 			createdTime: '',
 			errorReview: [],
-
-
+			studentUsername: '',
 			testStudents: [],
 			students: []
 

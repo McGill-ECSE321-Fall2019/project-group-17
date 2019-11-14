@@ -9,10 +9,10 @@
 
       <div class="small_text left_text brand_color_text">Select the student under review</div>
       <div>
-        <b-dropdown id="Student" text="Select student" class="m-md-2" variant="primary">
-          <b-dropdown-item v-for="student in testStudents">{{ student.firstName }}</b-dropdown-item>
-
-        </b-dropdown>
+        <select  v-model="studentUsername" class="input half">
+          <option value="" selected disabled>Select student</option>
+          <option value=student.username v-for="student in students">{{ student.firstName }}</option>
+        </select>
       </div>
 
       <hr>
