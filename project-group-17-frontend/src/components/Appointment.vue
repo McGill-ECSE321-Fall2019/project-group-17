@@ -15,16 +15,16 @@
         <th>Date</th>
         <th>Start Time</th>
         <th>End Time</th>
-        <th>Student(s)</th>
+        <th>Students</th>
         <th>Response</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="appt in requestedAppointments">
+      <tr v-for="(appt, i) in requestedAppointments">
         <td>{{ appt.date }}</td>
         <td>{{ appt.startTime }}</td>
         <td>{{ appt.endTime }}</td>
-        <td><button@click="getStudents(appt.appointmentId)">See students</button>{{ students }}</td>
+        <td>{{ requestedStudents[i] }}</td>
         <td><button @click="editAppointment(appt.appointmentId, 'ACCEPTED')" class="button_small button_green wide">Accept</button>
               <button @click="editAppointment(appt.appointmentId, 'REFUSED')" class="button_small button_red wide">Refuse</button></td>
       </tr>
@@ -40,16 +40,16 @@
         <th>Date</th>
         <th>Start Time</th>
         <th>End Time</th>
-        <th>Student</th>
+        <th>Students</th>
         <th>Cancel</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="appt in acceptedAppointments">
+      <tr v-for="(appt, i) in acceptedAppointments">
         <td>{{ appt.date }}</td>
         <td>{{ appt.startTime }}</td>
         <td>{{ appt.endTime }}</td>
-        <td><button@click="getStudents(appt.appointmentId)">See students</button>{{ students }}</td>
+        <td>{{ acceptedStudents[i] }}</td>
         <td><button @click="editAppointment(appt.appointmentId, 'CANCELLED')" class="button_small button_red wide">Cancel</button>
         </td>
       </tr>
@@ -57,7 +57,7 @@
   </table>
   <hr>
 <!--Previous Appoinments Table-->
-      <div class="medium_text left_text brand_color_text">Your Previous Appointments:</div>
+      <div class="medium_text left_text brand_color_text">Previous Appointments:</div>
 
   <table id="requested_appointments" class="table shadow">
     <thead>
@@ -65,15 +65,19 @@
         <th>Date</th>
         <th>Start Time</th>
         <th>End Time</th>
-        <th>Student</th>
+        <th>Students</th>
+        <th>Paid</th>
+        <th>Review</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="appt in previousAppointments">
+      <tr v-for="(appt, i) in previousAppointments">
         <td>{{ appt.date }}</td>
         <td>{{ appt.startTime }}</td>
         <td>{{ appt.endTime }}</td>
-        <td><button@click="getStudents(appt.appointmentId)">Students</button>{{ this.students }}</td>
+        <td>{{ previousStudents[i] }}</td>
+        <td>{{ paid[i] }}</td>
+        <td><button @click="makeReview(appt.appointmentId)">Make Review</button></td>
       </tr>
     </tbody>
   </table>

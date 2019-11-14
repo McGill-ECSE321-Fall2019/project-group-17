@@ -1,5 +1,6 @@
 import axios from 'axios'
 var config = require('../../config')
+var listStudents = []
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
@@ -16,7 +17,9 @@ export default {
     return {
       
         appointments: [],
-        students: [],
+        requestedStudents: [],
+        acceptedStudents: [],
+        previousStudents: [],
         requestedAppointments: [],
         acceptedAppointments: [],
         previousAppointments: [],
@@ -24,31 +27,9 @@ export default {
         createStartTime: '',
         createEndTime: '',
         errorAppointment: '',
-        response: []
+        response: [],
+        paid: [],
     }
-  },
-  created: function () {
-    // Initializing appointments from backend
-      var tutor = this.$parent.logged_in_tutor;
-      AXIOS.get(`/appointments/tutor/?username=`+ tutor)
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.appointments = response.data
-        for (var i = 0; i < this.appointments.length; i++) {
-          if (this.appointments[i].status=="REQUESTED") {
-            this.requestedAppointments.push(this.appointments[i])
-          }
-        }
-        for (var i = 0; i < this.appointments.length; i++) {
-          if (this.appointments[i].status=="ACCEPTED") this.acceptedAppointments.push(this.appointments[i])
-        }
-        for (var i = 0; i < this.appointments.length; i++) {
-          if (this.appointments[i].status=="COMPLETED") this.previousAppointments.push(this.appointments[i])
-        }
-      })
-      .catch(e => {
-        this.errorAppointment = e;
-      });
   },
 
   methods: {
@@ -79,7 +60,6 @@ export default {
       AXIOS.post(backendUrl+'/appointments/changeStatus?appointmentId='+apptId+'&newStatus='+status, {}, {})
             .then(response => {
               // JSON responses are automatically parsed.
-              console.log(status)
               if(status == "REFUSED"){
                 for (var i = 0; i < this.requestedAppointments.length; i++) {
                     
@@ -98,7 +78,6 @@ export default {
               } else if (status == "CANCELLED"){
                 for (var i = 0; i < this.acceptedAppointments.length; i++) {
                   if (this.appointments[i].appointmentId==apptId){
-                    console.log("CANCELLEDDEDD")
                     this.acceptedAppointments.splice(i, 1);
                   } 
                 }
@@ -114,35 +93,83 @@ export default {
               this.errorAppointment = e.response.data.message
             });
     },
-    getStudents: function(appointmentId){
-      // for (var i = 0; i < this.appointments.length; i++) {
-      //   if (this.appointments[i].appointmentId==appointmentId){
-      //     for (var j = 0 ; this.appointments[i].student.length; j++){
-      //       this.students.push(this.appointments[i].student[j]);
-      //     }
-      //   }
-        
-      // }
+    getStudents: function(){
+      this.students = [];
+      this.paid = []
+      var specificStudents = [];
       var name;
-      AXIOS.get(backendUrl+'/appointments/getAppointmentById?appointmentId='+appointmentId, {}, {})
-            .then(response => {
-              console.log(response.data);
-              // JSON responses are automatically parsed.
-              console.log("HERE")
-              console.log(response.data.student[1].username)
-              console.log(response.data.student.length)
-              for(var i=0; i<response.data.student.length; i++){
-                this.students.push(response.data.student[i].username);
-                this.errorAppointment = '';
-              
-              }
-              console.log("HELLO")
-            })
-            .catch(e => {
-              this.errorAppointment = e.response.data.message
-            });
+      for(var i=0; i<this.appointments.length; i++) {
+        specificStudents = []
+        for(var j=0; j<this.appointments[i].student.length; j++) {
+          specificStudents.push(this.appointments[i].student[j].username)
+        }
+        this.students.push(specificStudents)
+      }
     },
+    makeReview: function(appointmentId) {
+      this.$parent.appt_id_review = appointmentId
+      this.$router.push("./review")
+    }
 
+  },
+
+  created: function () {
+    // Initializing appointments from backend
+      var tutor = this.$parent.logged_in_tutor;
+      var specificStudents = []
+      AXIOS.get(`/appointments/tutor/?username=`+ tutor)
+      .then(response => {
+        // JSON responses are automatically parsed.
+        this.appointments = response.data
+        for (var i = 0; i < this.appointments.length; i++) {
+          if (this.appointments[i].status=="REQUESTED") {
+            specificStudents = []
+            for(var j=0; j<this.appointments[i].student.length; j++) {
+              specificStudents.push(this.appointments[i].student[j].username)
+            }
+          this.requestedStudents.push(specificStudents)
+            this.requestedAppointments.push(this.appointments[i])
+          }
+        
+          if (this.appointments[i].status=="ACCEPTED") {
+            specificStudents = []
+            for(var j=0; j<this.appointments[i].student.length; j++) {
+              specificStudents.push(this.appointments[i].student[j].username)
+            }
+            this.acceptedStudents.push(specificStudents)
+            this.acceptedAppointments.push(this.appointments[i])
+          }
+        
+          if (this.appointments[i].status=="COMPLETED") {
+            specificStudents = []
+            var paid = "NO"
+            for(var j=0; j<this.appointments[i].student.length; j++) {
+              specificStudents.push(this.appointments[i].student[j].username)
+            }
+            this.previousStudents.push(specificStudents)
+
+            this.paid.push("NO")
+            this.previousAppointments.push(this.appointments[i])
+         }
+      
+          if(this.appointments[i].status=="PAID") {
+            specificStudents = []
+            for(var j=0; j<this.appointments[i].student.length; j++) {
+              specificStudents.push(this.appointments[i].student[j].username)
+            }
+            this.previousStudents.push(specificStudents)
+            this.paid.push("YES")
+            this.previousAppointments.push(this.appointments[i])
+          }
+
+          
+        }
+      }
+      )
+      .catch(e => {
+        this.errorAppointment = e;
+      });
+      //this.getStudents()
   }
 
 }
