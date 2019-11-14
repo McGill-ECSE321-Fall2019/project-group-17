@@ -1,11 +1,18 @@
 # Instructions to tell Travis-CI how to build our project
 
-language: java
-script:
- - gradle build
-node_js: "0.10"
-install: "npm install"
-script: "npm run build"
+#language: java
+#script:
+# - gradle build
 
+matrix:
+	include:
+		- language: java
+		  script: :
+				- gradle build
 
+		- language: node_js
+		  install: 
+				- npm install
+		  script:	 
+				- npm run build
 
