@@ -103,17 +103,23 @@ Meeting minutes:
 
 Due Nov. 17th 2019
 
+Architecture Block Diagram:
+* **https://github.com/McGill-ECSE321-Fall2019/project-group-17/wiki/Block-Diagram-(SPRINT-3)**
+
+Meeting minutes:
+* **https://github.com/McGill-ECSE321-Fall2019/project-group-17/wiki/Sprint-3-Report-Meeting-Minutes**
+
 ### Statement of Work
 
 
 
 | Member        | Role  | Contribution (hrs)  |
 | ------------- |-------------| -----|
-| Charles Bourbeau     |  | 15 |
-| Kyle Myers      |       |   15 |
-| Anthony Porporino |       |    15 |
-| Felix Simard |       |    15 |
-| Tyler Watson |       |    15 |
+| Charles Bourbeau     | Frontend Implementation. Updating backend. | 15 |
+| Kyle Myers      |    Frontend Implementation. Architecture Diagram.   |   15 |
+| Anthony Porporino |  Frontend Implementation. Architecture Diagram.    |    15 |
+| Felix Simard |  Frontend Implementation. Frontend server setup/configuration.     |    15 |
+| Tyler Watson |   Frontend Implementation. Managing flow of vues.    |    15 |
 
 
 ---

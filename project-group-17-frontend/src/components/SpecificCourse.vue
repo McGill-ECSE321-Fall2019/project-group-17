@@ -3,7 +3,7 @@
   <div id="specificCourse" class="container">
     <div class="inner_container shadow">
 
-    <div class="large_text">Become a tutor for a course.</div>
+    <div class="large_text">Become a tutor for a course</div>
     <hr>
 
     <!--

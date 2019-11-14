@@ -2,8 +2,4 @@
 
 language: java
 script:
- - gradle build
-
-
-
-
+  - gradle build

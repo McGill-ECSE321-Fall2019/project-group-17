@@ -163,7 +163,7 @@ export default {
   margin: 5px 0px;
 }
 .medium_text {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 700;
   padding: 15px 0px;
 }
@@ -221,8 +221,12 @@ select {
   border-radius: 0px;
   height: 40px;
 }
-select:focus {
-    outline: 0;
+input:focus, textarea:focus {
+    outline: none !important;
+}
+textarea {
+  resize: none;
+  border: none;
 }
 a {
     text-decoration: none;
