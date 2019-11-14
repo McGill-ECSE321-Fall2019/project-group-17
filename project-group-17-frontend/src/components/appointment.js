@@ -24,7 +24,7 @@ export default {
         createStartTime: '',
         createEndTime: '',
         errorAppointment: '',
-        response: []
+        response: [],
     }
   },
   created: function () {
@@ -79,7 +79,6 @@ export default {
       AXIOS.post(backendUrl+'/appointments/changeStatus?appointmentId='+apptId+'&newStatus='+status, {}, {})
             .then(response => {
               // JSON responses are automatically parsed.
-              console.log(status)
               if(status == "REFUSED"){
                 for (var i = 0; i < this.requestedAppointments.length; i++) {
                     
@@ -98,7 +97,6 @@ export default {
               } else if (status == "CANCELLED"){
                 for (var i = 0; i < this.acceptedAppointments.length; i++) {
                   if (this.appointments[i].appointmentId==apptId){
-                    console.log("CANCELLEDDEDD")
                     this.acceptedAppointments.splice(i, 1);
                   } 
                 }
@@ -114,33 +112,33 @@ export default {
               this.errorAppointment = e.response.data.message
             });
     },
-    getStudents: function(appointmentId){
-      // for (var i = 0; i < this.appointments.length; i++) {
-      //   if (this.appointments[i].appointmentId==appointmentId){
-      //     for (var j = 0 ; this.appointments[i].student.length; j++){
-      //       this.students.push(this.appointments[i].student[j]);
-      //     }
-      //   }
-        
-      // }
+    getStudents: function(){
+      var x = document.getElementById("listStudents");
+      
+
+      this.students = [];
+      var specificStudents = [];
+      console.log(this.appointments.length)
       var name;
-      AXIOS.get(backendUrl+'/appointments/getAppointmentById?appointmentId='+appointmentId, {}, {})
-            .then(response => {
-              console.log(response.data);
-              // JSON responses are automatically parsed.
-              console.log("HERE")
-              console.log(response.data.student[1].username)
-              console.log(response.data.student.length)
-              for(var i=0; i<response.data.student.length; i++){
-                this.students.push(response.data.student[i].username);
-                this.errorAppointment = '';
+      for(var i=0; i<this.appointments.length; i++) {
+        specificStudents = []
+        for(var j=0; j<this.appointments[i].student.length; j++) {
+          specificStudents.push(this.appointments[i].student[j].username)
+        }
+        this.students.push(specificStudents)
+      }
+      // AXIOS.get(backendUrl+'/appointments/getAppointmentById?appointmentId='+appointmentId, {}, {})
+      //       .then(response => {
+      //         // JSON responses are automatically parsed.
+      //         for(var i=0; i<response.data.student.length; i++){
+      //           this.students.push(response.data.student[i].username);
+      //           this.errorAppointment = '';
               
-              }
-              console.log("HELLO")
-            })
-            .catch(e => {
-              this.errorAppointment = e.response.data.message
-            });
+      //         }
+      //       })
+      //       .catch(e => {
+      //         this.errorAppointment = e.response.data.message
+      //       });
     },
 
   }
