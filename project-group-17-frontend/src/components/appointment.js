@@ -1,5 +1,6 @@
 import axios from 'axios'
 var config = require('../../config')
+var listStudents = []
 
 var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
@@ -16,7 +17,9 @@ export default {
     return {
       
         appointments: [],
-        students: [],
+        requestedStudents: [],
+        acceptedStudents: [],
+        previousStudents: [],
         requestedAppointments: [],
         acceptedAppointments: [],
         previousAppointments: [],
@@ -25,30 +28,8 @@ export default {
         createEndTime: '',
         errorAppointment: '',
         response: [],
+        paid: [],
     }
-  },
-  created: function () {
-    // Initializing appointments from backend
-      var tutor = this.$parent.logged_in_tutor;
-      AXIOS.get(`/appointments/tutor/?username=`+ tutor)
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.appointments = response.data
-        for (var i = 0; i < this.appointments.length; i++) {
-          if (this.appointments[i].status=="REQUESTED") {
-            this.requestedAppointments.push(this.appointments[i])
-          }
-        }
-        for (var i = 0; i < this.appointments.length; i++) {
-          if (this.appointments[i].status=="ACCEPTED") this.acceptedAppointments.push(this.appointments[i])
-        }
-        for (var i = 0; i < this.appointments.length; i++) {
-          if (this.appointments[i].status=="COMPLETED") this.previousAppointments.push(this.appointments[i])
-        }
-      })
-      .catch(e => {
-        this.errorAppointment = e;
-      });
   },
 
   methods: {
@@ -113,12 +94,9 @@ export default {
             });
     },
     getStudents: function(){
-      var x = document.getElementById("listStudents");
-      
-
       this.students = [];
+      this.paid = []
       var specificStudents = [];
-      console.log(this.appointments.length)
       var name;
       for(var i=0; i<this.appointments.length; i++) {
         specificStudents = []
@@ -127,20 +105,71 @@ export default {
         }
         this.students.push(specificStudents)
       }
-      // AXIOS.get(backendUrl+'/appointments/getAppointmentById?appointmentId='+appointmentId, {}, {})
-      //       .then(response => {
-      //         // JSON responses are automatically parsed.
-      //         for(var i=0; i<response.data.student.length; i++){
-      //           this.students.push(response.data.student[i].username);
-      //           this.errorAppointment = '';
-              
-      //         }
-      //       })
-      //       .catch(e => {
-      //         this.errorAppointment = e.response.data.message
-      //       });
     },
+    makeReview: function(appointmentId) {
+      this.$parent.appt_id_review = appointmentId
+      this.$router.push("./review")
+    }
 
+  },
+
+  created: function () {
+    // Initializing appointments from backend
+      var tutor = this.$parent.logged_in_tutor;
+      var specificStudents = []
+      AXIOS.get(`/appointments/tutor/?username=`+ tutor)
+      .then(response => {
+        // JSON responses are automatically parsed.
+        this.appointments = response.data
+        for (var i = 0; i < this.appointments.length; i++) {
+          if (this.appointments[i].status=="REQUESTED") {
+            specificStudents = []
+            for(var j=0; j<this.appointments[i].student.length; j++) {
+              specificStudents.push(this.appointments[i].student[j].username)
+            }
+          this.requestedStudents.push(specificStudents)
+            this.requestedAppointments.push(this.appointments[i])
+          }
+        
+          if (this.appointments[i].status=="ACCEPTED") {
+            specificStudents = []
+            for(var j=0; j<this.appointments[i].student.length; j++) {
+              specificStudents.push(this.appointments[i].student[j].username)
+            }
+            this.acceptedStudents.push(specificStudents)
+            this.acceptedAppointments.push(this.appointments[i])
+          }
+        
+          if (this.appointments[i].status=="COMPLETED") {
+            specificStudents = []
+            var paid = "NO"
+            for(var j=0; j<this.appointments[i].student.length; j++) {
+              specificStudents.push(this.appointments[i].student[j].username)
+            }
+            this.previousStudents.push(specificStudents)
+
+            this.paid.push("NO")
+            this.previousAppointments.push(this.appointments[i])
+         }
+      
+          if(this.appointments[i].status=="PAID") {
+            specificStudents = []
+            for(var j=0; j<this.appointments[i].student.length; j++) {
+              specificStudents.push(this.appointments[i].student[j].username)
+            }
+            this.previousStudents.push(specificStudents)
+            this.paid.push("YES")
+            this.previousAppointments.push(this.appointments[i])
+          }
+
+          
+        }
+      }
+      )
+      .catch(e => {
+        this.errorAppointment = e;
+      });
+      //this.getStudents()
   }
 
 }

@@ -15,7 +15,7 @@
         <th>Date</th>
         <th>Start Time</th>
         <th>End Time</th>
-        <th>Students          <button@click="getStudents()">Show</button></th>
+        <th>Students</th>
         <th>Response</th>
       </tr>
     </thead>
@@ -24,9 +24,7 @@
         <td>{{ appt.date }}</td>
         <td>{{ appt.startTime }}</td>
         <td>{{ appt.endTime }}</td>
-        <td>
-            <div>{{ students[i] }}</div>
-            </td>
+        <td>{{ requestedStudents[i] }}</td>
         <td><button @click="editAppointment(appt.appointmentId, 'ACCEPTED')" class="button_small button_green wide">Accept</button>
               <button @click="editAppointment(appt.appointmentId, 'REFUSED')" class="button_small button_red wide">Refuse</button></td>
       </tr>
@@ -42,7 +40,7 @@
         <th>Date</th>
         <th>Start Time</th>
         <th>End Time</th>
-        <th>Students <button @click="getStudents()">Show</button></th>
+        <th>Students</th>
         <th>Cancel</th>
       </tr>
     </thead>
@@ -51,7 +49,7 @@
         <td>{{ appt.date }}</td>
         <td>{{ appt.startTime }}</td>
         <td>{{ appt.endTime }}</td>
-        <td><div>{{ students[i] }}</div></td>
+        <td>{{ acceptedStudents[i] }}</td>
         <td><button @click="editAppointment(appt.appointmentId, 'CANCELLED')" class="button_small button_red wide">Cancel</button>
         </td>
       </tr>
@@ -59,7 +57,7 @@
   </table>
   <hr>
 <!--Previous Appoinments Table-->
-      <div class="medium_text left_text brand_color_text">Your Previous Appointments:</div>
+      <div class="medium_text left_text brand_color_text">Previous Appointments:</div>
 
   <table id="requested_appointments" class="table shadow">
     <thead>
@@ -67,7 +65,9 @@
         <th>Date</th>
         <th>Start Time</th>
         <th>End Time</th>
-        <th>Students <button@click="getStudents()">Show</button></th>
+        <th>Students</th>
+        <th>Paid</th>
+        <th>Review</th>
       </tr>
     </thead>
     <tbody>
@@ -75,7 +75,9 @@
         <td>{{ appt.date }}</td>
         <td>{{ appt.startTime }}</td>
         <td>{{ appt.endTime }}</td>
-        <td>{{ students[i] }}</td>
+        <td>{{ previousStudents[i] }}</td>
+        <td>{{ paid[i] }}</td>
+        <td><button @click="makeReview(appt.appointmentId)">Make Review</button></td>
       </tr>
     </tbody>
   </table>

@@ -33,7 +33,8 @@ export default {
   name: 'app',
   data() {
     return {
-      logged_in_tutor: ''
+      logged_in_tutor: '',
+      appt_id_review: 0,
     }
   },
   components: {
