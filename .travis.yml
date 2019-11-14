@@ -1,9 +1,10 @@
 # Instructions to tell Travis-CI how to build our project
 
-#language: java
-#script:
-# - gradle build
+language: java
+script:
+ - gradle build
 
+:'
 matrix:
 	include:
 		- language: java
@@ -16,3 +17,4 @@ matrix:
 		  script:	 
 				- npm run build
 
+'
