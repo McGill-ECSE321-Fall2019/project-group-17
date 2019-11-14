@@ -8,8 +8,10 @@ matrix:
 
     - language: node_js
       before_script:
-        - “cd project-group-17-frontend/”
+        - "echo 'HELLO WORLD HERE!!!'"
+        - "pwd"
+        - "cd project-group-17-frontend/"
       install:
-        - “npm install”
+        - "npm install"
       script:
-        - “npm run build”
+        - "npm run build"
