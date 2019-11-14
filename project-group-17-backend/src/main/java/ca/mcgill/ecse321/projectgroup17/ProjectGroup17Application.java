@@ -17,7 +17,7 @@ public class ProjectGroup17Application {
  	 @RequestMapping("/")
  	 public String greeting(){
   		 return "Hello world from project-group-17-backend!";
- 	 }	
+ 	 }	  
  	
 
 } 

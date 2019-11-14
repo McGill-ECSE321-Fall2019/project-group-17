@@ -1,12 +1,5 @@
 # Instructions to tell Travis-CI how to build our project
 
-#language: java
-#script:
-# - gradle build
-
-language: node_js
-before_script:
-    - "cd project-group-17-frontend/"
-    - "npm install"
+language: java
 script:
-    - "npm run build"
+  - gradle build
