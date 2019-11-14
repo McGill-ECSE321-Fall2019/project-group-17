@@ -1,56 +1,83 @@
 
 
 <template>
-  <div id="avail" class="container">
+  <div id="appt" class="container">
     <div class="inner_container shadow">
 
-      <div class="large_text left_text">Define your availabilities.</div>
-      <hr>
-      <div class="small_text left_text brand_color_text">Date:</div>
-      <datepicker name="createDatePicker" v-model="createDate" placeholder="Select date"></datepicker>
-      <div class="small_text left_text brand_color_text">Start Time:</div>
+      <div class="large_text center_text">Your appointments:</div>
+      <hr noshade>
       
-  <hr>
+      <div class="medium_text left_text brand_color_text" >Requested Appointments with you:</div>
+<!--Requested Appoinments Table-->
+    <table id="requested_appointments" class="table shadow">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Student(s)</th>
+        <th>Response</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="appt in requestedAppointments">
+        <td>{{ appt.date }}</td>
+        <td>{{ appt.startTime }}</td>
+        <td>{{ appt.endTime }}</td>
+        <td><button@click="getStudentUsername(appt.appointmentId)">See students</button>{{ students }}</td>
+        <td><button @click="editAppointment(appt.appointmentId, 'ACCEPTED')" class="button_small button_green wide">Accept</button>
+              <button @click="editAppointment(appt.appointmentId, 'REFUSED')" class="button_small button_red wide">Refuse</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <hr noshade>
+  <!--Upcoming Appoinments Table-->
+      <div class="medium_text left_text brand_color_text">Upcoming Appointments:</div>
 
-  <div class="medium_text left_text">Your availabilities:</div>
-  <table class="table shadow">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Start Time</th>
-      <th>End Time</th>
-      <th>Edit</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="appt in availabilities">
-      <td>{{ appt.date }}</td>
-      <td>{{ appt.startTime }}</td>
-      <td>{{ appt.endTime }}</td>
-      <td><button @click="editAppintment(appt.appointmentId, "REFUSED")" class="button_small button_red wide">Accept</button>
-            <button @click="editAppointment(avail.appointmentId, "REFUSED")" class="button_small button_red wide">Refuse</button></td>
-    </tr>
-  </tbody>
-</table>
-
-<table class="table shadow">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>Start Time</th>
-      <th>End Time</th>
-      <th>Edit</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="appt in availabilities">
-      <td>{{ appt.date }}</td>
-      <td>{{ appt.startTime }}</td>
-      <td>{{ appt.endTime }}</td>
-      <td><button @click="editAppintment(appt.appointmentId, "CANCELLED")" class="button_small button_red wide">Cancel</button></td>
-    </tr>
-  </tbody>
-</table>
+    <table id="upcoming_appointments" class="table shadow">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Student</th>
+        <th>Cancel</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="appt in acceptedAppointments">
+        <td>{{ appt.date }}</td>
+        <td>{{ appt.startTime }}</td>
+        <td>{{ appt.endTime }}</td>
+        <td><button@click="getStudentUsername(appt.appointmentId)">See students</button>{{ students }}</td>
+        <td><button @click="editAppointment(appt.appointmentId, 'CANCELLED')" class="button_small button_red wide">Cancel</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <hr noshade>
+<!--Previous Appoinments Table-->
+      <div class="medium_text left_text brand_color_text">Your Previous Appointments:</div>
+      
+  <table id="requested_appointments" class="table shadow">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Student</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="appt in previousAppointments">
+        <td>{{ appt.date }}</td>
+        <td>{{ appt.startTime }}</td>
+        <td>{{ appt.endTime }}</td>
+        <td><button@click="getStudentUsername(appt.appointmentId)">See students</button>{{ students }}</td>
+      </tr>
+    </tbody>
+  </table>
+<hr noshade>
 
     </div>
 
@@ -59,20 +86,6 @@
 </template>
 
 <script src="./appointment.js">
-export default {
-  el: '#appt',
-  name: 'Appointment',
-  data() {
-    return {
-        appointments: [],
-        errorAppointment: '',
-        response: [],
-        createDate: '',
-        createStartTime: '',
-        createEndTime: '',
-
-    }
-},
 
 }
 </script>

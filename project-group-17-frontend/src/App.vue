@@ -10,7 +10,7 @@
       <router-link to="/availability">Availability</router-link>
       <router-link to="/tutorView">TutorView</router-link>
       <router-link to="/review">Review</router-link>
-      <router-link to="/review">Appointment</router-link>
+      <router-link to="/appointment">Appointment</router-link>
 
       <router-view />
     </nav>
@@ -133,6 +133,9 @@ export default {
 }
 .button_red {
   background: rgba(255, 51, 51, 1);
+}
+.button_green {
+  background: rgba(51, 200, 51, 1);
 }
 .img_container {
   background: rgba(240, 240, 240, 0.7);
