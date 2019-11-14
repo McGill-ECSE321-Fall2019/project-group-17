@@ -1,0 +1,6 @@
+{
+  "scripts": {
+      "postinstall": "cd project-group-17-frontend && npm install",
+      "start": "cd project-group-17-frontend && npm start"
+  }
+}
