@@ -1,7 +1,8 @@
 <template>
   <div id="app">
 
-    <div class="medium_text">Logged in as: {{ logged_in_tutor }}</div>
+    <div class="medium_text wide">Logged in as: {{ logged_in_tutor }} <button class="logout_button align_right brand_color" @click="logout()">Logout</button></div>
+    
     <nav class="nav_links">
       <router-link to="/">Home</router-link>
       <router-link to="/login">Login</router-link>
@@ -40,8 +41,17 @@ export default {
     }
   },
   components: {
+
     Login, Signup, SpecificCourse, Availability, TutorView, Review, Appointment, ViewStudentReviews
+  },
+  methods: {
+    logout: function() {
+      this.logged_in_tutor = "";
+      this.appt_id_review = 0;
+      this.$router.push("./login");
+    }
   }
+
 }
 
 
@@ -50,7 +60,7 @@ export default {
 <style>
 #app {
   margin: 0px 0px;
-  padding: 20px;
+  padding: 20px 20px;
   background: rgba(245, 245, 245, 0.1);
   font-family: 'Verdana';
 }
@@ -122,6 +132,7 @@ export default {
   margin: 20px auto;
   color: white;
 }
+
 .button_small {
   padding: 5px 10px;
   border-radius: 3px;
@@ -130,6 +141,19 @@ export default {
   font-weight: 400;
   margin: 20px auto;
   color: white;
+}
+.logout_button {
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: none;
+  font-size: 15px;
+  font-weight: 400;
+  margin: 0px auto;
+  color: white;
+  
+}
+.align_right{
+  float: right;
 }
 .button_dark {
   background: rgba(0, 0, 0, 0.7);

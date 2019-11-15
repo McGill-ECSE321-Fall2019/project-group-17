@@ -11,7 +11,7 @@
         <div class="small_text left_text brand_color_text">Password:</div>
         <input type="password" class="input wide" v-model='password' placeholder="Password">
 
-        <span v-if="errorPerson" style="color:red">{{errorPerson}} </span>
+        <span v-if="errorMessage" style="color:red">{{errorMessage}} </span>
         <button class="button brand_color wide" @click="login(username,password)">Login</button>
       </div>
 
