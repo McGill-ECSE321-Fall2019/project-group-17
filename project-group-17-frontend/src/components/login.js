@@ -31,7 +31,7 @@ export default {
             people: [],
             username: '',
             password: '',
-            errorPerson: '',
+            errorMessage: '',
             response: []
         }
     },
@@ -50,7 +50,7 @@ export default {
             }
           })
           .catch(e => {
-            this.errorPerson = e;
+            this.errorMessage = e;
           });
       },
 
@@ -59,7 +59,7 @@ export default {
         login: function(username,password){
 
             if(username == "" || password == "") {
-              this.errorPerson = 'Missing input fields.'
+              this.errorMessage = 'Missing input fields.'
               return false
             } else {
 
@@ -70,17 +70,23 @@ export default {
                     this.people = response.data
                     this.username = ''
                     this.password = ''
-                    this.errorPerson = ''
+                    this.errorMessage = ''
 
                     // Set logged in tutor to the username specified
-                    this.$parent.logged_in_tutor = username
-                    this.$router.push("./tutorView")
+                    
+                    if (password == response.data.password){
+                        this.$parent.logged_in_tutor = username
+                        this.$router.push("./tutorView")
+                    }else{
+                        this.errorMessage = "Password is incorrect"
+                    }
+                    
 
                   })
                   .catch(e => {
                     // Set logged in tutor to empty
                     this.$parent.logged_in_tutor = ""
-                    this.errorPerson = e.response.data.message
+                    this.errorMessage = e.response.data.message
 
                 });
 

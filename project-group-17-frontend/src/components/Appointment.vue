@@ -7,7 +7,7 @@
       <div class="large_text">Your Appointments</div>
       <hr>
 
-      <div class="medium_text left_text brand_color_text" >Requested Appointments with you:</div>
+      <div class="medium_text left_text brand_color_text" >Requested Appointments:</div>
     <!--Requested Appoinments Table-->
     <table id="requested_appointments" class="table shadow">
     <thead>

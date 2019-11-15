@@ -14,7 +14,9 @@ Vue.config.productionTip = false
 
 function linkPage(endpoint) {
   this.$router.push("./"+endpoint)
+
 }
+
 
 /* eslint-disable no-new */
 var app = new Vue({
