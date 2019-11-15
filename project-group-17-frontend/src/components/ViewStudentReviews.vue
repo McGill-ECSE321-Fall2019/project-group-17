@@ -3,47 +3,30 @@
 	<div id="viewStudentReviews" class="container">
 		<div class="inner_container shadow">
 			<div class="input_container">
-				<div class="large_text">View a students reviews</div>
-				<div class="small_text left_text brand_color_text">Student's Name:</div>
+				<div class="large_text">View a student's reviews</div>
+				<div class="small_text left_text brand_color_text">Student's Username:</div>
 					<div>
-					<select v-model="username" class="input wide">
-						<option value="" selected disabled>Hopefully a list of students below</option>
-						<option v-for"users in students">{{users}}</option>
+					<select v-model="studentUsername" class="input wide" @change="getReviews(studentUsername)">
+						<option value="" selected disabled>Select Student</option>
+						<option v-for="student in students">{{ student.username }}</option>
 					</select>
 					</div>
-									
-					
-					
-					<!-- <table id="requested_appointments" class="table shadow">
-						<thead>
-							<tr>
-								<th>Reviewer</th>
-								<th>Time Created</th>
-								<th>Date Created</th>
-								<th>Appointment</th>
-								<th>Review Text</th>
-								<th>Rating</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>{{ rev.reviewee }}</td>
-								<td>{{ rev.createdTime }}</td>
-								<td>{{ rev.createdDate }}</td>
-								<td>{{ rev.appointment }}</td>
-								<td>{{ rev.reviewText }}</td>
-								<td>{{ rev.rating }}</td>
-							</tr>
-						</tbody>
-					</table> -->
-				<button class="button brand_color wide" @click("getReviews(username)")>See Reviews</button>
+			<div>
+				<div v-for="review in reviews" class="shadow review_box">
+					<star-rating :inline="true" :star-size="30" :read-only="true" :rating="review.rating" active-color="#FF8C1A"></star-rating>
+				
+					<div class="medium_text">{{ review.reviewText }}</div>
+					<div class="grey_text">{{ review.reviewer }} &middot; {{ review.createdDate }}</div>
+				
+				</div>
+			</div>
 
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
+<script src='./viewStudentReviews.js'>
 </script>
 
 <style>

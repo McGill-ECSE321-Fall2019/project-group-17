@@ -5,7 +5,7 @@
 
       <div class="large_text left_text">Create a review.</div>
 
-      <hr> 
+      <hr>
 
       <div class="small_text left_text brand_color_text">Select the student under review</div>
       <div>
@@ -38,7 +38,8 @@
         <star-rating :increment="0.5" v-model="rating" active-color="#FF8C1A"></star-rating>
       </div>
 
-      <button class="button_small brand_color right" @click="">Create</button>
+      <hr>
+      <button class="button brand_color wide" @click="">Submit Review</button>
 
 
 

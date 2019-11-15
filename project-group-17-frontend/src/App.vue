@@ -12,7 +12,7 @@
       <router-link to="/tutorView">TutorView</router-link>
       <router-link to="/review">Review</router-link>
       <router-link to="/appointment">Appointment</router-link>
-      <router-link to="/v">FuckReviews</router-link>
+      <router-link to="/viewStudentReviews">Student Reviews</router-link>
 
       <router-view />
     </nav>
@@ -30,7 +30,7 @@ import Availability from './components/Availability.vue'
 import TutorView from './components/TutorView.vue'
 import Review from './components/Review.vue'
 import Appointment from './components/Appointment.vue'
-import v from './components/ViewStudentReviews.vue'
+import ViewStudentReviews from './components/ViewStudentReviews.vue'
 
 export default {
   name: 'app',
@@ -41,7 +41,8 @@ export default {
     }
   },
   components: {
-    Login, Signup, SpecificCourse, Availability, TutorView, Review, Appointment, v
+
+    Login, Signup, SpecificCourse, Availability, TutorView, Review, Appointment, ViewStudentReviews
   },
   methods: {
     logout: function() {
@@ -50,6 +51,7 @@ export default {
       this.$router.push("./login");
     }
   }
+
 }
 
 
@@ -200,8 +202,25 @@ export default {
 .center_text {
   text-align: center;
 }
+.review {
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: none;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 20px auto;
+}
+.space{
+  margin: 10px
+}
 .shadow {
 	box-shadow: 1px 2px 10px -2px rgba(0,0,0,0.2);
+}
+.review_box {
+  margin: 20px auto;
+  border: none;
+  border-radius: 8px;
+  padding: 15px;
 }
 .table {
   margin: 20px auto;
@@ -214,15 +233,18 @@ export default {
   padding: 10px 10px;
 }
 .table tr:nth-child(even){background-color: #f2f2f2;}
-.table tr:hover {background-color: rgba(255, 140, 26, 0.5);}
+.table tr:hover {background-color: rgba(255, 140, 26, 0.4);}
 .table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: rgba(255, 140, 26, 1);
+  background-color: rgba(255, 140, 26, 0.8);
   color: white;
 }
-
+.grey_text {
+  color: #d6d6d6;
+  font-size: 14px;
+}
 input:focus {
    outline: none;
 }

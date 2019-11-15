@@ -77,7 +77,7 @@
         <td>{{ appt.endTime }}</td>
         <td>{{ previousStudents[i] }}</td>
         <td>{{ paid[i] }}</td>
-        <td><button @click="makeReview(appt.appointmentId)">Make Review</button></td>
+        <td><button class="button_small brand_color wide" @click="makeReview(appt.appointmentId)">Make Review</button></td>
       </tr>
     </tbody>
   </table>
