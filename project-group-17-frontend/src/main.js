@@ -11,7 +11,6 @@ Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
 
-
 function linkPage(endpoint) {
   this.$router.push("./"+endpoint)
 }
