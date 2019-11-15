@@ -43,6 +43,13 @@ export default {
     }
   },
   created: function() {
+
+    // If no user logged in, then should not be here, redicrect to Login vue
+    var currently_logged_in = this.$parent.logged_in_tutor
+    if(currently_logged_in == "") {
+      this.$router.push("./login")
+    }
+    
     // Initializing courses from backend
       AXIOS.get(`/courses`)
       .then(response => {
@@ -53,7 +60,8 @@ export default {
         this.errorCourse = e.reponse.data.message
       })
 
-      AXIOS.get(`/specificCourses/tutor?username=felixsimard`)
+      var currently_logged_in = this.$parent.logged_in_tutor
+      AXIOS.get(`/specificCourses/tutor?username=`+currently_logged_in)
       .then(response => {
         // JSON responses are automatically parsed.
         this.specificCourses = response.data

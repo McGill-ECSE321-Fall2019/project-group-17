@@ -144,7 +144,7 @@ export default {
   background: rgba(240, 240, 240, 0.7);
   width: 100px;
   height: 100px;
-  margin: 10px auto;
+  margin: 10px 0px;
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -198,6 +198,24 @@ export default {
   border-radius: 8px;
   padding: 15px;
 }
+.profile_info {
+  padding: 10px 0px;
+  margin: 20px auto;
+  border: none;
+  border-radius: 8px;
+}
+.profile_info_table {
+  margin: 20px auto;
+  font-size: 16px;
+  width: 100%;
+  text-align:left;
+  border-collapse: collapse;
+}
+.profile_info_table td, .profile_info_table th {
+  border: none;
+  padding: 10px 0px;
+}
+
 .table {
   margin: 20px auto;
   font-size: 16px;
