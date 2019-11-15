@@ -3,7 +3,7 @@
 	<div id="viewStudentReviews" class="container">
 		<div class="inner_container shadow">
 			<div class="input_container">
-				<div class="large_text">View a students reviews</div>
+				<div class="large_text">View a student's reviews</div>
 				<div class="small_text left_text brand_color_text">Student's Username:</div>
 					<div>
 					<select v-model="studentUsername" class="input wide" @change="getReviews(studentUsername)">
