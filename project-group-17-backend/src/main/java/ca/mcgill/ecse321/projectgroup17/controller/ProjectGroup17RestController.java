@@ -100,7 +100,17 @@ public class ProjectGroup17RestController {
 		return result;
 	}
 	
-	
+	@GetMapping(value = {"persons/getStudentsByAppointmentID", "persons/getStudentsByAppointmentID/"})
+	public List<PersonDto> getStudentsByAppointmentID(@RequestParam("appointmentID") long appointmentID){
+		List<PersonDto> result = new ArrayList<PersonDto>();
+		Appointment appt = service.getAppointmentById(appointmentID);
+		//get the students in the appt
+		Set<Student> students = appt.getStudent();
+		for(Student s : students) {
+			result.add(convertToDto(s));
+		}
+		return result;
+	}
 
 	/*----------- APPOINTMENT --------------*/
 	
