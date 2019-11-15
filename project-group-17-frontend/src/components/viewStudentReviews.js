@@ -20,30 +20,47 @@ export default {
 	data() {
 		return{
 			reviews: [],
+			allPeople: [],
 			students: []
 
 		}
 	},
 	created: function(){
 
-		const s1 = new StudentDto("Jim", "Molson")
-		const s2 = new StudentDto("Joe", "Morrison")
-		this.testStudents = [s1, s2]
-		var appt_id = this.$parent.appt_id_review
-		//we have the appointemnt id in app, so we can get the students from that
-		AXIOS.get(backendUrl+'/persons/getStudentsByAppointmentID?appointmentID='+appt_id)
+		AXIOS.get(backendUrl+'/persons')
       	.then(response => {
-        // JSON responses are automatically parsed.
-        	this.students = response.data
-        	this.errorReview = ''
+		// JSON responses are automatically parsed.
+	
+			this.allPeople = response.data
+			for(var i=0; i< this.allPeople.length; i++){
+				if(allPeople[i].personType==Student){
+					students.push(allPeople[i].username)
+				}
+
+			}
+			
       	})
       	.catch(e => {
         	var errorMsg = e.message
 			console.log(errorMsg)
-			this.errorReview = errorMsg	
       	});
 	},
 	methods: {
+		getReviews: function(username) {
+			AXIOS.get(backendUrl+'/reviews/reviewsByReviewee?name_reviewer='+username)
+			.then(response => {
+			// JSON responses are automatically parsed.
+		
+				this.reviews = response.data
+
+			})
+			.catch(e => {
+				var errorMsg = e.message
+				console.log(errorMsg)
+			});			
+
+
+    }
 
 	}
 }
