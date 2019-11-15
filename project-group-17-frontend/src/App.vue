@@ -192,12 +192,12 @@ export default {
   padding: 10px 10px;
 }
 .table tr:nth-child(even){background-color: #f2f2f2;}
-.table tr:hover {background-color: rgba(255, 140, 26, 0.5);}
+.table tr:hover {background-color: rgba(255, 140, 26, 0.4);}
 .table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: rgba(255, 140, 26, 1);
+  background-color: rgba(255, 140, 26, 0.8);
   color: white;
 }
 

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Vue from 'vue'
-import StarRating from 'vue-star-rating' 
+import StarRating from 'vue-star-rating'
 
 //constructors
 
@@ -28,7 +28,7 @@ export default {
 		return{
 			reviews: [],
 			reviewText: '',
-			rating: '',
+			rating: 0,
 			reviewee: [],
 			reviewer: [],
 			appointment:[],
@@ -48,6 +48,10 @@ export default {
 		const s2 = new StudentDto("Joe", "Morrison")
 		this.testStudents = [s1, s2]
 		var appt_id = this.$parent.appt_id_review
+
+    if(appt_id == 0) {
+      this.$router.push("./appointment")
+    }
 		//we have the appointemnt id in app, so we can get the students from that
 		AXIOS.get(backendUrl+'/persons/getStudentsByAppointmentID?appointmentID='+appt_id)
       	.then(response => {
@@ -58,7 +62,7 @@ export default {
       	.catch(e => {
         	var errorMsg = e.message
 			console.log(errorMsg)
-			this.errorReview = errorMsg	
+			this.errorReview = errorMsg
       	});
 	},
 	methods: {

@@ -15,7 +15,7 @@ export default {
   name: 'appointment',
   data() {
     return {
-      
+
         appointments: [],
         requestedStudents: [],
         acceptedStudents: [],
@@ -36,7 +36,7 @@ export default {
     // created: function () {
     //   // Updating appointments from backend
     //     var tutor = this.$parent.logged_in_tutor;
-        
+
     //       this.requestedAppointments = []
     //       this.acceptedAppointments = []
     //       this.previousAppointments = []
@@ -62,35 +62,36 @@ export default {
               // JSON responses are automatically parsed.
               if(status == "REFUSED"){
                 for (var i = 0; i < this.requestedAppointments.length; i++) {
-                    
                     if (this.appointments[i].appointmentId==apptId) {
-                      alert()
                       this.requestedAppointments.splice(i, 1);
                     }
                 }
               }else if (status == "ACCEPTED") {
                 for (var i = 0; i < this.requestedAppointments.length; i++) {
-                  if (this.appointments[i].appointmentId==apptId){
+                  if (this.requestedAppointments[i].appointmentId == apptId){
                     this.acceptedAppointments.push(this.appointments[i]);
-                    this.requestedAppointments.splice(i,1);
-                  } 
+                    this.requestedAppointments.splice(i,1)
+                  }
                 }
               } else if (status == "CANCELLED"){
                 for (var i = 0; i < this.acceptedAppointments.length; i++) {
-                  if (this.appointments[i].appointmentId==apptId){
+                  alert("alert(this.appointments[i].appointmentId): "+this.appointments[i].appointmentId)
+                  if (this.acceptedAppointments[i].appointmentId==apptId){
                     this.acceptedAppointments.splice(i, 1);
-                  } 
+                  }
                 }
               }
+
               this.appointments.sort(function (a,b) {
                 if(a.date > b.date) return 1;
                 if(a.date < b.date) return -1;
                 return 0;
               });
               this.errorAppointment = ''
+
             })
             .catch(e => {
-              this.errorAppointment = e.response.data.message
+              this.errorAppointment = e
             });
     },
     getStudents: function(){
@@ -130,7 +131,7 @@ export default {
           this.requestedStudents.push(specificStudents)
             this.requestedAppointments.push(this.appointments[i])
           }
-        
+
           if (this.appointments[i].status=="ACCEPTED") {
             specificStudents = []
             for(var j=0; j<this.appointments[i].student.length; j++) {
@@ -139,7 +140,7 @@ export default {
             this.acceptedStudents.push(specificStudents)
             this.acceptedAppointments.push(this.appointments[i])
           }
-        
+
           if (this.appointments[i].status=="COMPLETED") {
             specificStudents = []
             var paid = "NO"
@@ -151,7 +152,7 @@ export default {
             this.paid.push("NO")
             this.previousAppointments.push(this.appointments[i])
          }
-      
+
           if(this.appointments[i].status=="PAID") {
             specificStudents = []
             for(var j=0; j<this.appointments[i].student.length; j++) {
@@ -162,7 +163,7 @@ export default {
             this.previousAppointments.push(this.appointments[i])
           }
 
-          
+
         }
       }
       )
