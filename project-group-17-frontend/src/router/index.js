@@ -8,7 +8,7 @@ import TutorView from '@/components/TutorView.vue'
 import Availability from '@/components/Availability.vue'
 import Review from '@/components/Review.vue'
 import Appointment from '@/components/Appointment.vue'
-import v from '@/components/ViewStudentReviews.vue';
+import ViewStudentReviews from '@/components/ViewStudentReviews.vue';
 
 
 Vue.use(Router)
@@ -56,9 +56,9 @@ export default new Router({
       component: Appointment
     },
     {
-      path: '/v',
-      name:'v',
-      component: v
+      path: '/viewStudentReviews',
+      name:'ReviewStudentReviews',
+      component: ViewStudentReviews
     }
   ]
 })

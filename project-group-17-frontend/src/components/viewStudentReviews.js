@@ -21,20 +21,24 @@ export default {
 		return{
 			reviews: [],
 			allPeople: [],
-			students: []
+			students: [],
+			studentUsername: ''
+
 
 		}
 	},
 	created: function(){
-
+		var allPeople
 		AXIOS.get(backendUrl+'/persons')
       	.then(response => {
 		// JSON responses are automatically parsed.
 	
-			this.allPeople = response.data
-			for(var i=0; i< this.allPeople.length; i++){
-				if(allPeople[i].personType==Student){
-					students.push(allPeople[i].username)
+			allPeople = response.data
+			for(var i=0; i< allPeople.length; i++){
+				console.log(allPeople[i].username, allPeople[i].personType)
+				if(allPeople[i].personType=="student"){
+					console.log(allPeople[i].username)
+					this.students.push(allPeople[i])
 				}
 
 			}
@@ -47,12 +51,18 @@ export default {
 	},
 	methods: {
 		getReviews: function(username) {
-			AXIOS.get(backendUrl+'/reviews/reviewsByReviewee?name_reviewer='+username)
+			this.reviews = []
+			AXIOS.get(backendUrl+'/reviews/reviewsByReviewee?name_reviewee='+username)
 			.then(response => {
 			// JSON responses are automatically parsed.
 		
 				this.reviews = response.data
-
+				this.reviews.sort(function (a,b) {   //function to sort availabilities by date
+					console.log(a.createdDate)
+					if(a.createdDate > b.createdDate) return 1;
+					if(a.createdDate < b.createdDate) return -1;
+					return 0;
+				  });
 			})
 			.catch(e => {
 				var errorMsg = e.message
