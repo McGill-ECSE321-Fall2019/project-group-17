@@ -18,6 +18,7 @@ export default {
             email: '',
             firstName: '',
             lastName: '',
+            personType: '',
             response: []
         }
     },
@@ -37,6 +38,7 @@ export default {
           this.email = person.email
           this.firstName = person.firstName
           this.lastName = person.lastName
+          this.personType = person.personType
         })
         .catch(e => {
           this.errorCourse = e.reponse.data.message
