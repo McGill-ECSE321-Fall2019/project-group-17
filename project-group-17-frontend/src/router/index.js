@@ -46,7 +46,7 @@ export default new Router({
       component: Availability
     },
     {
-      path:'/review',
+      path:'/review/',
       name:'Review',
       component: Review
     },

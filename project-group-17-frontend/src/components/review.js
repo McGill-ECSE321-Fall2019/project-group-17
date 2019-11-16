@@ -17,10 +17,6 @@ var AXIOS = axios.create({
 
 Vue.component('star-rating', StarRating);
 
-function StudentDto (firstName, lastName) {
-	this.firstName = firstName
-	this.lastName = lastName
-}
 
 export default {
 	name: 'review',
@@ -44,14 +40,14 @@ export default {
 	},
 	created: function(){
 
-		const s1 = new StudentDto("Jim", "Molson")
-		const s2 = new StudentDto("Joe", "Morrison")
-		this.testStudents = [s1, s2]
 		var appt_id = this.$parent.appt_id_review
 
-    if(appt_id == 0) {
-      this.$router.push("./appointment")
-    }
+    // ********************************************************************
+    //if(appt_id == 0) {
+      //this.$router.push("./appointment")
+    //}
+    // ********************************************************************
+
 		//we have the appointemnt id in app, so we can get the students from that
 		AXIOS.get(backendUrl+'/persons/getStudentsByAppointmentID?appointmentID='+appt_id)
       	.then(response => {
@@ -61,11 +57,47 @@ export default {
       	})
       	.catch(e => {
         	var errorMsg = e.message
-			console.log(errorMsg)
-			this.errorReview = errorMsg
+			    console.log(errorMsg)
+			    this.errorReview = errorMsg
       	});
 	},
 	methods: {
+    createReview : function(studentUsername, reviewText, rating){
+      if(studentUsername == "" || reviewText == "" || rating == 0){
+        this.errorMessage = 'Missing input fields.'
+        return false
+      }else{
+        //we need the student username and the tutor username
+        var appt_id = this.$parent.appt_id_review
+        //get the appointment:
+        AXIOS.get(backendUrl+'/appointments/getAppointmentById?appointmentId='+appt_id)
+        .then(response => {
+        // JSON responses are automatically parsed.
+          this.appointment = response.data
+          this.errorReview = ''
+          return 0
+        })
+        .catch(e => {
+          var errorMsg = e.message
+          console.log(errorMsg)
+          this.errorReview = errorMsg
+        });
 
+        var tutor = this.$parent.logged_in_tutor
+        var appointmentID = this.appointment.appointmentID
+
+        AXIOS.post(backendUrl+"/reviews/createReview?reviewText=" + reviewText +"&rating=" + rating +
+            "&name_reviewee=" + studentUsername + "&name_reviewer=" + tutor + "&appontmentID=" + appointmentID)
+        .then(response => {
+        // JSON responses are automatically parsed.
+            return 0
+            })
+        .catch(e => {
+            var errorMsg = e.message
+            console.log(errorMsg)
+            this.errorReview = errorMsg
+        });
+      }
+    }
 	}
 }
