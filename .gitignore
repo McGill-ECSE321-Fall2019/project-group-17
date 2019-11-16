@@ -7,6 +7,8 @@ build
 project-group-17-backend/bin/*
 project-group-17-frontend/bin/*
 
+# Ignore the node_modules folder
+project-group-17-frontend/node_modules/*
 
 
 
