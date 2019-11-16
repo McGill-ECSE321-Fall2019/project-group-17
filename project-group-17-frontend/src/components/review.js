@@ -84,6 +84,7 @@ export default {
           this.errorReview = errorMsg
         });
 
+
         var tutor = this.$parent.logged_in_tutor
         var appointmentID = this.appointment.appointmentID
 
@@ -100,6 +101,6 @@ export default {
         });
       }
     }
-    
+
 	}
 }
