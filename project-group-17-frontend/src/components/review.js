@@ -62,6 +62,7 @@ export default {
       	});
 	},
 	methods: {
+
     createReview : function(studentUsername, reviewText, rating){
       if(studentUsername == "" || reviewText == "" || rating == 0){
         this.errorMessage = 'Missing input fields.'
@@ -99,5 +100,6 @@ export default {
         });
       }
     }
+    
 	}
 }
