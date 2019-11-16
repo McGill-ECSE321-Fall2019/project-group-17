@@ -8,7 +8,7 @@ matrix:
 
     - language: node_js
       before_install:
-        - "cd project-group-17-frontend/"
+        - "cd project-group-17-frontend"
         - "npm install"
       script:
         - "npm run build"
