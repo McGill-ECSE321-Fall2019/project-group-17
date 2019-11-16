@@ -2,7 +2,7 @@
   <div id="app">
 
     <div class="medium_text wide">Logged in as: {{ logged_in_tutor }} <button class="logout_button align_right brand_color" @click="logout()">Logout</button></div>
-
+    
     <nav class="nav_links">
       <router-link to="/">Home</router-link>
       <router-link to="/login">Login</router-link>
@@ -150,7 +150,7 @@ export default {
   font-weight: 400;
   margin: 0px auto;
   color: white;
-
+  
 }
 .align_right{
   float: right;
@@ -166,8 +166,8 @@ export default {
 }
 .img_container {
   background: rgba(240, 240, 240, 0.7);
-  width: 125px;
-  height: 125px;
+  width: 100px;
+  height: 100px;
   margin: 10px 0px;
   border: none;
   border-radius: 50%;
