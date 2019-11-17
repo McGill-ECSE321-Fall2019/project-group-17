@@ -29,11 +29,11 @@ export default {
 			reviewer: [],
 			appointment:[],
 			reviewID: '',
+      appointmentID: '',
 			createdDate: '',
 			createdTime: '',
 			errorReview: [],
 			studentUsername: '',
-			testStudents: [],
 			students: []
 
 		}
@@ -42,11 +42,11 @@ export default {
 
 		var appt_id = this.$parent.appt_id_review
 
-    // ********************************************************************
-    //if(appt_id == 0) {
-      //this.$router.push("./appointment")
-    //}
-    // ********************************************************************
+
+    if(appt_id == 0) {
+      this.$router.push("./appointment")
+    }
+
 
 		//we have the appointemnt id in app, so we can get the students from that
 		AXIOS.get(backendUrl+'/persons/getStudentsByAppointmentID?appointmentID='+appt_id)
@@ -63,8 +63,8 @@ export default {
 	},
 	methods: {
 
-    createReview : function(studentUsername, reviewText, rating){
-      if(studentUsername == "" || reviewText == "" || rating == 0){
+    createReview : function(name_reviewee, reviewText, rating){
+      if(name_reviewee == "" || reviewText == "" || rating == 0){
         this.errorMessage = 'Missing input fields.'
         return false
       }else{
@@ -75,6 +75,7 @@ export default {
         .then(response => {
         // JSON responses are automatically parsed.
           this.appointment = response.data
+          console.log(appointment.appointmentID)
           this.errorReview = ''
           return 0
         })
@@ -85,13 +86,14 @@ export default {
         });
 
 
-        var tutor = this.$parent.logged_in_tutor
-        var appointmentID = this.appointment.appointmentID
+        var name_reviewer = this.$parent.logged_in_tutor
+        var appt_id = this.$parent.appt_id_review
 
         AXIOS.post(backendUrl+"/reviews/createReview?reviewText=" + reviewText +"&rating=" + rating +
-            "&name_reviewee=" + studentUsername + "&name_reviewer=" + tutor + "&appontmentID=" + appointmentID)
+            "&name_reviewee="+ name_reviewee + "&name_reviewer=" + name_reviewer + "&appointmentID=" + appt_id, {} , {})
         .then(response => {
         // JSON responses are automatically parsed.
+            this.$router.push("./tutorView")
             return 0
             })
         .catch(e => {
