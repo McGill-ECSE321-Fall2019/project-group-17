@@ -9,16 +9,16 @@
 
       <div class="small_text left_text brand_color_text">Select the student under review</div>
       <div>
-        <select  v-model="studentUsername" class="input half">
+        <select  v-model="name_reviewee" class="input half">
           <option value="" selected disabled>Select student</option>
-          <option value=student.username v-for="student in students">{{ student.username }}</option>
+          <option v-for="student in students"  :value="student.username">{{ student.username }}</option>
         </select>
       </div>
 
       <hr>
 
       <div class="small_text left_text brand_color_text">Please share your tutoring experience:</div>
-
+      <div>
       <b-form-textarea
         id="textarea"
         class="input wide"
@@ -39,10 +39,11 @@
       </div>
 
       <hr>
-      <button class="button brand_color wide" @click="createReview(studentUsername, reviewText, rating)">Submit Review</button>
+      </div>
+      <button class="button brand_color wide" @click="createReview(name_reviewee, reviewText, rating)">Submit Review</button>
 
 
-
+      <span style="color:red">{{ errorMessage }}</span>
     </div>
 
   </div>
