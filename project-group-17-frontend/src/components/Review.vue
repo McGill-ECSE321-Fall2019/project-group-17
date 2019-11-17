@@ -11,7 +11,7 @@
       <div>
         <select  v-model="studentUsername" class="input half">
           <option value="" selected disabled>Select student</option>
-          <option value=student.username v-for="student in students">{{ student.firstName }}</option>
+          <option value=student.username v-for="student in students">{{ student.username }}</option>
         </select>
       </div>
 
@@ -39,7 +39,7 @@
       </div>
 
       <hr>
-      <button class="button brand_color wide" @click="">Submit Review</button>
+      <button class="button brand_color wide" @click="createReview(studentUsername, reviewText, rating)">Submit Review</button>
 
 
 

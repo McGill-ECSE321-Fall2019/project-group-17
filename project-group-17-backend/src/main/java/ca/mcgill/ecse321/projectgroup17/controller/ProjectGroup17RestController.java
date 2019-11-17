@@ -100,6 +100,12 @@ public class ProjectGroup17RestController {
 		return result;
 	}
 	
+	/**
+	 * Method added with the purpose to display the students concerned by a review on the Review.vue page.
+	 * It returns all the students contained in a particular appointment.
+	 * @param appointmentID
+	 * @return List of students
+	 */
 	@GetMapping(value = {"persons/getStudentsByAppointmentID", "persons/getStudentsByAppointmentID/"})
 	public List<PersonDto> getStudentsByAppointmentID(@RequestParam("appointmentID") long appointmentID){
 		List<PersonDto> result = new ArrayList<PersonDto>();
