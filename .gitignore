@@ -1,14 +1,19 @@
 # Ignore Gradle project-specific cache directory
 .gradle
 .gradle/
+bin
 
 # Ignore Gradle build output directory
 build
-project-group-17-backend/bin/*
-project-group-17-frontend/bin/*
+project-group-17-backend/bin
 
 # Ignore the node_modules folder
-project-group-17-frontend/node_modules/*
+project-group-17-frontend/node_modules
 
+.DS_Store
+
+.classpath
+.project
+.settings/
 
 
