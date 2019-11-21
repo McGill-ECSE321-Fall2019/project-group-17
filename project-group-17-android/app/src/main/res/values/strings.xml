@@ -1,0 +1,23 @@
+<resources>
+
+    <!-- General -->
+    <string name="app_name">Project Group 17</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Login -->
+    <string name="login_username_field">Username</string>
+    <string name="login_password_field">Password</string>
+    <string name="login_submit_button">Login</string>
+
+    <!-- Course Spinner -->
+
+    <string name="course_prompt">Choose a course</string>
+
+    <string-array name="course_array">
+        <item>Dummy Course 1</item>
+        <item>Dummy Course 2</item>
+        <item>Dummy Course 3</item>
+    </string-array>
+
+
+</resources>
