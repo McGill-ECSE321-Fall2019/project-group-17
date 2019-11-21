@@ -1,0 +1,14 @@
+.DS_Store
+.classpath
+.gradle/
+.project
+.settings/
+.travis.yml
+bin/
+build/
+gradle/
+photos/
+
+project-group-17-backend/
+project-group-17-frontend/
+src/
