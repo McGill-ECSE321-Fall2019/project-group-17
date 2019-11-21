@@ -34,7 +34,7 @@ public class Course{
 	}
 	private Set<SpecificCourse> specificCourse;
 
-	@OneToMany(mappedBy="course" )
+	@OneToMany(mappedBy="course")
 	public Set<SpecificCourse> getSpecificCourse() {
 		return this.specificCourse;
 	}

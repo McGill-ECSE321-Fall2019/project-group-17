@@ -9,6 +9,4 @@ import javax.persistence.Table;
 @DiscriminatorValue("student")
 public class Student extends Person {
 
-	
-
 }
