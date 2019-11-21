@@ -11,7 +11,7 @@ project-group-17-backend/bin
 project-group-17-frontend/node_modules
 
 # Ignore the android directory
-project-group-17-android/
+#project-group-17-android/
 
 .DS_Store
 
