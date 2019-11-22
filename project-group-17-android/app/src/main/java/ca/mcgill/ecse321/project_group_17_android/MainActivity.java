@@ -61,6 +61,49 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void signup(){
+        error = "";
+        final TextView firstName = (TextView) findViewById(R.id.signup_firstName);
+        final TextView lastName = (TextView) findViewById(R.id.signup_lastName);
+        final TextView username = (TextView) findViewById(R.id.signup_username);
+        final TextView email = (TextView) findViewById(R.id.signup_email);
+        final TextView password = (TextView) findViewById(R.id.signup_password);
+        final TextView passwordConfirm = (TextView) findViewById(R.id.signup_confirmPassword);
+
+        if (!password.equals(passwordConfirm)){
+            error += "Passwords do not match! ";
+            refreshErrorMessage();
+            return;
+        }
+
+        HttpUtils.post("/persons/createPerson/?firstName=" + firstName.getText().toString() +
+                        "&lastName=" + lastName.getText().toString() + "&username=" + username.getText().toString()
+                + "&email=" + email.getText().toString() + "&password=" + password.getText().toString() + "&personType=Tutor",
+                new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                refreshErrorMessage();
+                System.out.println(response);
+                firstName.setText("");
+                lastName.setText("");
+                username.setText("");
+                email.setText("");
+                password.setText("");
+                passwordConfirm.setText("");
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                System.out.println(errorResponse);
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                refreshErrorMessage();
+            }
+        });
+    }
+
     //
 
     @Override
