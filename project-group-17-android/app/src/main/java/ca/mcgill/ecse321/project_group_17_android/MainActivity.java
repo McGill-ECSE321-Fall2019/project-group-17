@@ -116,8 +116,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void signup(){
+    public void signup(View v){
         error = "";
+        success = "";
         final TextView firstName = (TextView) findViewById(R.id.signup_firstName);
         final TextView lastName = (TextView) findViewById(R.id.signup_lastName);
         final TextView username = (TextView) findViewById(R.id.signup_username);
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         final TextView password = (TextView) findViewById(R.id.signup_password);
         final TextView passwordConfirm = (TextView) findViewById(R.id.signup_confirmPassword);
 
-        if (!password.equals(passwordConfirm)){
+        if (!password.getText().toString().equals(passwordConfirm.getText().toString())){
             error += "Passwords do not match! ";
             refreshErrorMessage();
             return;
@@ -145,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
                 email.setText("");
                 password.setText("");
                 passwordConfirm.setText("");
+                success = "Person successfully registered!";
+                refreshSuccessMessage();
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
