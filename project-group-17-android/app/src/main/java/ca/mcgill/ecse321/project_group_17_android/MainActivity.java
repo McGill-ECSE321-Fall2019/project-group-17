@@ -1,5 +1,6 @@
 package ca.mcgill.ecse321.project_group_17_android;
 
+import android.R.layout;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -12,14 +13,22 @@ import cz.msebera.android.httpclient.Header;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.Time;
 import java.util.Date;
 
@@ -30,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private String success = null;
 
     public String loggedInUsername = "";
+
+    private String selectedCourseID = "";
 
     private void refreshErrorMessage() {
         // set the error message
@@ -80,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // AVAILABILITY
     public void createAvailability(View v) {
         error = "";
         success = "";
@@ -91,7 +103,8 @@ public class MainActivity extends AppCompatActivity {
         long longStart = getTimeFromLabel(startTime.getText().toString()).getLong("longTime");
         long longEnd = getTimeFromLabel(endTime.getText().toString()).getLong("longTime");
         long createdDate = new Date().getTime();
-        HttpUtils.postByUrl("/availabilities/createAvailability?tutorUsername="+tutorUsername+"&date="+longDate+"&createdDate="+createdDate
+
+        HttpUtils.post("/availabilities/createAvailability?tutorUsername="+tutorUsername+"&date="+longDate+"&createdDate="+createdDate
                 +"&startTime="+longStart+"&endTime="+longEnd, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -102,6 +115,39 @@ public class MainActivity extends AppCompatActivity {
                 endTime.setText("");
                 success = "Availability successfully added!";
                 refreshSuccessMessage();
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                System.out.println(errorResponse);
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                refreshErrorMessage();
+            }
+        });
+    }
+
+
+    // SPECIFIC COURSE
+    public void createSpecificCourse(View v) {
+        error = "";
+        success = "";
+        final TextView hourlyRate = (TextView) findViewById(R.id.specificCourse_hourlyRate);
+
+        String tutor = loggedInUsername;
+
+        HttpUtils.post("/specificCourses/create?hourlyRate="+hourlyRate.getText().toString()+"&tutorUsername="+tutor+"&courseID="+selectedCourseID, new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                refreshErrorMessage();
+                System.out.println(response);
+                hourlyRate.setText("");
+
+                success = "You have successfully applied to become a tutor for "+ selectedCourseID +"!";
+                refreshSuccessMessage();
+
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -171,18 +217,97 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        final Spinner coursesList = (Spinner) findViewById(R.id.coursesList);
+        final ArrayList<String> courses =  new ArrayList<String>();
+        coursesList.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                // Populate courses
+                HttpUtils.get("/courses", new RequestParams(), new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                        System.out.println(response);
+
+                        ArrayList<String> coursesArray =  new ArrayList<String>();
+
+                        for(int i=0; i < response.length(); i++) {
+                            try {
+                                //System.out.println(response.getJSONObject(i).get("courseName"));
+                                coursesArray.add(response.getJSONObject(i).get("courseID").toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        courses.addAll(coursesArray);
+
+                        refreshErrorMessage();
+
+                        System.out.println(coursesArray.size());
+                        System.out.println(coursesArray);
+
+                        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                                MainActivity.this,
+                                android.R.layout.simple_list_item_1,
+                                courses
+                        );
+
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                        coursesList.setAdapter(adapter);
+
+
+                    }
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        try {
+                            error += errorResponse.get("message").toString();
+                        } catch (JSONException e) {
+                            error += e.getMessage();
+                        }
+                        refreshErrorMessage();
+                    }
+                });
+
+                return true;
+            }
+        });
+
+        coursesList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
+
+                String courseID = coursesList.getSelectedItem().toString();
+
+                selectedCourseID = courseID;
+
+
+            }
+            public void onNothingSelected(AdapterView<?> arg0) {
+                selectedCourseID = "";
+            }
+        });
+
+
+
+        /*FloatingActionButton fab = findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+
             }
         });
+        */
 
         // initialize error message text view
         refreshErrorMessage();
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

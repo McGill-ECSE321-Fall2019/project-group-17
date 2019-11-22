@@ -20,21 +20,25 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!--<include layout="@layout/content_main" /> -->
-    <!--<include layout="@layout/content_signup" /> -->
-    <!--<include layout="@layout/content_specificcourse" />-->
-    <include layout="@layout/content_availability" />
 
+    <!--<include layout="@layout/content_main" />-->
+    <!--<include layout="@layout/content_signup" /> -->
+    <include layout="@layout/content_specificcourse" />
+
+    <!--<include layout="@layout/content_availability" />-->
+
+
+    <!--
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:background="@color/brandColor"
-
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email"
         app:backgroundTint="@color/brandColor"
         />
+    -->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
