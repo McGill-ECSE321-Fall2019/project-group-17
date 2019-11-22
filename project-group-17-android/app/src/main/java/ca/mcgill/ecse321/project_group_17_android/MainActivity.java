@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     //
     private String error = null;
+    private String success = null;
+
+    public String loggedInUsername = "";
 
     private String selectedCourseID = "";
 
@@ -51,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void refreshSuccessMessage() {
+        // set the success message
+        TextView tvSuccess = (TextView) findViewById(R.id.success);
+        tvSuccess.setText(success);
+
+        if (success == null || success.length() == 0) {
+            tvSuccess.setVisibility(View.GONE);
+        } else {
+            tvSuccess.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void login(View v) {
         error = "";
         final TextView username = (TextView) findViewById(R.id.login_username);
@@ -61,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 refreshErrorMessage();
                 System.out.println(response);
                 username.setText("");
+                loggedInUsername = username.getText().toString();
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -78,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
     // AVAILABILITY
     public void createAvailability(View v) {
         error = "";
-        final String tutorUsername = "charStar";
+        success = "";
+        final String tutorUsername = loggedInUsername;
         final TextView date = (TextView) findViewById(R.id.newavail_date);
         final TextView startTime = (TextView) findViewById(R.id.starttime);
         final TextView endTime = (TextView) findViewById(R.id.endtime);
@@ -86,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         long longStart = getTimeFromLabel(startTime.getText().toString()).getLong("longTime");
         long longEnd = getTimeFromLabel(endTime.getText().toString()).getLong("longTime");
         long createdDate = new Date().getTime();
+
         HttpUtils.post("/availabilities/createAvailability?tutorUsername="+tutorUsername+"&date="+longDate+"&createdDate="+createdDate
                 +"&startTime="+longStart+"&endTime="+longEnd, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
@@ -95,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
                 date.setText("");
                 startTime.setText("");
                 endTime.setText("");
+                success = "Availability successfully added!";
+                refreshSuccessMessage();
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -113,10 +133,10 @@ public class MainActivity extends AppCompatActivity {
     // SPECIFIC COURSE
     public void createSpecificCourse(View v) {
         error = "";
-
+        success = "";
         final TextView hourlyRate = (TextView) findViewById(R.id.specificCourse_hourlyRate);
 
-        String tutor = "charStar";
+        String tutor = loggedInUsername;
 
         HttpUtils.post("/specificCourses/create?hourlyRate="+hourlyRate.getText().toString()+"&tutorUsername="+tutor+"&courseID="+selectedCourseID, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
@@ -124,6 +144,9 @@ public class MainActivity extends AppCompatActivity {
                 refreshErrorMessage();
                 System.out.println(response);
                 hourlyRate.setText("");
+
+                success = "You have successfully applied to become a tutor for "+ selectedCourseID +"!";
+                refreshSuccessMessage();
 
             }
             @Override
