@@ -12,84 +12,81 @@
     <!-- Login Layout -->
     <View
         android:id="@+id/statusBarBackground"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/colorAccent"
+            android:visibility="gone" />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            android:text="Log into your account"
+            android:text="Become a tutor for a course"
             android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/error"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:visibility="gone"
-            android:text=""
-            android:textColor="@color/colorAccent"/>
-
-        <EditText
-            android:id="@+id/login_username"
+        <Spinner
+            android:id="@+id/spinner2"
             android:layout_width="match_parent"
             android:layout_height="25pt"
-            android:layout_weight="600"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="600"
             android:background="@color/grey"
-            android:hint="@string/login_username_field"
-            android:visibility="visible" />
+            android:entries="@array/course_array"
+            android:prompt="@string/course_prompt" />
 
         <EditText
-            android:id="@+id/login_password"
+            android:id="@+id/specificCourse_hourlyRate"
             android:layout_width="match_parent"
             android:layout_height="25pt"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_weight="600"
             android:background="@color/grey"
-            android:hint="@string/login_password_field"
+            android:hint="Hourly Rate (eg: 15.75)"
             android:inputType="textPassword"
             android:visibility="visible" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="@color/hrColor"/>
+            android:background="#c0c0c0" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
             android:layout_gravity="end"
+            android:layout_marginTop="20dp"
             android:background="@color/brandColor"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:onClick="login"
-            android:text="@string/login_submit_button"
+            android:text="Apply"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
             android:visibility="visible" />
     </LinearLayout>
 
