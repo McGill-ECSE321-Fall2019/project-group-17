@@ -8,6 +8,7 @@
     <string name="login_username_field">Username</string>
     <string name="login_password_field">Password</string>
     <string name="login_submit_button">Login</string>
+    <string name="create_avail">Create Availability</string>
 
     <!-- Course Spinner -->
 
