@@ -14,10 +14,13 @@
 
     <string name="course_prompt">Choose a course</string>
 
+
     <string-array name="course_array">
+        <!--
         <item>Dummy Course 1</item>
         <item>Dummy Course 2</item>
         <item>Dummy Course 3</item>
+        -->
     </string-array>
 
 
