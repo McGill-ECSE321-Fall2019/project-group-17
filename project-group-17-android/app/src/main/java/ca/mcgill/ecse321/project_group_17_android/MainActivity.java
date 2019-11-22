@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         error = "";
         final TextView username = (TextView) findViewById(R.id.login_username);
         final TextView password = (TextView) findViewById(R.id.login_password);
-        HttpUtils.post("/persons/getByUsername/?username=" + username.getText().toString() + "&password=" + password.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.get("/persons/getByUsername/?username=" + username.getText().toString() + "&password=" + password.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage();
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                System.out.println(errorResponse);
                 try {
                     error += errorResponse.get("message").toString();
                 } catch (JSONException e) {
