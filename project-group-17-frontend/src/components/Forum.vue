@@ -3,13 +3,13 @@
 	<div id="viewStudentReviews" class="container">
 		<div class="inner_container shadow">
 			<div class="input_container">
-				<div class="large_text">Forum</div>
+				<div class="large_text">Question Forum</div>
 
 
-                <div class="small_text left_text brand_color_text">Message:</div>
+                <div class="medium_text left_text brand_color_text">Post New Message:</div>
                 <div>
                 <b-form-textarea
-                    id="textarea"
+                    v-bind:key ="`reply-${messageCount}`"
                     class="input wide"
                     type="text"
                     v-model="messageText"
@@ -19,7 +19,7 @@
                     max-cols="10">
                 </b-form-textarea>
                 </div>
-                <button class="button brand_color " @click="createNewMessage(messageText)">Post</button>
+                <button class="button brand_color wide" @click="createNewMessage(messageText)">Post New Message</button>
 
 
 		
@@ -27,10 +27,11 @@
 				<div v-for="(message, i) in messages" class="shadow review_box">
 					<div class="medium_text">{{ message.text }}</div>
 					<div class="grey_text">Posted by: {{ message.author }}</div>
-                    <input type="text" class="input wide" v-model='replyText' placeholder="Reply...">
-                    <button class="button brand_color " @click="replyToMessage(replyText, i)">Reply</button>
-                    <div v-for="reply in message.replies">
-                        <div>{{reply.author}} - {{reply.text}}</div>
+                    <input type="text" class="input half" v-model='replyText' placeholder="Reply...">
+                    <button class="button_small brand_color" @click="replyToMessage(i, replyText)">Reply</button>
+                    <div class="small_text left_text brand_color_text">Replies:</div>
+                    <div class="shadow review_box" v-for="reply in message.replies">
+                        <div>{{reply.author}} -- {{reply.text}}</div>
                     </div>
 				</div>
 			</div>

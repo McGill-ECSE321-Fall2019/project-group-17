@@ -57,6 +57,7 @@ export default {
       var currently_logged_in = this.$parent.logged_in_tutor
       var reply = new Reply(replyText, currently_logged_in)
       this.messages[messageId].replies.push(reply)
+      this.replyText = ''
       
     }
   }
