@@ -110,6 +110,19 @@ export default {
 	-moz-transition: all 0.2s ease;
 	transition: all 0.2s ease;
 }
+.message {
+  padding: 15px 10px;
+  margin: 5px 0px;
+  background: rgba(240, 240, 240, 0.3);
+  font-size: 160px;
+  font-weight: 500;
+  border-radius: 0px;
+  border: none;
+  border-left: 2px transparent solid;
+  -webkit-transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	transition: all 0.2s ease;
+}
 .wide {
   width: 100%;
 }
