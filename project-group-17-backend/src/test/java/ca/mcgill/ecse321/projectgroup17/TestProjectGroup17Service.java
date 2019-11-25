@@ -1450,7 +1450,7 @@ public class TestProjectGroup17Service {
 		assertEquals(0, service.getAllReviews().size());
 
 		String reviewText = "This is text concerning the review. ";
-		int rating = 5;
+		double rating = 5;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -1522,7 +1522,7 @@ public class TestProjectGroup17Service {
 		assertEquals(0, service.getAllReviews().size());
 
 		String reviewText = null;
-		int rating = 5;
+		double rating = 5;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -1580,7 +1580,7 @@ public class TestProjectGroup17Service {
 		assertEquals(0, service.getAllReviews().size());
 
 		String reviewText = "This is review text. ";
-		Integer rating = null;
+		Double rating = null;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -1639,7 +1639,7 @@ public class TestProjectGroup17Service {
 		String reviewText = "This is review text. ";
 
 		// first test rating with a value too high
-		Integer rating = 6;
+		Double rating = 6.0;
 
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
@@ -1691,7 +1691,7 @@ public class TestProjectGroup17Service {
 		assertEquals(error, "A rating must be a number between 0 and 5.");
 
 		//now set the rating too low
-		rating = -5;
+		rating = -5.0;
 
 		error = null;
 		try {
@@ -1710,7 +1710,7 @@ public class TestProjectGroup17Service {
 		assertEquals(0, service.getAllReviews().size());
 
 		String reviewText = "This is review text. ";
-		Integer rating = 5;
+		Double rating = 5.0;
 		Time createdTime = null;
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -1768,7 +1768,7 @@ public class TestProjectGroup17Service {
 		assertEquals(0, service.getAllReviews().size());
 
 		String reviewText = "This is review text. ";
-		Integer rating = 5;
+		Double rating = 5.0;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = null;
 
@@ -1826,7 +1826,7 @@ public class TestProjectGroup17Service {
 		assertEquals(0, service.getAllReviews().size());
 
 		String reviewText = "This is review text. ";
-		Integer rating = 5;
+		Double rating = 5.0;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -1879,7 +1879,7 @@ public class TestProjectGroup17Service {
 		assertEquals(0, service.getAllReviews().size());
 
 		String reviewText = "This is review text. ";
-		Integer rating = 5;
+		Double rating = 5.0;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -1932,7 +1932,7 @@ public class TestProjectGroup17Service {
 		assertEquals(0, service.getAllReviews().size());
 
 		String reviewText = "This is review text. ";
-		int rating = 5;
+		double rating = 5;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -1998,7 +1998,7 @@ public class TestProjectGroup17Service {
 		assertEquals(service.getAllReviews().size(), 0);
 
 		String reviewText = "This is text concerning the review. ";
-		int rating = 5;
+		double rating = 5;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -2058,7 +2058,7 @@ public class TestProjectGroup17Service {
 		assertEquals(service.getAllReviews().size(), 0);
 
 		String reviewText = "This is text concerning the review. ";
-		int rating = 5;
+		double rating = 5;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -2115,7 +2115,7 @@ public class TestProjectGroup17Service {
 		assertEquals(service.getAllReviews().size(), 0);
 
 		String reviewText = "This is text concerning the review. ";
-		int rating = 5;
+		double rating = 5;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -2173,7 +2173,7 @@ public class TestProjectGroup17Service {
 		assertEquals(service.getAllReviews().size(), 0);
 
 		String reviewText = "This is text concerning the review. ";
-		int rating = 5;
+		double rating = 5;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -2231,7 +2231,7 @@ public class TestProjectGroup17Service {
 		assertEquals(service.getAllReviews().size(), 0);
 
 		String reviewText = "This is text concerning the review. ";
-		int rating = 5;
+		double rating = 5;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -2298,7 +2298,7 @@ public class TestProjectGroup17Service {
 		// create a review
 
 		String reviewText = "This is text concerning the review. ";
-		int rating = 5;
+		double rating = 5;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 
@@ -2362,7 +2362,7 @@ public class TestProjectGroup17Service {
 		assertEquals(0, service.getAllReviews().size());
 
 		String reviewText = "This is text concerning the review. ";
-		int rating = 5;
+		double rating = 5;
 		Time createdTime = Time.valueOf("10:00:00");
 		Date createdDate = Date.valueOf("2019-10-10");
 

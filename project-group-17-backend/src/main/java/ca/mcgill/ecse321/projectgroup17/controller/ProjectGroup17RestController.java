@@ -285,7 +285,7 @@ public class ProjectGroup17RestController {
 	 * @throws IllegalArgumentException
 	 */
 	@PostMapping(value = { "/reviews/createReview", "/reviews/createReview/" })
-	public ReviewDto createReview(@RequestParam("reviewText") String reviewText, @RequestParam("rating") int rating,
+	public ReviewDto createReview(@RequestParam("reviewText") String reviewText, @RequestParam("rating") double rating,
 			@RequestParam("name_reviewee") String name_reviewee, @RequestParam("name_reviewer") String name_reviewer,
 			@RequestParam("appointmentID") long appointmentID) throws IllegalArgumentException {
 		// formatter : on 
