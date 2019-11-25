@@ -129,6 +129,34 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //Get reviews for a student
+    public void getReviewsForAStudent(View v){
+        error = "";
+        success = "";
+        final TextView std_username = (TextView) findViewById(R.id.student_username);
+
+
+        HttpUtils.post("/reviews/getReviewsByReviewee?name_reviewee="+std_username.getText(), new RequestParams(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                refreshErrorMessage();
+                System.out.println(response);
+                std_username.setText("");
+                success = "Succesfully got the student reviews!";
+                refreshSuccessMessage();
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                System.out.println(errorResponse);
+                try {
+                    error += errorResponse.get("message").toString();
+                } catch (JSONException e) {
+                    error += e.getMessage();
+                }
+                refreshErrorMessage();
+            }
+        });
+    }
 
     // SPECIFIC COURSE
     public void createSpecificCourse(View v) {

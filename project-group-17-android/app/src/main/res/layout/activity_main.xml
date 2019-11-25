@@ -23,8 +23,9 @@
 
     <!--<include layout="@layout/content_main" />-->
     <!--<include layout="@layout/content_signup" /> -->
-    <include layout="@layout/content_specificcourse" />
+    <!--<include layout="@layout/content_specificcourse" />-->
 
+    <include layout="@layout/content_studentreviews"/>
     <!--<include layout="@layout/content_availability" />-->
 
 
