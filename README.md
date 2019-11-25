@@ -15,31 +15,31 @@ Carried out over the FALL2019 semester at McGill University for ECSE321's *Intro
 Get to know the team:
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/charles.png?token=AE26HBWEZ4VGMP6AGGMYI4253KKKI" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Charles Bourbeau**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/charles.png?token=AE26HBVWZ7WMNA3D2E4ZBV254QGEO" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Charles Bourbeau**
   * U2 Software Engineer, McGill University
   * Passionate about machine learning, lifting weights, 70s music, and pre-workout.
   * From Quebec city.
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/kyle.png?token=AE26HBWHAU7HMUH44L76HMK53KKLE" style="border-radius:50%;border:2px white solid;margin:2px;" width="55" height="55"> **Kyle Myers**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/kyle.png?token=AE26HBVTQA36Q4NJEXIZY3K54QGFG" style="border-radius:50%;border:2px white solid;margin:2px;" width="55" height="55"> **Kyle Myers**
   * U2 Software Engineer, McGill University
   * Dedicated sender. Love to code.
   * Does not know where Dispatch Coffee is.
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/anthony.png?token=AE26HBRJIDHUAVFZOMIOKHC53KKIS" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Anthony Porporino**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/anthony.png?token=AE26HBSTMNRVGYXLE4XSDA254QGCA" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Anthony Porporino**
   * U2 Software Engineer, McGill University
   * Passionate about finding plugins, coding games, jamming, doing kickflips, and making tomato sauce.
   * Not from Quebec city.
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/felix.jpeg?token=AE26HBWT47G4MT6EIPCX7WC53KKL4" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Felix Simard**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/felix.jpeg?token=AE26HBRMUDEERLCVGGO6ZFS54QGDA" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Felix Simard**
   * U2 Software Engineer, McGill University
   * Passionate about developing websites, fishing, calculating the grade needed in his final to get an A, 2019s music, and sipping Charles' pre-workout.
   * Has an electric bike.
 
 
-* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/tyler.png?token=AE26HBX3W3MELODRQZBQI3K53KKNC" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Tyler Watson**
+* <img src="https://raw.githubusercontent.com/McGill-ECSE321-Fall2019/project-group-17/master/photos/tyler.png?token=AE26HBXQBJIDWJYGQHCA5K254QGDY" style="border-radius:50%;border:2px white solid;margin:2px;" width="55"> **Tyler Watson**
   * U2 Software Engineer, McGill University
   * Passionate about learning new technologies, debating with Charles, Bon Iver, trying to lift weights, trying to speak french, and also jamming with Anthony.
   * Not from Quebec City.
@@ -128,25 +128,30 @@ Meeting minutes:
 
 Due Dec. 3rd 2019
 
+User Documentation:
+* **https://github.com/McGill-ECSE321-Fall2019/project-group-17/wiki/Sprint-4---Mobile-App---User-Documentation**
+
+Meeting minutes:
+* **https://github.com/McGill-ECSE321-Fall2019/project-group-17/wiki/Sprint-4-Report-Meeting-Minutes**
+
 ### Statement of Work
 
 
 
 | Member        | Role  | Contribution (hrs)  |
 | ------------- |-------------| -----|
-| Charles Bourbeau     |  | 15 |
-| Kyle Myers      |       |   15 |
-| Anthony Porporino |       |    15 |
-| Felix Simard |       |    15 |
-| Tyler Watson |       |    15 |
+| Charles Bourbeau     |  Mobile app setup, backend updates, frontend updates. | 10 |
+| Kyle Myers      |    User Documentation, presentation slides, mobile app.   |   10 |
+| Anthony Porporino |    Login and signup mobile view.   |    10 |
+| Felix Simard |   Mobile app setup, specific course mobile view.   |    10 |
+| Tyler Watson |   Availability mobile view, backend updates.    |    10 |
 
 
 ---
 
 # Deliverable 5 (Presentation)
 
-Presentations on Nov. 26-28-29.\
-Due Nov. 29th 2019
+Presentations on **Nov. 28th. 10:05am.**
 
 
 

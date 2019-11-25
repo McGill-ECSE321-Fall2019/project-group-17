@@ -17,12 +17,12 @@ public class Review{
 	public String getReviewText() {
 		return this.reviewText;
 	}
-	private int rating;
+	private double rating;
 
-	public void setRating(int value) {
+	public void setRating(double value) {
 		this.rating = value;
 	}
-	public int getRating() {
+	public double getRating() {
 		return this.rating;
 	}
 	private Person reviewee;

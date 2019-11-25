@@ -394,7 +394,7 @@ public class ProjectGroup17Service {
 	 * @return  Review object
 	 */
 	@Transactional
-	public Review createReview(String reviewText, Integer rating, Time createdTime, Date createdDate, 
+	public Review createReview(String reviewText, Double rating, Time createdTime, Date createdDate, 
 			Person reviewee, Person reviewer, Appointment appointment) {
 		
 		
