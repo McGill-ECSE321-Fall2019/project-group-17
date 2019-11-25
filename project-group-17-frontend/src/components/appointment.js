@@ -2,8 +2,8 @@ import axios from 'axios'
 var config = require('../../config')
 var listStudents = []
 
-var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port;
+var backendUrl = 'http://' + config.build.backendHost;
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
