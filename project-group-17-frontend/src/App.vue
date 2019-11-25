@@ -13,6 +13,7 @@
       <router-link to="/review">Review</router-link>
       <router-link to="/appointment">Appointment</router-link>
       <router-link to="/viewStudentReviews">Student Reviews</router-link>
+      <router-link to="/forum">Forum</router-link>
 
       <router-view />
     </nav>

@@ -1,12 +1,14 @@
+import axios from 'axios'
+
 var config = require('../../config')
 
-var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+// var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+// var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
-var AXIOS = axios.create({
-  baseURL: backendUrl,
-  headers: { 'Access-Control-Allow-Origin': frontendUrl }
-})
+// var AXIOS = axios.create({
+//   baseURL: backendUrl,
+//   headers: { 'Access-Control-Allow-Origin': frontendUrl }
+// })
 
 
 function Message (text, author, id) {
@@ -28,33 +30,33 @@ export default {
     return {
         messages: [],
         messageCount: 0,
+        messageText : '',
+        replyText: ''
 
     }
-  },
-  components: {
-    Datepicker
   },
   created: function () {
 
     var currently_logged_in = this.$parent.logged_in_tutor
-    if(currently_logged_in == "") {
-      this.$router.push("./login")
-    }
+    // if(currently_logged_in == "") {
+    //   this.$router.push("./login")
+    // }
   },
 
   methods: {
     createNewMessage: function (text) {
       var currently_logged_in = this.$parent.logged_in_tutor
-      var message = new Message(text, currently_logged_in, messageCount)
-      messages.push(message)
-      messageCount =+ 1
+      var message = new Message(text, currently_logged_in, this.messageCount)
+      this.messages.push(message)
+      this.messageCount += 1;
+      this.messageText = "";
      
     },
 
     replyToMessage: function (messageId, replyText) {
       var currently_logged_in = this.$parent.logged_in_tutor
       var reply = new Reply(replyText, currently_logged_in)
-      messages[messageId].replies.push(reply)
+      this.messages[messageId].replies.push(reply)
       
     }
   }
