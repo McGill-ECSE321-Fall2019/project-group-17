@@ -156,10 +156,11 @@ public class MainActivity extends AppCompatActivity {
         final TextView std_username = (TextView) findViewById(R.id.student_username);
 
 
-        HttpUtils.post("/reviews/getReviewsByReviewee?name_reviewee="+std_username.getText(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.get("/reviews/getReviewsByReviewee?name_reviewee="+std_username.getText(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 refreshErrorMessage("error5");
+                System.out.println("Succesfully got the student reviews!");
                 System.out.println(response);
                 std_username.setText("");
                 success = "Succesfully got the student reviews!";
@@ -168,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 System.out.println(errorResponse);
+                System.out.println("Failed to get the student reviews...");
                 try {
                     error += errorResponse.get("message").toString();
                 } catch (JSONException e) {

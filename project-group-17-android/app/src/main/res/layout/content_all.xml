@@ -408,47 +408,62 @@
                 android:textStyle="bold"
                 android:visibility="visible" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:text="Get the reviews of a student"
-                android:textColor="@color/black"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/student_username"
-                android:layout_width="fill_parent"
-                android:layout_height="25pt"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="0"
-                android:background="@color/grey"
-                android:hint="Student username"
-                android:visibility="visible" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="Get the reviews of a student"
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/search_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Search" />
+                <EditText
+                    android:id="@+id/student_username"
+                    android:layout_width="fill_parent"
+                    android:layout_height="25pt"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="0"
+                    android:background="@color/grey"
+                    android:hint="Student username"
+                    android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/error5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/colorAccent"
-                android:visibility="gone" />
-            <TextView
-                android:id="@+id/success5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/colorAccent"
-                android:visibility="gone" />
+                <Button
+                    android:id="@+id/search_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Search"
+                    android:onClick="getReviewsForAStudent"
+                    />
+
+                <TextView
+                    android:id="@+id/error5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/colorAccent"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/success5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/colorAccent"
+                    android:visibility="gone" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#c0c0c0" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
