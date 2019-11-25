@@ -34,7 +34,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    //
+    //private variables used by all functions
     private String error = null;
     private String success = null;
 
@@ -42,9 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
     private String selectedCourseID = "";
 
-    private void refreshErrorMessage() {
-        // set the error message
+    private void refreshErrorMessage(String id) {
+        //set the appropriate error message
+        //must check which error message to update for which screen
         TextView tvError = (TextView) findViewById(R.id.error);
+        if(id == "error2"){tvError = (TextView) findViewById(R.id.error2);}
+        else if(id == "error3"){tvError = (TextView) findViewById(R.id.error3);}
+        else if(id == "error4"){tvError = (TextView) findViewById(R.id.error4);}
         tvError.setText(error);
 
         if (error == null || error.length() == 0) {
@@ -52,11 +56,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             tvError.setVisibility(View.VISIBLE);
         }
+        error="";
     }
 
-    private void refreshSuccessMessage() {
+    private void refreshSuccessMessage(String id) {
         // set the success message
         TextView tvSuccess = (TextView) findViewById(R.id.success);
+        if(id == "success2"){tvSuccess = (TextView) findViewById(R.id.success2);}
+        else if(id == "success3"){tvSuccess = (TextView) findViewById(R.id.success3);}
         tvSuccess.setText(success);
 
         if (success == null || success.length() == 0) {
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             tvSuccess.setVisibility(View.VISIBLE);
         }
+        success="";
     }
 
     public void login(View v) {
@@ -73,10 +81,19 @@ public class MainActivity extends AppCompatActivity {
         HttpUtils.get("/persons/getByUsername/?username=" + username.getText().toString() + "&password=" + password.getText().toString(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                refreshErrorMessage();
+
                 System.out.println(response);
-                username.setText("");
+
+                //set logged in username to tutor username
                 loggedInUsername = username.getText().toString();
+                username.setText("");
+                password.setText("");
+                success = "Successfully logged in";
+                refreshSuccessMessage("success");
+
+                //set logged in tutor text view to show username of tutor logged in
+                TextView tvTutor = (TextView) findViewById(R.id.tutor);
+                tvTutor.setText("Logged in tutor: " + loggedInUsername);
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -86,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                refreshErrorMessage();
+                refreshErrorMessage("error");
             }
         });
     }
@@ -108,13 +125,13 @@ public class MainActivity extends AppCompatActivity {
                 +"&startTime="+longStart+"&endTime="+longEnd, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                refreshErrorMessage();
+                refreshErrorMessage("error3");
                 System.out.println(response);
                 date.setText("");
                 startTime.setText("");
                 endTime.setText("");
                 success = "Availability successfully added!";
-                refreshSuccessMessage();
+                refreshSuccessMessage("success3");
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -124,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                refreshErrorMessage();
+                refreshErrorMessage("error3");
             }
         });
     }
@@ -141,12 +158,12 @@ public class MainActivity extends AppCompatActivity {
         HttpUtils.post("/specificCourses/create?hourlyRate="+hourlyRate.getText().toString()+"&tutorUsername="+tutor+"&courseID="+selectedCourseID, new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                refreshErrorMessage();
+                refreshErrorMessage("error4");
                 System.out.println(response);
                 hourlyRate.setText("");
 
                 success = "You have successfully applied to become a tutor for "+ selectedCourseID +"!";
-                refreshSuccessMessage();
+                refreshSuccessMessage("success4");
 
             }
             @Override
@@ -157,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                refreshErrorMessage();
+                refreshErrorMessage("error4");
             }
         });
     }
@@ -174,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (!password.getText().toString().equals(passwordConfirm.getText().toString())){
             error += "Passwords do not match! ";
-            refreshErrorMessage();
+            refreshErrorMessage("error2");
             return;
         }
 
@@ -184,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                refreshErrorMessage();
+                refreshErrorMessage("error2");
                 System.out.println(response);
                 firstName.setText("");
                 lastName.setText("");
@@ -193,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 password.setText("");
                 passwordConfirm.setText("");
                 success = "Person successfully registered!";
-                refreshSuccessMessage();
+                refreshSuccessMessage("success2");
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -203,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                refreshErrorMessage();
+                refreshErrorMessage("error2");
             }
         });
     }
@@ -240,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
 
                         courses.addAll(coursesArray);
 
-                        refreshErrorMessage();
+                        refreshErrorMessage("error");
 
                         System.out.println(coursesArray.size());
                         System.out.println(coursesArray);
@@ -264,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             error += e.getMessage();
                         }
-                        refreshErrorMessage();
+                        refreshErrorMessage("error");
                     }
                 });
 
@@ -304,7 +321,7 @@ public class MainActivity extends AppCompatActivity {
         */
 
         // initialize error message text view
-        refreshErrorMessage();
+        refreshErrorMessage("error");
     }
 
 
