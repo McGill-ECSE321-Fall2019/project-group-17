@@ -41,6 +41,12 @@ export default {
     Datepicker
   },
   created: function () {
+
+    var currently_logged_in = this.$parent.logged_in_tutor
+    if(currently_logged_in == "") {
+      this.$router.push("./login")
+    }
+
     // Initializing availabilities from backend
       AXIOS.get(`/availabilities/`)
       .then(response => {
