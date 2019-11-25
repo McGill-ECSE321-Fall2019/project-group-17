@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         if(id == "error2"){tvError = (TextView) findViewById(R.id.error2);}
         else if(id == "error3"){tvError = (TextView) findViewById(R.id.error3);}
         else if(id == "error4"){tvError = (TextView) findViewById(R.id.error4);}
+        else if(id == "error5"){tvError = (TextView) findViewById(R.id.error5);}
         tvError.setText(error);
 
         if (error == null || error.length() == 0) {
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         TextView tvSuccess = (TextView) findViewById(R.id.success);
         if(id == "success2"){tvSuccess = (TextView) findViewById(R.id.success2);}
         else if(id == "success3"){tvSuccess = (TextView) findViewById(R.id.success3);}
+        else if(id == "success4"){tvSuccess = (TextView) findViewById(R.id.success4);}
+        else if(id == "success5"){tvSuccess = (TextView) findViewById(R.id.success4);}
         tvSuccess.setText(success);
 
         if (success == null || success.length() == 0) {
@@ -156,11 +159,11 @@ public class MainActivity extends AppCompatActivity {
         HttpUtils.post("/reviews/getReviewsByReviewee?name_reviewee="+std_username.getText(), new RequestParams(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                refreshErrorMessage();
+                refreshErrorMessage("error5");
                 System.out.println(response);
                 std_username.setText("");
                 success = "Succesfully got the student reviews!";
-                refreshSuccessMessage();
+                refreshSuccessMessage("success4");
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -170,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     error += e.getMessage();
                 }
-                refreshErrorMessage();
+                refreshErrorMessage("error5");
             }
         });
     }

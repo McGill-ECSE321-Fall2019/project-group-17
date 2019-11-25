@@ -16,8 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -33,6 +33,7 @@
                 android:textColor="@color/brandColor"
                 android:textSize="30sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,19 +54,19 @@
 
             <TextView
                 android:id="@+id/success"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:visibility="gone"
+                android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/login_username"
                 android:layout_width="match_parent"
                 android:layout_height="25pt"
-                android:layout_weight="600"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="600"
                 android:background="@color/grey"
                 android:hint="@string/login_username_field"
                 android:visibility="visible" />
@@ -74,8 +75,8 @@
                 android:id="@+id/login_password"
                 android:layout_width="match_parent"
                 android:layout_height="25pt"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="600"
                 android:background="@color/grey"
                 android:hint="@string/login_password_field"
@@ -85,20 +86,20 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/hrColor"/>
+                android:background="@color/hrColor" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
                 android:layout_gravity="end"
+                android:layout_marginTop="20dp"
                 android:background="@color/brandColor"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="20sp"
                 android:onClick="login"
                 android:text="@string/login_submit_button"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:visibility="visible" />
 
 
@@ -212,20 +213,21 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="20dp"
                 android:background="@color/brandColor"
+                android:onClick="signup"
                 android:text="Signup"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:onClick="signup"
                 android:visibility="visible" />
+
             <TextView
                 android:id="@+id/success2"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:visibility="gone"
+                android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/success"/>
+                android:textColor="@color/success"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -238,169 +240,217 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent">
+                android:orientation="horizontal">
+
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="20px"
-                    android:text="Date"/>
-                <TextView
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="01-07-2019"
-                    android:layout_gravity="end"
+                    android:layout_marginBottom="20px"
+                    android:layout_weight="1"
+                    android:text="Date" />
+
+                <TextView
                     android:id="@+id/newavail_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_marginBottom="20px"
-                    android:onClick="showDatePickerDialog"/>
+                    android:onClick="showDatePickerDialog"
+                    android:text="01-07-2019" />
             </LinearLayout>
 
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent">
+                android:orientation="horizontal">
+
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="20px"
-                    android:text="Start Time"/>
-                <TextView
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="8:00"
-                    android:layout_gravity="end"
+                    android:layout_marginBottom="20px"
+                    android:layout_weight="1"
+                    android:text="Start Time" />
+
+                <TextView
                     android:id="@+id/starttime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:layout_marginBottom="20px"
-                    android:onClick="showTimePickerDialog"/>
+                    android:onClick="showTimePickerDialog"
+                    android:text="8:00" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent">
+                android:orientation="horizontal">
+
                 <TextView
-                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="20px"
-                    android:text="End Time"/>
-                <TextView
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="8:30"
-                    android:layout_gravity="end"
-                    android:id="@+id/endtime"
                     android:layout_marginBottom="20px"
-                    android:onClick="showTimePickerDialog"/>
+                    android:layout_weight="1"
+                    android:text="End Time" />
+
+                <TextView
+                    android:id="@+id/endtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="20px"
+                    android:onClick="showTimePickerDialog"
+                    android:text="8:30" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/hrColor"/>
+                android:background="@color/hrColor" />
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
                 android:layout_gravity="end"
+                android:layout_marginTop="20dp"
                 android:background="@color/brandColor"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="20sp"
                 android:onClick="createAvailability"
                 android:text="@string/create_avail"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:visibility="visible" />
 
             <TextView
                 android:id="@+id/error3"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:visibility="gone"
+                android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/success3"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:visibility="gone"
+                android:layout_height="wrap_content"
                 android:text=""
-                android:textColor="@color/success"/>
+                android:textColor="@color/success"
+                android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/error4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/colorAccent"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/error4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:text="Become a tutor for a course"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="Become a tutor for a course"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
-        <Spinner
-            android:id="@+id/coursesList"
-            android:layout_width="match_parent"
-            android:layout_height="25pt"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="600"
-            android:background="@color/grey"
-            android:prompt="@string/course_prompt" />
+            <Spinner
+                android:id="@+id/coursesList"
+                android:layout_width="match_parent"
+                android:layout_height="25pt"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="600"
+                android:background="@color/grey"
+                android:prompt="@string/course_prompt" />
 
-        <EditText
-            android:id="@+id/specificCourse_hourlyRate"
-            android:layout_width="match_parent"
-            android:layout_height="25pt"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="600"
-            android:background="@color/grey"
-            android:hint="Hourly Rate (eg: 15.75)"
-            android:inputType="numberDecimal"
-            android:visibility="visible" />
+            <EditText
+                android:id="@+id/specificCourse_hourlyRate"
+                android:layout_width="match_parent"
+                android:layout_height="25pt"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="600"
+                android:background="@color/grey"
+                android:hint="Hourly Rate (eg: 15.75)"
+                android:inputType="numberDecimal"
+                android:visibility="visible" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#c0c0c0" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#c0c0c0" />
 
-        <TextView
-            android:id="@+id/success4"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:visibility="gone"
-            android:text=""
-            android:textColor="@color/success"/>
+            <TextView
+                android:id="@+id/success4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/success"
+                android:visibility="gone" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_marginTop="20dp"
-            android:background="@color/brandColor"
-            android:text="Apply"
-            android:onClick="createSpecificCourse"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:visibility="visible" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginTop="20dp"
+                android:background="@color/brandColor"
+                android:onClick="createSpecificCourse"
+                android:text="Apply"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="Get the reviews of a student"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/student_username"
+                android:layout_width="fill_parent"
+                android:layout_height="25pt"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="0"
+                android:background="@color/grey"
+                android:hint="Student username"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/search_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search" />
+
+            <TextView
+                android:id="@+id/error5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/success5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/colorAccent"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
     </ScrollView>
 
