@@ -45,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
     private String selectedCourseID = "";
 
+    /**
+     * Sets error message to display
+     * @param id
+     */
     private void refreshErrorMessage(String id) {
         //set the appropriate error message
         //must check which error message to update for which screen
@@ -63,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
         error="";
     }
 
+
+    /**
+     * Sets success message to display
+     * @param id
+     */
     private void refreshSuccessMessage(String id) {
         // set the success message
         TextView tvSuccess = (TextView) findViewById(R.id.success);
@@ -80,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
         success="";
     }
 
+
+    /**
+     * Login by calling Http method.
+     * @param v
+     */
     public void login(View v) {
         error = "";
         final TextView username = (TextView) findViewById(R.id.login_username);
@@ -114,7 +128,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // AVAILABILITY
+    /**
+     * Create availability using Http method.
+     * @param v
+     */
     public void createAvailability(View v) {
         error = "";
         success = "";
@@ -152,8 +169,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     List<TextView> reviewsOnDisplay = new ArrayList<TextView>();
-    //Get reviews for a student
+
+    /**
+     * See reviews for a particular student.
+     * @param v view
+     */
     public void getReviewsForAStudent(final View v){
         error = "";
         success = "";
@@ -245,7 +267,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // SPECIFIC COURSE
+    /**
+     * Create a specfic course using Http request.
+     * @param v view
+     */
     public void createSpecificCourse(View v) {
         error = "";
         success = "";
@@ -277,6 +302,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * Signup using Http request
+     * @param v view
+     */
     public void signup(View v){
         error = "";
         success = "";
