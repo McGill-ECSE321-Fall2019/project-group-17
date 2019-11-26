@@ -9,7 +9,7 @@ import ca.mcgill.ecse321.projectgroup17.model.Person;
 public class ReviewDto {
 	
 	private String reviewText;
-	private int rating;
+	private double rating;
 	private String reviewee;
 	private String reviewer;
 	private Long appointment;
@@ -19,17 +19,17 @@ public class ReviewDto {
 	public ReviewDto() {	
 	}
 	
-	public ReviewDto(String reviewText, int rating) {
+	public ReviewDto(String reviewText, double rating) {
 		this(reviewText, rating, null, null, null);
 	}
 	
-	public ReviewDto(String reviewText, int rating, String reviewee, String reviewer,
+	public ReviewDto(String reviewText, double rating, String reviewee, String reviewer,
 			Long appointment) {		
 		this(reviewText, rating, reviewee, reviewer, appointment, 
 				new java.sql.Date(2019, 11, 11), new java.sql.Time(18, 0, 0));	
 	}
 		
-	public ReviewDto(String reviewText, int rating, String reviewee, String reviewer,
+	public ReviewDto(String reviewText, double rating, String reviewee, String reviewer,
 			Long appointment, Date createdDate, Time createdTime) {
 		
 		this.reviewText = reviewText;
@@ -47,7 +47,7 @@ public class ReviewDto {
 		return this.reviewText;
 	}
 
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 

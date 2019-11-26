@@ -9,7 +9,7 @@ import Availability from '@/components/Availability.vue'
 import Review from '@/components/Review.vue'
 import Appointment from '@/components/Appointment.vue'
 import ViewStudentReviews from '@/components/ViewStudentReviews.vue';
-
+import Forum from '@/components/Forum.vue'
 
 Vue.use(Router)
 
@@ -59,6 +59,11 @@ export default new Router({
       path: '/viewStudentReviews',
       name:'ReviewStudentReviews',
       component: ViewStudentReviews
+    },
+    {
+      path: '/forum',
+      name: 'Forum',
+      component: Forum
     }
   ]
 })

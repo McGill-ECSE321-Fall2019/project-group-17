@@ -2,8 +2,8 @@ import axios from 'axios'
 var config = require('../../config')
 var listStudents = []
 
-var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
-var backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
+var frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port;
+var backendUrl = 'http://' + config.build.backendHost;
 
 var AXIOS = axios.create({
   baseURL: backendUrl,
@@ -115,6 +115,12 @@ export default {
   },
 
   created: function () {
+
+    var currently_logged_in = this.$parent.logged_in_tutor
+    if(currently_logged_in == "") {
+      this.$router.push("./login")
+    } 
+    
     // Initializing appointments from backend
       var tutor = this.$parent.logged_in_tutor;
       var specificStudents = []
