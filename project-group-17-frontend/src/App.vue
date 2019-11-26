@@ -1,7 +1,21 @@
 <template>
   <div id="app">
 
+
+
+  <div class="navbar brand_color">
+    <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="routeTo('login')">Home</div>
+    <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="routeTo('specificCourse')">Courses</div>
+    <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="routeTo('availability')">Availabilities</div>
+    <div class="navbar_tab" @click="routeTo('login')"><div class="img_container"><div style="width:100px;height:100px;background:url('https://raw.githubusercontent.com/wiki/McGill-ECSE321-Fall2019/project-group-17/images/logo_otis.png?token=AE26HBRI4THFSDG2QM2ZACS543GJ4') no-repeat center center;background-size:contain;"></div></div></div>
+    <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="routeTo('appointment')">Appointments</div>
+    <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="routeTo('viewStudentReviews')">Reviews</div>
+    <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="logout()">Logout</div>
+  </div>
+
+  <!--
     <div class="medium_text wide">Logged in as: {{ logged_in_tutor }} <button class="logout_button align_right brand_color" @click="logout()">Logout</button></div>
+
 
     <nav class="nav_links">
       <router-link to="/">Home</router-link>
@@ -13,9 +27,10 @@
       <router-link to="/review">Review</router-link>
       <router-link to="/appointment">Appointment</router-link>
       <router-link to="/viewStudentReviews">Student Reviews</router-link>
-
-      <router-view />
     </nav>
+    -->
+
+    <router-view />
 
   </div>
 </template>
@@ -49,6 +64,9 @@ export default {
       this.logged_in_tutor = "";
       this.appt_id_review = 0;
       this.$router.push("./login");
+    },
+    routeTo: function (to) {
+      this.$router.push("./"+to);
     }
   }
 
@@ -60,7 +78,8 @@ export default {
 <style>
 #app {
   margin: 0px 0px;
-  padding: 20px 20px;
+  margin-bottom: 200px;
+  padding: 0px 0px;
   background: rgba(245, 245, 245, 0.1);
   font-family: 'Verdana';
 }
@@ -73,6 +92,28 @@ export default {
 }
 .styled_router_link, .styled_router_link:active, .styled_router_link:focus, .styled_router_link:hover {
   color: white;
+}
+.navbar {
+  width:100%;
+  padding: 0px 0px;
+  margin: 0px 0px;
+}
+.navbar_tab {
+  padding: 20px 20px;
+  font-size: 18px;
+  color: white;
+  margin: 0px auto;
+}
+.navbar_tab_hover {
+  font-weight: 500;
+  cursor:pointer;
+  border-bottom: 2px transparent solid;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.navbar_tab_hover:hover {
+  border-bottom: 2px white solid;
 }
 .container {
   width: 100%;
@@ -165,12 +206,12 @@ export default {
   background: rgba(51, 200, 51, 1);
 }
 .img_container {
-  background: rgba(240, 240, 240, 0.7);
-  width: 125px;
-  height: 125px;
-  margin: 10px 0px;
+  background: rgba(240, 240, 240, 0);
+  width: 100px;
+  height: 100px;
+  margin: 10px auto;
   border: none;
-  border-radius: 50%;
+  border-radius: 0px;
   cursor: pointer;
 }
 .img_media {

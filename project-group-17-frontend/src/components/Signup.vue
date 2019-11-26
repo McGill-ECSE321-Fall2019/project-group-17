@@ -4,7 +4,7 @@
     <div class="inner_container shadow">
 
     <!--<div class="img_container"></div>-->
-    <div class="large_text">Create an account</div>
+    <div class="large_text center_text">Create your account.</div>
 
     <div class="input_container">
 

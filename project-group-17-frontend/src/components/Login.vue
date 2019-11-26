@@ -3,7 +3,7 @@
     <div class="inner_container shadow">
 
     <!--<div class="img_container"></div>-->
-    <div class="large_text">Log into your account</div>
+    <div class="large_text center_text">Welcome. Log in or create an account. It's free.</div>
 
       <div class="input_container">
         <div class="small_text left_text brand_color_text">Username:</div>
