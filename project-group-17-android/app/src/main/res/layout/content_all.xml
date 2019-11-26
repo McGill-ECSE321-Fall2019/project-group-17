@@ -409,13 +409,14 @@
                 android:visibility="visible" />
 
             <LinearLayout
+                android:id="@+id/findreviews"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="262dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="88dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
                     android:text="Get the reviews of a student"
@@ -430,7 +431,6 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_weight="0"
-                    android:background="@color/grey"
                     android:hint="Student username"
                     android:visibility="visible" />
 
@@ -438,9 +438,12 @@
                     android:id="@+id/search_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Search"
+                    android:background="@color/brandColor"
                     android:onClick="getReviewsForAStudent"
-                    />
+                    android:text="Search"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    tools:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/error5"
@@ -458,15 +461,31 @@
                     android:textColor="@color/colorAccent"
                     android:visibility="gone" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#c0c0c0" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/dummyLayout"
+                android:layout_width="match_parent"
+                android:layout_height="261dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dummyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:textColor="@color/black"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>
 
+
     </ScrollView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

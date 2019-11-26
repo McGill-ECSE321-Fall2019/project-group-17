@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.project_group_17_android;
 
 import android.R.layout;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -17,8 +18,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -149,21 +152,83 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    List<TextView> reviewsOnDisplay = new ArrayList<TextView>();
     //Get reviews for a student
-    public void getReviewsForAStudent(View v){
+    public void getReviewsForAStudent(final View v){
         error = "";
         success = "";
         final TextView std_username = (TextView) findViewById(R.id.student_username);
+        System.out.println("..."+std_username.getText()+"...");
+        final LinearLayout myLayout = findViewById(R.id.findreviews);
 
-
-        HttpUtils.get("/reviews/getReviewsByReviewee?name_reviewee="+std_username.getText(), new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.get("/reviews/reviewsByReviewee?name_reviewee="+std_username.getText(), null, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+                //first thing is to clear the layout of all the reviews
+                int numberOfReviews = reviewsOnDisplay.size();
+                for(int i = 0; i < numberOfReviews; i++){
+                    myLayout.removeView(reviewsOnDisplay.get(i));
+                }
+
+                System.out.println("length :" + response.length());
+
                 refreshErrorMessage("error5");
                 System.out.println("Succesfully got the student reviews!");
-                System.out.println(response);
+
+                TextView separation1 = new TextView(v.getContext());
+                separation1.setText("\n");
+                separation1.setTextSize(20);
+                myLayout.addView(separation1);
+                reviewsOnDisplay.add(separation1);
+
+                ViewGroup.LayoutParams params = myLayout.getLayoutParams();
+                params.height += 50;
+                myLayout.setLayoutParams(params);
+
+
+                for(int x = 0; x < response.length(); x++){
+                    try {
+                        String response_text = response.get(x).toString();
+                        String[] myReview = response_text.split("\",\"");
+
+
+                        String[] almostMyReviewText = myReview[0].split("\":\"");
+                        String myReviewText = almostMyReviewText[1];
+                        System.out.println(myReviewText);
+
+                        TextView textReview = new TextView(v.getContext());
+                        textReview.setText(myReviewText);
+                        textReview.setTextSize(30);
+                        textReview.setTextColor(Color.BLACK);
+                        textReview.setBackgroundColor(Color.WHITE);
+
+
+                        TextView separation = new TextView(v.getContext());
+                        separation.setText("\n");
+                        separation.setTextSize(20);
+
+
+                        myLayout.addView(textReview);
+                        myLayout.addView(separation);
+
+                        reviewsOnDisplay.add(textReview);
+                        reviewsOnDisplay.add(separation);
+
+                        //say that 20 characters can be displayed in one line
+                        int length = myReviewText.length();
+
+                        params.height += length * 12;
+                        myLayout.setLayoutParams(params);
+
+                    }catch (JSONException e){
+                        System.out.println(e.getMessage());
+                    }
+
+                }
+
                 std_username.setText("");
-                success = "Succesfully got the student reviews!";
+                //success = "Succesfully got the student reviews!";
                 refreshSuccessMessage("success4");
             }
             @Override
