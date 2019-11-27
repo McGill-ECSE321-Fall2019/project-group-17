@@ -728,11 +728,15 @@ public class ProjectGroup17Service {
 		String error = "";
 		
 		if(author == null || author == "") {
-			error += "Author cannot be empty!";
+			error += "Author cannot be empty! ";
 		}
 		
 		if(personRepository.findByUsername(author) == null) {
-			error += "Author must exist!";
+			error += "Author must exist! ";
+		}
+		
+		if(text == null || text == "") {
+			error += "Text cannot be empty! ";
 		}
 		
 		error = error.trim();
