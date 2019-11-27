@@ -4,12 +4,13 @@
 
 
   <div class="navbar brand_color">
+    <div class="navbar_tab" @click="routeTo('login')"><div class="img_container"><div style="width:100px;height:100px;background:url('https://raw.githubusercontent.com/wiki/McGill-ECSE321-Fall2019/project-group-17/images/logo_otis.png?token=AE26HBRI4THFSDG2QM2ZACS543GJ4') no-repeat center center;background-size:contain;"></div></div></div>
     <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="routeTo('login')">Home</div>
     <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="routeTo('specificCourse')">Courses</div>
     <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="routeTo('availability')">Availabilities</div>
-    <div class="navbar_tab" @click="routeTo('login')"><div class="img_container"><div style="width:100px;height:100px;background:url('https://raw.githubusercontent.com/wiki/McGill-ECSE321-Fall2019/project-group-17/images/logo_otis.png?token=AE26HBRI4THFSDG2QM2ZACS543GJ4') no-repeat center center;background-size:contain;"></div></div></div>
     <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="routeTo('appointment')">Appointments</div>
     <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="routeTo('viewStudentReviews')">Reviews</div>
+    <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="routeTo('forum')">Forum</div>
     <div v-if="logged_in_tutor" class="navbar_tab navbar_tab_hover" @click="logout()">Logout</div>
   </div>
 
@@ -27,12 +28,9 @@
       <router-link to="/review">Review</router-link>
       <router-link to="/appointment">Appointment</router-link>
       <router-link to="/viewStudentReviews">Student Reviews</router-link>
-<<<<<<< HEAD
-=======
       <router-link to="/forum">Forum</router-link>
 
       <router-view />
->>>>>>> 10f9a4663d002d1851a128d900c3dc6ad1159a94
     </nav>
     -->
 
@@ -52,6 +50,7 @@ import TutorView from './components/TutorView.vue'
 import Review from './components/Review.vue'
 import Appointment from './components/Appointment.vue'
 import ViewStudentReviews from './components/ViewStudentReviews.vue'
+import Forum from './components/Forum.vue'
 
 export default {
   name: 'app',
@@ -63,7 +62,7 @@ export default {
   },
   components: {
 
-    Login, Signup, SpecificCourse, Availability, TutorView, Review, Appointment, ViewStudentReviews
+    Login, Signup, SpecificCourse, Availability, TutorView, Review, Appointment, ViewStudentReviews, Forum
   },
   methods: {
     logout: function() {

@@ -39,9 +39,9 @@ export default {
   created: function () {
 
     var currently_logged_in = this.$parent.logged_in_tutor
-    // if(currently_logged_in == "") {
-    //   this.$router.push("./login")
-    // }
+    if(currently_logged_in == "") {
+      this.$router.push("./login")
+    }
     AXIOS.get(`/messages/`)
       .then(response => {
         // JSON responses are automatically parsed.
