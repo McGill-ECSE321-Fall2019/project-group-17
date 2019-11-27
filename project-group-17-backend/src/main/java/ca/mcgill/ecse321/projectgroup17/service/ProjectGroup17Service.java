@@ -46,6 +46,12 @@ public class ProjectGroup17Service {
 	@Autowired
 	CourseRepository courseRepository;
 	
+	@Autowired
+	MessageRepository messageRepository;
+	
+	@Autowired
+	ReplyRepository replyRepository;
+	
 
 	/*------------------------------*/
 
@@ -716,4 +722,105 @@ public class ProjectGroup17Service {
 	
 	/*----------------------------*/
 
+	
+	@Transactional
+	public Message createMessage(String author, String text) {
+		String error = "";
+		
+		if(author == null || author == "") {
+			error += "Author cannot be empty!";
+		}
+		
+		if(personRepository.findByUsername(author) == null) {
+			error += "Author must exist!";
+		}
+		
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		
+		Message m = new Message();
+		m.setAuthor(author);
+		m.setText(text);
+		m.setCreatedDate(new Date(Calendar.getInstance().getTime().getTime()));
+		messageRepository.save(m);
+		return m;
+	}
+	
+	@Transactional
+	public Reply createReply(long messageId, String author, String text) {
+		String error = "";
+		
+		if(author == null || author == "") {
+			error += "Author cannot be empty! ";
+		}
+		
+		if(messageId == 0) {
+			error+= "Message cannot be empty! ";
+		}
+		
+		if(messageRepository.findByMessageId(messageId) == null) {
+			error += "Message must exist! ";
+		}
+		
+		if(personRepository.findByUsername(author) == null) {
+			error += "Author must exist! ";
+		}
+		
+		
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+		Message m = messageRepository.findByMessageId(messageId);
+		Reply r = new Reply();
+		r.setAuthor(author);
+		r.setText(text);
+		r.setMessage(m);
+		replyRepository.save(r);
+		
+		return r;
+	}
+	
+	@Transactional
+	public void addReplyToMessage(Message m, Reply r) {
+		String error = "";
+		if (m == null) {
+	        error = error + "Message needs to be selected for reply!";
+	    } else if (!messageRepository.existsById(m.getMessageId())) {
+	        error = error + "Message does not exist!";
+	    }
+		
+		if (r == null) {
+	        error = error + "Reply needs to be selected for reply!";
+	    } else if (!replyRepository.existsById(r.getReplyId())) {
+	        error = error + "Reply does not exist!";
+	    }
+		
+		error = error.trim();
+
+	    if (error.length() > 0) {
+	        throw new IllegalArgumentException(error);
+	    }
+	    List<Reply> replies;
+	    if(m.getReplies() == null) replies = new ArrayList<Reply>();
+	    else replies = m.getReplies();
+	    replies.add(r);
+	    m.setReplies(replies);
+	    messageRepository.save(m);
+	}
+	
+	@Transactional
+	public List<Message> getAllMessages() {
+		List<Message> messages = toList(messageRepository.findAll());
+		return messages;
+	}
+	
+	@Transactional
+	public Message getMessageByMessageId(long messageId) {
+		Message m = messageRepository.findByMessageId(messageId);
+		return m;
+	}
+	
 }
