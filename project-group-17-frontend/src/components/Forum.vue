@@ -24,14 +24,14 @@
 
 		
 			<div>
-				<div v-for="(message, i) in messages" class="shadow review_box">
+				<div v-for="message in messages" class="shadow review_box">
 					<div class="medium_text">{{ message.text }}</div>
-					<div class="grey_text">Posted by: {{ message.author }}</div>
+					<div class="grey_text">Posted by: {{ message.author }} - {{message.createdDate }}</div>
                     <input type="text" class="input half" v-model='replyText' placeholder="Reply...">
-                    <button class="button_small brand_color" @click="replyToMessage(i, replyText)">Reply</button>
+                    <button class="button_small brand_color" @click="replyToMessage(message.messageId, replyText)">Reply</button>
                     <div class="small_text left_text brand_color_text">Replies:</div>
                     <div class="shadow review_box" v-for="reply in message.replies">
-                        <div>{{reply.author}} -- {{reply.text}}</div>
+                        <div>{{reply.author}} : {{reply.text}}</div>
                     </div>
 				</div>
 			</div>
