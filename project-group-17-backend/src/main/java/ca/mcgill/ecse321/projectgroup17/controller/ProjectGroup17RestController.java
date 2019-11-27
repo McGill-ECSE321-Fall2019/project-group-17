@@ -536,6 +536,35 @@ public class ProjectGroup17RestController {
 		return roomDto;
 	}
 	
+	
+	@PostMapping(value = {"/messages/createMessage", "/messages/createMessage/" })
+	public MessageDto createMessage(@RequestParam("author") String author, @RequestParam("text") String text) 
+		throws IllegalArgumentException {
+		Message m = service.createMessage(author, text);
+		System.out.println(m.getAuthor());
+		return convertToDto(m);
+	}
+	
+	@GetMapping(value = {"/messages", "/messages/"} )
+	public List<MessageDto> getAllMessages() {
+		List<Message> messages = service.getAllMessages();
+		List<MessageDto> mDtos = new ArrayList<MessageDto>();
+		for (Message m : messages) {
+			mDtos.add(convertToDto(m));
+		}
+		return mDtos;
+	}
+	
+	@PostMapping(value = {"/replies/createReply", "/replies/createReply/" })
+	public ReplyDto createReply(@RequestParam("messageId") long messageId, @RequestParam("author") String author, @RequestParam("text") String text) 
+		throws IllegalArgumentException {
+		Message m = service.getMessageByMessageId(messageId);
+		Reply r = service.createReply(messageId, author, text);
+		service.addReplyToMessage(m, r);
+		return convertToDto(r);
+	}
+	
+	
 	/*----------- SPECIFIC COURSE ----------*/
 	/**
 	 * Create SpecificCourse from service method and convert to SpecificCourseDto
@@ -554,6 +583,8 @@ public class ProjectGroup17RestController {
 		SpecificCourse sc = service.createSpecificCourse(t, c, rate);
 		return convertToDto(sc);
 	}
+	
+	
 	
 	/**
 	 * Will go retrieve a list of courses that a specific tutor teaches
@@ -591,6 +622,9 @@ public class ProjectGroup17RestController {
 		}
 		return scDto;
 	}
+	
+	
+	
 	
 	
 	/*--------------------------------------*/
@@ -719,6 +753,35 @@ public class ProjectGroup17RestController {
 		}
 		RoomDto roomDto = new RoomDto(room.getRoomID(), room.isBig());
 		return roomDto;
+	}
+	
+	private MessageDto convertToDto(Message m) {
+		if(m == null) {
+			throw new IllegalArgumentException("There is no such Message!");
+		}
+		List<ReplyDto> rDtos = new ArrayList<ReplyDto>();
+		MessageDto mDto = new MessageDto(m.getAuthor(), m.getText(), m.getCreatedDate());
+		mDto.setMessageId(m.getMessageId());
+		if(m.getReplies() != null) {
+			for(int i=0; i<m.getReplies().size(); i++) {
+				ReplyDto rDto = convertToDto(m.getReplies().get(i));
+				rDtos.add(rDto);
+			}
+		}
+		System.out.println(mDto.getCreatedDate());
+		mDto.setReplies(rDtos);
+		return mDto;
+		
+	}
+	
+	private ReplyDto convertToDto(Reply r) {
+		if(r == null) {
+			throw new IllegalArgumentException("There is no such Reply!");
+		}
+		System.out.println("REPLY AUTHOR" + r.getAuthor() + " REPLY MESSAGE ID" + r.getMessage().getMessageId());
+		
+		ReplyDto rDto = new ReplyDto(r.getAuthor(), r.getText(), r.getMessage().getMessageId());
+		return rDto;
 	}
 	
 }
