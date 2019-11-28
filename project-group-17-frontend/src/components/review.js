@@ -71,6 +71,7 @@ export default {
         //we need the student username and the tutor username
         var appt_id = this.$parent.appt_id_review
         //get the appointment:
+        console.log(rating)
         AXIOS.get(backendUrl+'/appointments/getAppointmentById?appointmentId='+appt_id)
         .then(response => {
         // JSON responses are automatically parsed.
@@ -93,6 +94,8 @@ export default {
             "&name_reviewee="+ name_reviewee + "&name_reviewer=" + name_reviewer + "&appointmentID=" + appt_id, {} , {})
         .then(response => {
         // JSON responses are automatically parsed.
+        console.log("HELLO")
+        console.log(response.data.rating)
             this.$router.push("./tutorView")
             return 0
             })

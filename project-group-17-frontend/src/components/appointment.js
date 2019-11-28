@@ -75,7 +75,6 @@ export default {
                 }
               } else if (status == "CANCELLED"){
                 for (var i = 0; i < this.acceptedAppointments.length; i++) {
-                  alert("alert(this.appointments[i].appointmentId): "+this.appointments[i].appointmentId)
                   if (this.acceptedAppointments[i].appointmentId==apptId){
                     this.acceptedAppointments.splice(i, 1);
                   }

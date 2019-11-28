@@ -7,7 +7,7 @@ import ca.mcgill.ecse321.projectgroup17.model.Tutor;
 
 public class AvailabilityDto {
 	
-	Tutor tutor;
+	String tutor;
 	Date date;
 	Date createdDate;
 	Time startTime;
@@ -18,7 +18,7 @@ public class AvailabilityDto {
 		
 	}
 	
-	public AvailabilityDto(long availabilityId, Tutor tutor, Date date, Date createdDate, Time startTime, Time endTime){
+	public AvailabilityDto(long availabilityId, String tutor, Date date, Date createdDate, Time startTime, Time endTime){
 		this.availabilityId=availabilityId;
 		this.tutor=tutor;
 		this.date=date;
@@ -30,10 +30,10 @@ public class AvailabilityDto {
 	
 	//Getters and Setters for the DTO
 	
-	public Tutor getTutor() {
+	public String getTutor() {
 		return this.tutor;
 	}
-	public void setTutor(Tutor tutor) {
+	public void setTutor(String tutor) {
 		this.tutor = tutor;
 	}
 	

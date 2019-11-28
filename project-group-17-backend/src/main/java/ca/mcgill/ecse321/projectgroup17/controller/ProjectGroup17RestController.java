@@ -712,7 +712,7 @@ public class ProjectGroup17RestController {
 		if(a == null) {
 			throw new IllegalArgumentException("There is no such Person!");
 		}
-		AvailabilityDto availabilityDto = new AvailabilityDto(a.getAvailabilityID(), a.getTutor(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
+		AvailabilityDto availabilityDto = new AvailabilityDto(a.getAvailabilityID(), a.getTutor().getUsername(),a.getDate(),a.getCreatedDate(),a.getStartTime(),a.getEndTime());
 		return availabilityDto;
 	}
 	

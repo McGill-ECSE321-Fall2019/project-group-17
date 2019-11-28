@@ -13,7 +13,7 @@
 					</div>
 			<div>
 				<div v-for="review in reviews" class="shadow review_box">
-					<star-rating :inline="true" :star-size="30" :read-only="true" :rating="review.rating" active-color="#FF8C1A"></star-rating>
+					<star-rating :increment="0.5" :inline="true" :star-size="30" :read-only="true" :rating="review.rating" active-color="#FF8C1A"></star-rating>
 				
 					<div class="medium_text">{{ review.reviewText }}</div>
 					<div class="grey_text">{{ review.reviewer }} &middot; {{ review.createdDate }}</div>

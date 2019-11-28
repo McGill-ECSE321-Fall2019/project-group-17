@@ -61,6 +61,7 @@ export default {
 
   methods: {
     createAvailability: function (createDate, createStartTime, createEndTime) {
+      console.log("HELLO")
       var date = new Date(createDate);
       var startTime = new Time(createStartTime);
       var currentDate = new Date().getTime();
@@ -76,6 +77,7 @@ export default {
       AXIOS.post(backendUrl+'/availabilities/createAvailability?tutorUsername='+tutor+'&date='+date.getTime()+'&createdDate='+currentDate
             +'&startTime='+realStartTime+'&endTime='+realEndTime, {}, {})
             .then(response => {
+              console.log(response.data)
               // JSON responses are automatically parsed.
               this.availabilities.push(response.data)
               this.availabilities.sort(function (a,b) {   //function to sort availabilities by date

@@ -68,7 +68,8 @@ export default {
 					if(a.createdDate > b.createdDate) return 1;
 					if(a.createdDate < b.createdDate) return -1;
 					return 0;
-				  });
+					});
+					for(var i= 0; i<this.reviews.length; i++) console.log(this.reviews[i].rating)
 			})
 			.catch(e => {
 				var errorMsg = e.message
