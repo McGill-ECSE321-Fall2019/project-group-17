@@ -61,23 +61,23 @@ export default {
 
   methods: {
     createAvailability: function (createDate, createStartTime, createEndTime) {
-      console.log("HELLO")
+      console.log(createDate)
       var date = new Date(createDate);
+      console.log(date.getTime() +date.getTimezoneOffset())
       var startTime = new Time(createStartTime);
       var currentDate = new Date().getTime();
       var endTime = new Time(createEndTime);
-      var realStartTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), startTime.hour, startTime.minutes, 0, 0).getTime();
-      var realEndTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), endTime.hour, endTime.minutes, 0, 0).getTime();
+      var realStartTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), startTime.hour, startTime.minutes, 0, 0).getTime()-18000*1000;
+      var realEndTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), endTime.hour, endTime.minutes, 0, 0).getTime()-18000*1000;
       //var tutor = "timtom67";
 
       // Below we use the logged in tutor
       var tutor = this.$parent.logged_in_tutor
 
       console.log(realStartTime, realEndTime);
-      AXIOS.post(backendUrl+'/availabilities/createAvailability?tutorUsername='+tutor+'&date='+date.getTime()+'&createdDate='+currentDate
+      AXIOS.post(backendUrl+'/availabilities/createAvailability?tutorUsername='+tutor+'&date='+(date.getTime()-18000*1000)+'&createdDate='+currentDate
             +'&startTime='+realStartTime+'&endTime='+realEndTime, {}, {})
             .then(response => {
-              console.log(response.data)
               // JSON responses are automatically parsed.
               this.availabilities.push(response.data)
               this.availabilities.sort(function (a,b) {   //function to sort availabilities by date
