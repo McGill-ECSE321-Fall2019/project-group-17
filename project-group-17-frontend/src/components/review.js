@@ -96,7 +96,7 @@ export default {
         // JSON responses are automatically parsed.
         console.log("HELLO")
         console.log(response.data.rating)
-            this.$router.push("./tutorView")
+            this.$router.push("./appointment")
             return 0
             })
         .catch(e => {

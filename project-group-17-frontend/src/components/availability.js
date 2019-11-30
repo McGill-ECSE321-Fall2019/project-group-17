@@ -48,7 +48,7 @@ export default {
     }
 
     // Initializing availabilities from backend
-      AXIOS.get(`/availabilities/`)
+      AXIOS.get(`/availabilities/getByTutor?tutorUsername=`+currently_logged_in)
       .then(response => {
         // JSON responses are automatically parsed.
         this.people = response.data
