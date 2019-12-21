@@ -1,6 +1,9 @@
 require('./check-versions')()
 
-process.env.NODE_ENV = 'production'
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = JSON.parse(config.prod.env.NODE_ENV)
+}
+
 
 var ora = require('ora')
 var rm = require('rimraf')
