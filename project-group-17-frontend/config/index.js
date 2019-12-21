@@ -6,7 +6,7 @@ module.exports = {
     env: require('./prod.env'),
     index: path.resolve(__dirname, '../dist/index.html'),
     //host: 'project-group-17-frontend.herokuapp.com/',
-    host: 'project-group-17-frontend.herokuapp.com',
+    host: '127.0.0.1',
     port: 8080,
     backendHost: 'project-group-17-backend.herokuapp.com',
     backendPort: 443,
